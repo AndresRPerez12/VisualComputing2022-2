@@ -5,7 +5,13 @@
 Develop a terrain visualization application.
 {{< /hint >}}
 
-## Terrain Visualization Application
+## Problem statement
+TODO: define problem statement
+## Background
+TODO: define background
+## Code (solution) & results
+
+### Terrain Visualization Application
 {{< details title="p5-global-iframe markdown" open=false >}}
 {{< highlight html >}}
 {{</* p5-global-iframe id="breath" width="625" height="625" >}}
@@ -100,3 +106,7 @@ function draw() {
   start += startInc;
 }
 {{< /p5-global-iframe >}}
+
+
+## Conclusions & future work
+TODO: define conclusions
