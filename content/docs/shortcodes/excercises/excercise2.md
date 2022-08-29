@@ -9,6 +9,7 @@ Develop a terrain visualization application.
 {{< details title="p5-global-iframe markdown" open=false >}}
 {{< highlight html >}}
 {{</* p5-global-iframe id="breath" width="625" height="625" >}}
+    // Code from https://editor.p5js.org/nyxtom/sketches/j6EjnPJIN
     var cols, rows;
     var scl = 20;
     var w = 1200;
@@ -56,6 +57,7 @@ function draw() {
 
 
 {{< p5-global-iframe id="breath" width="625" height="400" >}}
+// Code from https://editor.p5js.org/nyxtom/sketches/j6EjnPJIN
     var cols, rows;
     var scl = 20;
     var w = 1200;
