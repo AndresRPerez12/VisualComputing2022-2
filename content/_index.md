@@ -6,7 +6,7 @@ type: docs
 # Visual Computing 2022-2
 
 
-Site where the work, exercises and workshops of the visual computing subject of the Universidad Nacional are shown
+Exercises and workshops of visual computing subject at UNAL
 
 **Repo:**
 ```cmd
