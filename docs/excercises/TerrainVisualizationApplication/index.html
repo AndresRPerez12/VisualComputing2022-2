@@ -1,0 +1,260 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Excercise 2 # Excercise 2
+Develop a terrain visualization application. Problem statement # Develop an application that allows visualizing terrain with Perlin noise
+Background # Perling Noise: According to wikipedia, Perlin Noise is a mathematical function that uses interpolation between a large number of precalculated vector gradients that construct a value that varies pseudo-randomly in space or time. It resembles white noise, and is frequently used in computer-generated images to simulate variability in all kinds of phenomena, thus approaching a more natural appearance."><meta name=theme-color content="#FFFFFF"><meta name=color-scheme content="light dark"><meta property="og:title" content><meta property="og:description" content="Excercise 2 # Excercise 2
+Develop a terrain visualization application. Problem statement # Develop an application that allows visualizing terrain with Perlin noise
+Background # Perling Noise: According to wikipedia, Perlin Noise is a mathematical function that uses interpolation between a large number of precalculated vector gradients that construct a value that varies pseudo-randomly in space or time. It resembles white noise, and is frequently used in computer-generated images to simulate variability in all kinds of phenomena, thus approaching a more natural appearance."><meta property="og:type" content="article"><meta property="og:url" content="https://andresrperez12.github.io/VisualComputing2022-2/docs/excercises/TerrainVisualizationApplication/"><meta property="article:section" content="docs"><meta property="article:modified_time" content="2022-09-03T17:06:16-05:00"><title>Terrain Visualization Application | Visual Computing 2022-2</title><link rel=manifest href=/VisualComputing2022-2/manifest.json><link rel=icon href=/VisualComputing2022-2/favicon.png type=image/x-icon><link rel=stylesheet href=/VisualComputing2022-2/book.min.ab46de3e725a6415339a37bba23a0067534a37289b063c9f8d011515a63097a8.css integrity="sha256-q0bePnJaZBUzmje7ojoAZ1NKNyibBjyfjQEVFaYwl6g=" crossorigin=anonymous><script defer src=/VisualComputing2022-2/flexsearch.min.js></script>
+<script defer src=/VisualComputing2022-2/en.search.min.feace5d11fc05d591ea2b71e98beb46d2dd63f7d93d9c88d1e546cf215ae22b8.js integrity="sha256-/qzl0R/AXVkeorcemL60bS3WP32T2ciNHlRs8hWuIrg=" crossorigin=anonymous></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/VisualComputing2022-2/><span>Visual Computing 2022-2</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><input type=checkbox id=section-1ec4f879ff755259b18baf4fbdae0098 class=toggle checked>
+<label for=section-1ec4f879ff755259b18baf4fbdae0098 class="flex justify-between"><a href=/VisualComputing2022-2/docs/excercises/>Excercises</a></label><ul><li><a href=/VisualComputing2022-2/docs/excercises/ColorMultiplicationExcercise/>Color Multiplication Excercise</a></li><li><a href=/VisualComputing2022-2/docs/excercises/excercise1/>Excercise1</a></li><li><a href=/VisualComputing2022-2/docs/excercises/excercise2/>Excercise2</a></li><li><a href=/VisualComputing2022-2/docs/excercises/TerrainVisualizationApplication/ class=active>Terrain Visualization Application</a></li></ul></li><li><input type=checkbox id=section-9370f1a5d0248572ac505e0c6d4ad190 class=toggle>
+<label for=section-9370f1a5d0248572ac505e0c6d4ad190 class="flex justify-between"><a href=/VisualComputing2022-2/docs/shortcodes/>Shortcodes</a></label><ul><li><a href=/VisualComputing2022-2/docs/shortcodes/buttons/>Buttons</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/columns/>Columns</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/details/>Details</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/hints/>Hints</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/katex/>Katex</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/mermaid/>Mermaid</a></li><li><input type=checkbox id=section-ec67a64aba70b9df3d2a9acd6c92e3bc class=toggle>
+<label for=section-ec67a64aba70b9df3d2a9acd6c92e3bc class="flex justify-between"><a href=/VisualComputing2022-2/docs/shortcodes/p5/>P5</a></label><ul><li><a href=/VisualComputing2022-2/docs/shortcodes/p5/div/>Div</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/p5/iframe/>Iframe</a></li></ul></li><li><a href=/VisualComputing2022-2/docs/shortcodes/tabs/>Tabs</a></li></ul></li><li><input type=checkbox id=section-bd592e6455531edb048edb6a320c69c4 class=toggle>
+<label for=section-bd592e6455531edb048edb6a320c69c4 class="flex justify-between"><a href=/VisualComputing2022-2/docs/team/>Team</a></label><ul></ul></li><li><input type=checkbox id=section-191d4fa5967ce9fef74cb18feb81d534 class=toggle>
+<label for=section-191d4fa5967ce9fef74cb18feb81d534 class="flex justify-between"><a href=/VisualComputing2022-2/docs/workshops/>Workshops</a></label><ul></ul></li></ul><ul><li><a href=/VisualComputing2022-2/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/VisualComputing2022-2/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>Terrain Visualization Application</strong>
+<label for=toc-control><img src=/VisualComputing2022-2/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#excercise-2>Excercise 2</a><ul><li><a href=#problem-statement>Problem statement</a></li><li><a href=#background>Background</a></li><li><a href=#code-solution--results>Code (solution) & results</a><ul><li><a href=#terrain-visualization-application>Terrain Visualization Application</a></li></ul></li><li><a href=#conclusions--future-work>Conclusions & future work</a></li></ul></li></ul></nav></aside></header><article class=markdown><h1 id=excercise-2>Excercise 2
+<a class=anchor href=#excercise-2>#</a></h1><blockquote class="book-hint info"><strong>Excercise 2</strong><br>Develop a terrain visualization application.</blockquote><h2 id=problem-statement>Problem statement
+<a class=anchor href=#problem-statement>#</a></h2><p>Develop an application that allows visualizing terrain with Perlin noise</p><h2 id=background>Background
+<a class=anchor href=#background>#</a></h2><p><strong>Perling Noise:</strong> According to wikipedia, Perlin Noise is a mathematical function that uses interpolation between a large number of precalculated vector gradients that construct a value that varies pseudo-randomly in space or time. It resembles white noise, and is frequently used in computer-generated images to simulate variability in all kinds of phenomena, thus approaching a more natural appearance. [Wikipedia] (<a href=https://en.wikipedia.org/wiki/Perlin_noise>https://en.wikipedia.org/wiki/Perlin_noise</a>)</p><p><strong>Mach band:</strong> Mach Bands is an optical illusion that exaggerates the contrast between edges of nearby grayscale bands. [Wikipedia] (<a href=https://en.wikipedia.org/wiki/Mach_bands>https://en.wikipedia.org/wiki/Mach_bands</a>)</p><img src=https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Bandes_de_mach.PNG/330px-Bandes_de_mach.PNG alt="Mach Band" style=width:50%><h2 id=code-solution--results>Code (solution) & results
+<a class=anchor href=#code-solution--results>#</a></h2><h3 id=terrain-visualization-application>Terrain Visualization Application
+<a class=anchor href=#terrain-visualization-application>#</a></h3><details><summary>Terrain Visualization Application</summary><div class=markdown-inner><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#75715e>// Source code https://thecodingtrain.com/CodingChallenges/011-perlinnoiseterrain.html
+</span></span></span><span style=display:flex><span><span style=color:#75715e>// Modified 
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>var</span> <span style=color:#a6e22e>cols</span>, <span style=color:#a6e22e>rows</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>var</span> <span style=color:#a6e22e>scl</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>20</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>var</span> <span style=color:#a6e22e>w</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>1400</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>var</span> <span style=color:#a6e22e>h</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>1000</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>var</span> <span style=color:#a6e22e>flying</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>fSlider</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>strokeCheckbox</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>var</span> <span style=color:#a6e22e>terrain</span> <span style=color:#f92672>=</span> [];
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>setup</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>createCanvas</span>(<span style=color:#ae81ff>600</span>, <span style=color:#ae81ff>600</span>, <span style=color:#a6e22e>WEBGL</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>cols</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>w</span> <span style=color:#f92672>/</span> <span style=color:#a6e22e>scl</span>;
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>rows</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>h</span> <span style=color:#f92672>/</span> <span style=color:#a6e22e>scl</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>var</span> <span style=color:#a6e22e>x</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; <span style=color:#a6e22e>x</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>cols</span>; <span style=color:#a6e22e>x</span><span style=color:#f92672>++</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>terrain</span>[<span style=color:#a6e22e>x</span>] <span style=color:#f92672>=</span> [];
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>var</span> <span style=color:#a6e22e>y</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; <span style=color:#a6e22e>y</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>rows</span>; <span style=color:#a6e22e>y</span><span style=color:#f92672>++</span>) {
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>terrain</span>[<span style=color:#a6e22e>x</span>][<span style=color:#a6e22e>y</span>] <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>fSlider</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createSlider</span>(<span style=color:#ae81ff>0</span>,<span style=color:#ae81ff>0.02</span>, <span style=color:#ae81ff>0.005</span>, <span style=color:#ae81ff>0.005</span>)
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>fSlider</span>.<span style=color:#a6e22e>position</span>(<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>10</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>fSlider</span>.<span style=color:#a6e22e>style</span>(<span style=color:#e6db74>&#39;width&#39;</span>, <span style=color:#e6db74>&#39;80px&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>strokeCheckbox</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createCheckbox</span>(<span style=color:#e6db74>&#39;stroke&#39;</span>, <span style=color:#66d9ef>false</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>strokeCheckbox</span>.<span style=color:#a6e22e>position</span>(<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>30</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>draw</span>() {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>flying</span> <span style=color:#f92672>-=</span> <span style=color:#a6e22e>fSlider</span>.<span style=color:#a6e22e>value</span>();
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>var</span> <span style=color:#a6e22e>yoff</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>flying</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>var</span> <span style=color:#a6e22e>y</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; <span style=color:#a6e22e>y</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>rows</span>; <span style=color:#a6e22e>y</span><span style=color:#f92672>++</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>var</span> <span style=color:#a6e22e>xoff</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>var</span> <span style=color:#a6e22e>x</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; <span style=color:#a6e22e>x</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>cols</span>; <span style=color:#a6e22e>x</span><span style=color:#f92672>++</span>) {
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>terrain</span>[<span style=color:#a6e22e>x</span>][<span style=color:#a6e22e>y</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>map</span>(<span style=color:#a6e22e>noise</span>(<span style=color:#a6e22e>xoff</span>, <span style=color:#a6e22e>yoff</span>), <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>1</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>100</span>, <span style=color:#ae81ff>100</span>);
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>xoff</span> <span style=color:#f92672>+=</span> <span style=color:#ae81ff>0.2</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>yoff</span> <span style=color:#f92672>+=</span> <span style=color:#ae81ff>0.2</span>;
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span>(<span style=color:#a6e22e>strokeCheckbox</span>.<span style=color:#a6e22e>checked</span>()) {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>noStroke</span>()
+</span></span><span style=display:flex><span>  } <span style=color:#66d9ef>else</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>stroke</span>(<span style=color:#ae81ff>200</span>)
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>background</span>(<span style=color:#ae81ff>0</span>,<span style=color:#ae81ff>0</span>,<span style=color:#ae81ff>200</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>translate</span>(<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>50</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>rotateX</span>(<span style=color:#a6e22e>PI</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>3</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>fill</span>(<span style=color:#ae81ff>200</span>, <span style=color:#ae81ff>200</span>, <span style=color:#ae81ff>200</span>, <span style=color:#ae81ff>120</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>translate</span>(<span style=color:#f92672>-</span><span style=color:#a6e22e>w</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>, <span style=color:#f92672>-</span><span style=color:#a6e22e>h</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>);
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>var</span> <span style=color:#a6e22e>y</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; <span style=color:#a6e22e>y</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>rows</span> <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>; <span style=color:#a6e22e>y</span><span style=color:#f92672>++</span>) {
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>beginShape</span>(<span style=color:#a6e22e>TRIANGLE_STRIP</span>);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>var</span> <span style=color:#a6e22e>x</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; <span style=color:#a6e22e>x</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>cols</span>; <span style=color:#a6e22e>x</span><span style=color:#f92672>++</span>) {
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>vertex</span>(<span style=color:#a6e22e>x</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>scl</span>, <span style=color:#a6e22e>y</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>scl</span>, <span style=color:#a6e22e>terrain</span>[<span style=color:#a6e22e>x</span>][<span style=color:#a6e22e>y</span>]);
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>vertex</span>(<span style=color:#a6e22e>x</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>scl</span>, (<span style=color:#a6e22e>y</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>) <span style=color:#f92672>*</span> <span style=color:#a6e22e>scl</span>, <span style=color:#a6e22e>terrain</span>[<span style=color:#a6e22e>x</span>][<span style=color:#a6e22e>y</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>]);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>endShape</span>();
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}</span></span></code></pre></div></div></details><iframe id=breath style=width:625px;height:400px srcdoc="
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js></script>
+            <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/addons/p5.sound.min.js></script>
+            
+            
+            
+            
+            
+            <script>
+              
+// Source code https://thecodingtrain.com/CodingChallenges/011-perlinnoiseterrain.html
+// Modified 
+
+var cols, rows;
+var scl = 20;
+var w = 1400;
+var h = 1000;
+
+var flying = 0;
+
+let fSlider
+let strokeCheckbox
+
+var terrain = [];
+
+function setup() {
+  createCanvas(600, 600, WEBGL);
+  cols = w / scl;
+  rows = h / scl;
+  for (var x = 0; x < cols; x++) {
+    terrain[x] = [];
+    for (var y = 0; y < rows; y++) {
+      terrain[x][y] = 0;
+    }
+  }
+  fSlider = createSlider(0,0.02, 0.005, 0.005)
+  fSlider.position(10, 10);
+  fSlider.style('width', '80px');
+  strokeCheckbox = createCheckbox('stroke', false);
+  strokeCheckbox.position(10, 30);
+}
+
+function draw() {
+
+  flying -= fSlider.value();
+  var yoff = flying;
+  for (var y = 0; y < rows; y++) {
+    var xoff = 0;
+    for (var x = 0; x < cols; x++) {
+      terrain[x][y] = map(noise(xoff, yoff), 0, 1, -100, 100);
+      xoff += 0.2;
+    }
+    yoff += 0.2;
+  }
+
+  if(strokeCheckbox.checked()) {
+    noStroke()
+  } else {
+    stroke(200)
+  }
+  
+  background(0,0,200);
+  translate(0, 50);
+  rotateX(PI / 3);
+  fill(200, 200, 200, 120);
+
+  translate(-w / 2, -h / 2);
+  for (var y = 0; y < rows - 1; y++) {
+    
+    beginShape(TRIANGLE_STRIP);
+    for (var x = 0; x < cols; x++) {
+      vertex(x * scl, y * scl, terrain[x][y]);
+      vertex(x * scl, (y + 1) * scl, terrain[x][y + 1]);
+    }
+    endShape();
+  }
+}
+
+            </script>
+          </head>
+          <body>
+          </body>
+        </html>
+      "></iframe>
+<details><summary>Mach Bands</summary><div class=markdown-inner><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#75715e>// Original code: https://github.com/VisualComputing/Cognitive/blob/gh-pages/sketches/MachBands.js
+</span></span></span><span style=display:flex><span><span style=color:#75715e>// Modified
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>var</span> <span style=color:#a6e22e>height</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>70</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>setup</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>createCanvas</span>(<span style=color:#ae81ff>400</span>, <span style=color:#ae81ff>280</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>smooth</span>();  
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>draw</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>background</span>(<span style=color:#ae81ff>255</span>);         
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span>( <span style=color:#a6e22e>height</span> <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>35</span> )
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>height</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>35</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span>( <span style=color:#a6e22e>height</span> <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>70</span> )
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>height</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>70</span>;
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>noStroke</span>();        
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>fill</span>(<span style=color:#ae81ff>60</span>,<span style=color:#ae81ff>60</span>,<span style=color:#ae81ff>60</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>rect</span>(<span style=color:#ae81ff>0</span>,<span style=color:#ae81ff>0</span>,<span style=color:#ae81ff>400</span>,<span style=color:#a6e22e>height</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>fill</span>(<span style=color:#ae81ff>80</span>,<span style=color:#ae81ff>80</span>,<span style=color:#ae81ff>80</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>rect</span>(<span style=color:#ae81ff>0</span>,<span style=color:#ae81ff>70</span>,<span style=color:#ae81ff>400</span>,<span style=color:#a6e22e>height</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>fill</span>(<span style=color:#ae81ff>120</span>,<span style=color:#ae81ff>120</span>,<span style=color:#ae81ff>120</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>rect</span>(<span style=color:#ae81ff>0</span>,<span style=color:#ae81ff>140</span>,<span style=color:#ae81ff>400</span>,<span style=color:#a6e22e>height</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>fill</span>(<span style=color:#ae81ff>150</span>,<span style=color:#ae81ff>150</span>,<span style=color:#ae81ff>150</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>rect</span>(<span style=color:#ae81ff>0</span>,<span style=color:#ae81ff>210</span>,<span style=color:#ae81ff>400</span>,<span style=color:#a6e22e>height</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>fill</span>(<span style=color:#ae81ff>180</span>,<span style=color:#ae81ff>180</span>,<span style=color:#ae81ff>180</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>mouseClicked</span>() {        
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span>(<span style=color:#a6e22e>height</span> <span style=color:#f92672>==</span> <span style=color:#ae81ff>70</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>height</span> <span style=color:#f92672>-=</span> <span style=color:#ae81ff>30</span>;
+</span></span><span style=display:flex><span>  } <span style=color:#66d9ef>else</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>height</span> <span style=color:#f92672>+=</span> <span style=color:#ae81ff>30</span>
+</span></span><span style=display:flex><span>  }  
+</span></span><span style=display:flex><span>};</span></span></code></pre></div></div></details><iframe id=breath style=width:420px;height:310px srcdoc="
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js></script>
+            <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/addons/p5.sound.min.js></script>
+            
+            
+            
+            
+            
+            <script>
+              
+var height = 70;
+
+function setup() {
+  createCanvas(400, 280);
+  smooth();  
+}
+
+function draw() {
+  background(255);         
+  if( height < 35 )
+    height = 35;
+  if( height > 70 )
+    height = 70;
+  noStroke();        
+  fill(60,60,60);
+  rect(0,0,400,height);
+  fill(80,80,80);
+  rect(0,70,400,height);
+  fill(120,120,120);
+  rect(0,140,400,height);
+  fill(150,150,150);
+  rect(0,210,400,height);
+  fill(180,180,180);
+}
+
+function mouseClicked() {        
+  if(height == 70) {
+    height -= 30;
+  } else {
+    height += 30
+  }  
+};
+
+            </script>
+          </head>
+          <body>
+          </body>
+        </html>
+      "></iframe><h2 id=conclusions--future-work>Conclusions & future work
+<a class=anchor href=#conclusions--future-work>#</a></h2><p>Mach band is an interesting optical illusion that activates the edge detection of the eye.
+Perlin noise is very useful for producing pseudorandomness resembling natural terrain.
+For future work it is recommended to analyze the mach band in different shades of colors.</p></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div><a class="flex align-center" href=https://github.com/AndresRPerez12/VisualComputing2022-2/commit/43c662e29c646521b872cab00f412d62677dcf3c title='Last modified by andiazo | September 3, 2022' target=_blank rel=noopener><img src=/VisualComputing2022-2/svg/calendar.svg class=book-icon alt=Calendar>
+<span>September 3, 2022</span></a></div></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#excercise-2>Excercise 2</a><ul><li><a href=#problem-statement>Problem statement</a></li><li><a href=#background>Background</a></li><li><a href=#code-solution--results>Code (solution) & results</a><ul><li><a href=#terrain-visualization-application>Terrain Visualization Application</a></li></ul></li><li><a href=#conclusions--future-work>Conclusions & future work</a></li></ul></li></ul></nav></div></aside></main></body></html>
