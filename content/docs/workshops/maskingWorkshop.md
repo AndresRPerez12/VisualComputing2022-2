@@ -379,7 +379,7 @@ function convolve(matrix, yPosition){
       pixels[loc] = red(c);
       pixels[loc + 1] = green(c);
       pixels[loc + 2] = blue(c);
-      pixels[loc + 3] = alpha(c);
+      pixels[loc + 3] = lightnessSlider.value() * alpha(c) / 100;
     }
   }
   updatePixels();
@@ -444,6 +444,7 @@ function convolution(x, y, matrix, img) {
 let originalImage;
 let histogramTypeSelect;
 let kernelTypeSelect;
+let lightnessSlider;
 
 let convolutionCount = 0;
 
@@ -488,6 +489,9 @@ function setup() {
   kernelTypeSelect.option('Gaussian blur 3 × 3'); 
   kernelTypeSelect.option('Gaussian blur 5 × 5'); 
   kernelTypeSelect.option('Unsharp masking 5 × 5'); 
+
+  lightnessSlider = createSlider(0, 100, 100);
+  lightnessSlider.position(200, 50)
   
   originalImage.loadPixels();
   pixelDensity(1);
@@ -518,7 +522,7 @@ function draw() {
 
 ## Future work
 - In the future we could experiment with more types of kernels and analyze the difference between histograms.
-- We coudld implement Lightness coversions and test with it.
+- We coudld implement more Lightness coversions and test with it.
 - Additionally we could improve the user experiece and add the option to change the image.
 
 ## Conclusions
