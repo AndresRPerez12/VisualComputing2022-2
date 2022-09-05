@@ -1,7 +1,7 @@
 # Workshop: Visual Illusions
 
 {{< hint info >}}
-**Excercise 2**  
+**Workshop 1**  
 Study, implement and discuss possible applications of some known visual phenomena and optical illusions.
 {{< /hint >}}
 
