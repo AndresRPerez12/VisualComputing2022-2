@@ -1,0 +1,461 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Workshop: Masking # Workshop 2
+Implement an image processing web app supporting different image kernels. Problem statement # Implement an image processing web app supporting different image kernels and supporting:
+Image histogram visualization. Different lightness (coloring brightness) tools. Background # Image Kernel # In image processing, a kernel, convolution matrix, or mask is a small matrix used for blurring, sharpening, embossing, edge detection, and more. This is accomplished by doing a convolution between the kernel and an image."><meta name=theme-color content="#FFFFFF"><meta name=color-scheme content="light dark"><meta property="og:title" content><meta property="og:description" content="Workshop: Masking # Workshop 2
+Implement an image processing web app supporting different image kernels. Problem statement # Implement an image processing web app supporting different image kernels and supporting:
+Image histogram visualization. Different lightness (coloring brightness) tools. Background # Image Kernel # In image processing, a kernel, convolution matrix, or mask is a small matrix used for blurring, sharpening, embossing, edge detection, and more. This is accomplished by doing a convolution between the kernel and an image."><meta property="og:type" content="article"><meta property="og:url" content="https://andresrperez12.github.io/VisualComputing2022-2/docs/workshops/maskingWorkshop/"><meta property="article:section" content="docs"><meta property="article:modified_time" content="2022-09-05T07:39:56-05:00"><title>Masking Workshop | Visual Computing 2022-2</title><link rel=manifest href=/VisualComputing2022-2/manifest.json><link rel=icon href=/VisualComputing2022-2/favicon.png type=image/x-icon><link rel=stylesheet href=/VisualComputing2022-2/book.min.ab46de3e725a6415339a37bba23a0067534a37289b063c9f8d011515a63097a8.css integrity="sha256-q0bePnJaZBUzmje7ojoAZ1NKNyibBjyfjQEVFaYwl6g=" crossorigin=anonymous><script defer src=/VisualComputing2022-2/flexsearch.min.js></script>
+<script defer src=/VisualComputing2022-2/en.search.min.b72487337841516c7c04023c0a83a078433b6e7691eab57c7ad01062cc5632ae.js integrity="sha256-tySHM3hBUWx8BAI8CoOgeEM7bnaR6rV8etAQYsxWMq4=" crossorigin=anonymous></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/VisualComputing2022-2/><span>Visual Computing 2022-2</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><input type=checkbox id=section-1ec4f879ff755259b18baf4fbdae0098 class=toggle>
+<label for=section-1ec4f879ff755259b18baf4fbdae0098 class="flex justify-between"><a href=/VisualComputing2022-2/docs/excercises/>Excercises</a></label><ul><li><a href=/VisualComputing2022-2/docs/excercises/ColorMultiplicationExcercise/>Color Multiplication Excercise</a></li><li><a href=/VisualComputing2022-2/docs/excercises/TerrainVisualizationApplication/>Terrain Visualization Application</a></li></ul></li><li><input type=checkbox id=section-9370f1a5d0248572ac505e0c6d4ad190 class=toggle>
+<label for=section-9370f1a5d0248572ac505e0c6d4ad190 class="flex justify-between"><a href=/VisualComputing2022-2/docs/shortcodes/>Shortcodes</a></label><ul><li><a href=/VisualComputing2022-2/docs/shortcodes/buttons/>Buttons</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/columns/>Columns</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/details/>Details</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/hints/>Hints</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/katex/>Katex</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/mermaid/>Mermaid</a></li><li><input type=checkbox id=section-ec67a64aba70b9df3d2a9acd6c92e3bc class=toggle>
+<label for=section-ec67a64aba70b9df3d2a9acd6c92e3bc class="flex justify-between"><a href=/VisualComputing2022-2/docs/shortcodes/p5/>P5</a></label><ul><li><a href=/VisualComputing2022-2/docs/shortcodes/p5/div/>Div</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/p5/iframe/>Iframe</a></li></ul></li><li><a href=/VisualComputing2022-2/docs/shortcodes/tabs/>Tabs</a></li></ul></li><li><input type=checkbox id=section-bd592e6455531edb048edb6a320c69c4 class=toggle>
+<label for=section-bd592e6455531edb048edb6a320c69c4 class="flex justify-between"><a href=/VisualComputing2022-2/docs/team/>Team</a></label><ul></ul></li><li><input type=checkbox id=section-191d4fa5967ce9fef74cb18feb81d534 class=toggle checked>
+<label for=section-191d4fa5967ce9fef74cb18feb81d534 class="flex justify-between"><a href=/VisualComputing2022-2/docs/workshops/>Workshops</a></label><ul><li><a href=/VisualComputing2022-2/docs/workshops/maskingWorkshop/ class=active>Masking Workshop</a></li><li><a href=/VisualComputing2022-2/docs/workshops/visualIllussionsWorkshop/>Visual Illussions Workshop</a></li></ul></li></ul><ul><li><a href=/VisualComputing2022-2/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/VisualComputing2022-2/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>Masking Workshop</strong>
+<label for=toc-control><img src=/VisualComputing2022-2/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#workshop-masking>Workshop: Masking</a><ul><li><a href=#problem-statement>Problem statement</a></li><li><a href=#background>Background</a><ul><li><a href=#image-kernel>Image Kernel</a></li><li><a href=#image-histogram>Image histogram</a></li><li><a href=#lightness>Lightness</a></li></ul></li><li><a href=#code-solution--results>Code (solution) & results</a><ul><li><a href=#utility-functions>Utility functions</a></li><li><a href=#p5js>P5.js</a></li><li><a href=#execution>Execution</a></li></ul></li><li><a href=#conclusions--future-work>Conclusions & future work</a></li><li><a href=#sources>Sources</a></li></ul></li></ul></nav></aside></header><article class=markdown><h1 id=workshop-masking>Workshop: Masking
+<a class=anchor href=#workshop-masking>#</a></h1><blockquote class="book-hint info"><strong>Workshop 2</strong><br>Implement an image processing web app supporting different image kernels.</blockquote><h2 id=problem-statement>Problem statement
+<a class=anchor href=#problem-statement>#</a></h2><p>Implement an image processing web app supporting different <a href=https://en.wikipedia.org/wiki/Kernel_%28image_processing%29>image kernels</a> and supporting:</p><ul><li><a href=https://en.wikipedia.org/wiki/Image_histogram>Image histogram</a> visualization.</li><li>Different <a href=https://en.wikipedia.org/wiki/HSL_and_HSV#Lightness>lightness</a> (coloring brightness) tools.</li></ul><h2 id=background>Background
+<a class=anchor href=#background>#</a></h2><h3 id=image-kernel>Image Kernel
+<a class=anchor href=#image-kernel>#</a></h3><p>In image processing, a kernel, convolution matrix, or mask is a small matrix used for blurring, sharpening, embossing, edge detection, and more. This is accomplished by doing a convolution between the kernel and an image.</p><h3 id=image-histogram>Image histogram
+<a class=anchor href=#image-histogram>#</a></h3><p>An image histogram is a type of histogram that acts as a graphical representation of the tonal distribution in a digital image. It plots the number of pixels for each tonal value. By looking at the histogram for a specific image a viewer will be able to judge the entire tonal distribution at a glance.</p><h3 id=lightness>Lightness
+<a class=anchor href=#lightness>#</a></h3><p>The simplest definition is just the arithmetic mean, i.e. average, of the three components, in the HSI model called intensity. This is simply the projection of a point onto the neutral axis—the vertical height of a point in our tilted cube. The advantage is that, together with Euclidean-distance calculations of hue and chroma, this representation preserves distances and angles from the geometry of the RGB cube.</p><h2 id=code-solution--results>Code (solution) & results
+<a class=anchor href=#code-solution--results>#</a></h2><h3 id=utility-functions>Utility functions
+<a class=anchor href=#utility-functions>#</a></h3><details><summary>Utility functions</summary><div class=markdown-inner><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>IMAGE_MAX_HEIGHT</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>400</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>IMAGE_MAX_WIDTH</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>400</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>getImageHeight</span>(<span style=color:#a6e22e>img</span>){
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span>(<span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>width</span> <span style=color:#f92672>&lt;=</span> <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>height</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>IMAGE_MAX_HEIGHT</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>height</span> <span style=color:#f92672>*</span> (<span style=color:#ae81ff>1</span> <span style=color:#f92672>-</span> (<span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>width</span> <span style=color:#f92672>-</span> <span style=color:#a6e22e>IMAGE_MAX_WIDTH</span>) <span style=color:#f92672>/</span> <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>width</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>getImageWidth</span>(<span style=color:#a6e22e>img</span>){
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span>(<span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>height</span> <span style=color:#f92672>&lt;=</span> <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>width</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>IMAGE_MAX_WIDTH</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>width</span> <span style=color:#f92672>*</span> (<span style=color:#ae81ff>1</span> <span style=color:#f92672>-</span> (<span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>height</span> <span style=color:#f92672>-</span> <span style=color:#a6e22e>IMAGE_MAX_HEIGHT</span>) <span style=color:#f92672>/</span> <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>height</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>generateHistogram</span>(<span style=color:#a6e22e>imageBuffer</span>, <span style=color:#a6e22e>isRGB</span>, <span style=color:#a6e22e>yPosition</span>, <span style=color:#a6e22e>start</span>, <span style=color:#a6e22e>end</span>){
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>histBrightness</span> <span style=color:#f92672>=</span> (<span style=color:#66d9ef>new</span> Array(<span style=color:#ae81ff>256</span>)).<span style=color:#a6e22e>fill</span>(<span style=color:#ae81ff>0</span>);
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>histR</span> <span style=color:#f92672>=</span> (<span style=color:#66d9ef>new</span> Array(<span style=color:#ae81ff>256</span>)).<span style=color:#a6e22e>fill</span>(<span style=color:#ae81ff>0</span>);
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>histG</span> <span style=color:#f92672>=</span> (<span style=color:#66d9ef>new</span> Array(<span style=color:#ae81ff>256</span>)).<span style=color:#a6e22e>fill</span>(<span style=color:#ae81ff>0</span>);
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>histB</span> <span style=color:#f92672>=</span> (<span style=color:#66d9ef>new</span> Array(<span style=color:#ae81ff>256</span>)).<span style=color:#a6e22e>fill</span>(<span style=color:#ae81ff>0</span>);
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>start</span>; <span style=color:#a6e22e>i</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>end</span>; <span style=color:#a6e22e>i</span><span style=color:#f92672>+=</span><span style=color:#ae81ff>4</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>r</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>imageBuffer</span>[<span style=color:#a6e22e>i</span>];
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>g</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>imageBuffer</span>[<span style=color:#a6e22e>i</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>];
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>b</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>imageBuffer</span>[<span style=color:#a6e22e>i</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>2</span>];
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>histBrightness</span>[<span style=color:#a6e22e>r</span>]<span style=color:#f92672>++</span>;
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>histBrightness</span>[<span style=color:#a6e22e>g</span>]<span style=color:#f92672>++</span>;
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>histBrightness</span>[<span style=color:#a6e22e>b</span>]<span style=color:#f92672>++</span>;
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>histR</span>[<span style=color:#a6e22e>r</span>]<span style=color:#f92672>++</span>;
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>histG</span>[<span style=color:#a6e22e>g</span>]<span style=color:#f92672>++</span>;
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>histB</span>[<span style=color:#a6e22e>b</span>]<span style=color:#f92672>++</span>;
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>maxBrightness</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>isRGB</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; <span style=color:#a6e22e>i</span> <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>256</span>; <span style=color:#a6e22e>i</span><span style=color:#f92672>++</span>) {
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>maxBrightness</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>histR</span>[<span style=color:#a6e22e>i</span>]) {
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>maxBrightness</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>histR</span>[<span style=color:#a6e22e>i</span>]
+</span></span><span style=display:flex><span>      } <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>maxBrightness</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>histG</span>[<span style=color:#a6e22e>i</span>]) {
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>maxBrightness</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>histG</span>[<span style=color:#a6e22e>i</span>]
+</span></span><span style=display:flex><span>      } <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>maxBrightness</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>histB</span>[<span style=color:#a6e22e>i</span>]) {
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>maxBrightness</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>histB</span>[<span style=color:#a6e22e>i</span>]
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  } <span style=color:#66d9ef>else</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>; <span style=color:#a6e22e>i</span> <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>256</span>; <span style=color:#a6e22e>i</span><span style=color:#f92672>++</span>) {
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>maxBrightness</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>histBrightness</span>[<span style=color:#a6e22e>i</span>]) {
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>maxBrightness</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>histBrightness</span>[<span style=color:#a6e22e>i</span>]
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>guideHeight</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>8</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>startY</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>yPosition</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>400</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>dx</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>width</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>256</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>dy</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>400</span> <span style=color:#f92672>/</span> <span style=color:#a6e22e>maxBrightness</span>;
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>rect</span>(<span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>yPosition</span>, <span style=color:#ae81ff>400</span>, <span style=color:#ae81ff>400</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>strokeWeight</span>(<span style=color:#a6e22e>dx</span>);
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; <span style=color:#a6e22e>i</span> <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>256</span>; <span style=color:#a6e22e>i</span><span style=color:#f92672>++</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>x</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>dx</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> (<span style=color:#f92672>!</span><span style=color:#a6e22e>isRGB</span>) {
+</span></span><span style=display:flex><span>      <span style=color:#75715e>// Value
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>      <span style=color:#a6e22e>stroke</span>(<span style=color:#e6db74>&#34;#000000&#34;</span>);
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>line</span>(<span style=color:#a6e22e>x</span>, <span style=color:#a6e22e>startY</span>, <span style=color:#a6e22e>x</span>, <span style=color:#a6e22e>startY</span> <span style=color:#f92672>-</span> <span style=color:#a6e22e>histBrightness</span>[<span style=color:#a6e22e>i</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>dy</span>);
+</span></span><span style=display:flex><span>    } <span style=color:#66d9ef>else</span> {
+</span></span><span style=display:flex><span>      <span style=color:#75715e>// Red
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>      <span style=color:#a6e22e>stroke</span>(<span style=color:#e6db74>&#34;rgba(220,0,0,0.5)&#34;</span>);
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>line</span>(<span style=color:#a6e22e>x</span>, <span style=color:#a6e22e>startY</span>, <span style=color:#a6e22e>x</span>, <span style=color:#a6e22e>startY</span> <span style=color:#f92672>-</span> <span style=color:#a6e22e>histR</span>[<span style=color:#a6e22e>i</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>dy</span>);
+</span></span><span style=display:flex><span>      <span style=color:#75715e>// Green
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>      <span style=color:#a6e22e>stroke</span>(<span style=color:#e6db74>&#34;rgba(0,210,0,0.5)&#34;</span>);
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>line</span>(<span style=color:#a6e22e>x</span>, <span style=color:#a6e22e>startY</span>, <span style=color:#a6e22e>x</span>, <span style=color:#a6e22e>startY</span> <span style=color:#f92672>-</span> <span style=color:#a6e22e>histG</span>[<span style=color:#a6e22e>i</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>dy</span>);
+</span></span><span style=display:flex><span>      <span style=color:#75715e>// Blue
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>      <span style=color:#a6e22e>stroke</span>(<span style=color:#e6db74>&#34;rgba(0,0,255,0.5)&#34;</span>);
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>line</span>(<span style=color:#a6e22e>x</span>, <span style=color:#a6e22e>startY</span>, <span style=color:#a6e22e>x</span>, <span style=color:#a6e22e>startY</span> <span style=color:#f92672>-</span> <span style=color:#a6e22e>histB</span>[<span style=color:#a6e22e>i</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>dy</span>);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// Guide
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#a6e22e>stroke</span>(<span style=color:#e6db74>&#39;rgb(&#39;</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#39;, &#39;</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#39;, &#39;</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#39;)&#39;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>line</span>(<span style=color:#a6e22e>x</span>, <span style=color:#a6e22e>startY</span>, <span style=color:#a6e22e>x</span>, <span style=color:#a6e22e>startY</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>guideHeight</span>);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>convolve</span>(<span style=color:#a6e22e>matrix</span>, <span style=color:#a6e22e>yPosition</span>){
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>convolutionCount</span><span style=color:#f92672>++</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>w</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>200</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>xstart</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>ystart</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>xend</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>400</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>yend</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>400</span>;
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>loadPixels</span>();
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Begin our loop for every pixel in the smaller image
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>x</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>xstart</span>; <span style=color:#a6e22e>x</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>xend</span>; <span style=color:#a6e22e>x</span><span style=color:#f92672>++</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>y</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>ystart</span>; <span style=color:#a6e22e>y</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>yend</span>; <span style=color:#a6e22e>y</span><span style=color:#f92672>++</span> ) {
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>c</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>convolution</span>(<span style=color:#a6e22e>x</span>, <span style=color:#a6e22e>y</span>, <span style=color:#a6e22e>matrix</span>, <span style=color:#a6e22e>originalImage</span>);
+</span></span><span style=display:flex><span>      
+</span></span><span style=display:flex><span>      <span style=color:#75715e>// retrieve the RGBA values from c and update pixels()
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>      <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>loc</span> <span style=color:#f92672>=</span> (<span style=color:#a6e22e>x</span> <span style=color:#f92672>+</span> (<span style=color:#a6e22e>y</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>yPosition</span>)  <span style=color:#f92672>*</span> <span style=color:#ae81ff>400</span>) <span style=color:#f92672>*</span> <span style=color:#ae81ff>4</span>;
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>pixels</span>[<span style=color:#a6e22e>loc</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>red</span>(<span style=color:#a6e22e>c</span>);
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>pixels</span>[<span style=color:#a6e22e>loc</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>green</span>(<span style=color:#a6e22e>c</span>);
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>pixels</span>[<span style=color:#a6e22e>loc</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>2</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>blue</span>(<span style=color:#a6e22e>c</span>);
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>pixels</span>[<span style=color:#a6e22e>loc</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>3</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>alpha</span>(<span style=color:#a6e22e>c</span>);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>updatePixels</span>();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>convolution</span>(<span style=color:#a6e22e>x</span>, <span style=color:#a6e22e>y</span>, <span style=color:#a6e22e>matrix</span>, <span style=color:#a6e22e>img</span>) {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>rtotal</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0.0</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>gtotal</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0.0</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>btotal</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0.0</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>offset</span> <span style=color:#f92672>=</span> Math.<span style=color:#a6e22e>floor</span>(<span style=color:#a6e22e>matrix</span>.<span style=color:#a6e22e>length</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>);
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; <span style=color:#a6e22e>i</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>matrix</span>.<span style=color:#a6e22e>length</span>; <span style=color:#a6e22e>i</span><span style=color:#f92672>++</span>){
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>j</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; <span style=color:#a6e22e>j</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>matrix</span>.<span style=color:#a6e22e>length</span>; <span style=color:#a6e22e>j</span><span style=color:#f92672>++</span>){
+</span></span><span style=display:flex><span>      
+</span></span><span style=display:flex><span>      <span style=color:#75715e>// What pixel are we testing
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>      <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>xloc</span> <span style=color:#f92672>=</span> (<span style=color:#a6e22e>x</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>-</span> <span style=color:#a6e22e>offset</span>);
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>yloc</span> <span style=color:#f92672>=</span> (<span style=color:#a6e22e>y</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>j</span> <span style=color:#f92672>-</span> <span style=color:#a6e22e>offset</span>);
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>loc</span> <span style=color:#f92672>=</span> (<span style=color:#a6e22e>xloc</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>width</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>yloc</span>) <span style=color:#f92672>*</span> <span style=color:#ae81ff>4</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      <span style=color:#75715e>// Make sure we haven&#39;t walked off our image, we could do better here
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>      <span style=color:#a6e22e>loc</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>constrain</span>(<span style=color:#a6e22e>loc</span>, <span style=color:#ae81ff>0</span> , <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>pixels</span>.<span style=color:#a6e22e>length</span> <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      <span style=color:#75715e>// Calculate the convolution
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>      <span style=color:#75715e>// retrieve RGB values
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>      <span style=color:#a6e22e>rtotal</span> <span style=color:#f92672>+=</span> (<span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>pixels</span>[<span style=color:#a6e22e>loc</span>]) <span style=color:#f92672>*</span> <span style=color:#a6e22e>matrix</span>[<span style=color:#a6e22e>i</span>][<span style=color:#a6e22e>j</span>];
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>gtotal</span> <span style=color:#f92672>+=</span> (<span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>pixels</span>[<span style=color:#a6e22e>loc</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>]) <span style=color:#f92672>*</span> <span style=color:#a6e22e>matrix</span>[<span style=color:#a6e22e>i</span>][<span style=color:#a6e22e>j</span>];
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>btotal</span> <span style=color:#f92672>+=</span> (<span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>pixels</span>[<span style=color:#a6e22e>loc</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>2</span>]) <span style=color:#f92672>*</span> <span style=color:#a6e22e>matrix</span>[<span style=color:#a6e22e>i</span>][<span style=color:#a6e22e>j</span>];
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Make sure RGB is within range
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#a6e22e>rtotal</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>constrain</span>(<span style=color:#a6e22e>rtotal</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>255</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>gtotal</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>constrain</span>(<span style=color:#a6e22e>gtotal</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>255</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>btotal</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>constrain</span>(<span style=color:#a6e22e>btotal</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>255</span>);
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Return the resulting color
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>color</span>(<span style=color:#a6e22e>rtotal</span>, <span style=color:#a6e22e>gtotal</span>, <span style=color:#a6e22e>btotal</span>);
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div></div></details><h3 id=p5js>P5.js
+<a class=anchor href=#p5js>#</a></h3><details><summary>P5.js</summary><div class=markdown-inner><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>originalImage</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>histogramTypeSelect</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>kernelTypeSelect</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>convolutionCount</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>preload</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>originalImage</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>loadImage</span>(<span style=color:#e6db74>&#39;https://cms-assets.tutsplus.com/uploads/users/1191/profiles/19701/profileImage/ngc2237_400.jpg&#39;</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>kernels</span> <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;Sharpen&#34;</span> <span style=color:#f92672>:</span> [[<span style=color:#ae81ff>0</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>,<span style=color:#ae81ff>0</span>],
+</span></span><span style=display:flex><span>               [<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>,<span style=color:#ae81ff>5</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>],
+</span></span><span style=display:flex><span>               [<span style=color:#ae81ff>0</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>,<span style=color:#ae81ff>0</span>]],
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;Box blur&#34;</span> <span style=color:#f92672>:</span> [[<span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>9</span>,<span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>9</span>,<span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>9</span>],
+</span></span><span style=display:flex><span>                [<span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>9</span>,<span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>9</span>,<span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>9</span>],
+</span></span><span style=display:flex><span>                [<span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>9</span>,<span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>9</span>,<span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>9</span>]],
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;Gaussian blur 3 × 3&#34;</span> <span style=color:#f92672>:</span> [[<span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>16</span>,<span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>8</span>,<span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>16</span>],
+</span></span><span style=display:flex><span>                           [<span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>8</span>,<span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>4</span>,<span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>8</span>],
+</span></span><span style=display:flex><span>                           [<span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>16</span>,<span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>8</span>,<span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>16</span>]],
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;Gaussian blur 5 × 5&#34;</span> <span style=color:#f92672>:</span> [[<span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#ae81ff>4</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#ae81ff>6</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#ae81ff>4</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>],
+</span></span><span style=display:flex><span>                           [<span style=color:#ae81ff>4</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#ae81ff>16</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#ae81ff>16</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#ae81ff>4</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>],
+</span></span><span style=display:flex><span>                           [<span style=color:#ae81ff>6</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#ae81ff>24</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#ae81ff>36</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#ae81ff>24</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#ae81ff>6</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>],
+</span></span><span style=display:flex><span>                           [<span style=color:#ae81ff>4</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#ae81ff>16</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#ae81ff>16</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#ae81ff>4</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>],
+</span></span><span style=display:flex><span>                           [<span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#ae81ff>4</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#ae81ff>6</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#ae81ff>4</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>]],
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;Unsharp masking 5 × 5&#34;</span> <span style=color:#f92672>:</span> [[<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>4</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>6</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>4</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>],
+</span></span><span style=display:flex><span>                             [<span style=color:#f92672>-</span><span style=color:#ae81ff>4</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>16</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>16</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>4</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>],
+</span></span><span style=display:flex><span>                             [<span style=color:#f92672>-</span><span style=color:#ae81ff>6</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>24</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#ae81ff>476</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>24</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>6</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>],
+</span></span><span style=display:flex><span>                             [<span style=color:#f92672>-</span><span style=color:#ae81ff>4</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>16</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>16</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>4</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>],
+</span></span><span style=display:flex><span>                             [<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>4</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>6</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>4</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span><span style=color:#f92672>/</span><span style=color:#ae81ff>256</span>]],
+</span></span><span style=display:flex><span>};
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>setup</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>createCanvas</span>(<span style=color:#ae81ff>400</span>, <span style=color:#ae81ff>1800</span>);
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>histogramTypeSelect</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createSelect</span>();
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>histogramTypeSelect</span>.<span style=color:#a6e22e>position</span>(<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>30</span>)
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>histogramTypeSelect</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;Brightness histogram&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>histogramTypeSelect</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;RGB histogram&#39;</span>); 
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>kernelTypeSelect</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createSelect</span>();
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>kernelTypeSelect</span>.<span style=color:#a6e22e>position</span>(<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>60</span>)
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>kernelTypeSelect</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;Sharpen&#39;</span>); 
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>kernelTypeSelect</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;Box blur&#39;</span>); 
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>kernelTypeSelect</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;Gaussian blur 3 × 3&#39;</span>); 
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>kernelTypeSelect</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;Gaussian blur 5 × 5&#39;</span>); 
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>kernelTypeSelect</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;Unsharp masking 5 × 5&#39;</span>); 
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>originalImage</span>.<span style=color:#a6e22e>loadPixels</span>();
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pixelDensity</span>(<span style=color:#ae81ff>1</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>draw</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>background</span>(<span style=color:#ae81ff>255</span>);
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>originalImage</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>stroke</span>(<span style=color:#e6db74>&#34;#000000&#34;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>rect</span>(<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>100</span>, <span style=color:#a6e22e>getImageWidth</span>(<span style=color:#a6e22e>originalImage</span>), <span style=color:#a6e22e>getImageHeight</span>(<span style=color:#a6e22e>originalImage</span>));
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>imageHeight</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>getImageHeight</span>(<span style=color:#a6e22e>originalImage</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>image</span>(<span style=color:#a6e22e>originalImage</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>100</span>, <span style=color:#a6e22e>getImageWidth</span>(<span style=color:#a6e22e>originalImage</span>), <span style=color:#a6e22e>imageHeight</span>);
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>isRGBHistogram</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>histogramTypeSelect</span>.<span style=color:#a6e22e>value</span>() <span style=color:#f92672>===</span> <span style=color:#e6db74>&#39;RGB histogram&#39;</span>;
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>generateHistogram</span>(<span style=color:#a6e22e>originalImage</span>.<span style=color:#a6e22e>pixels</span>, <span style=color:#a6e22e>isRGBHistogram</span>, <span style=color:#a6e22e>imageHeight</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>100</span>, <span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>originalImage</span>.<span style=color:#a6e22e>pixels</span>.<span style=color:#a6e22e>length</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>4</span>)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>convolve</span>(<span style=color:#a6e22e>kernels</span>[<span style=color:#a6e22e>kernelTypeSelect</span>.<span style=color:#a6e22e>value</span>()] ,<span style=color:#a6e22e>imageHeight</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>508</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>generateHistogram</span>(<span style=color:#a6e22e>pixels</span>, <span style=color:#a6e22e>isRGBHistogram</span>, <span style=color:#a6e22e>imageHeight</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>908</span>, (<span style=color:#a6e22e>imageHeight</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>508</span>) <span style=color:#f92672>*</span> <span style=color:#ae81ff>400</span>, (<span style=color:#a6e22e>imageHeight</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>909</span>) <span style=color:#f92672>*</span> <span style=color:#ae81ff>400</span>)
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div></div></details><h3 id=execution>Execution
+<a class=anchor href=#execution>#</a></h3><iframe id=breath style=width:500px;height:1900px srcdoc="
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js></script>
+            <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/addons/p5.sound.min.js></script>
+            
+            
+            
+            
+            
+            <script>
+              
+const IMAGE_MAX_HEIGHT = 400;
+const IMAGE_MAX_WIDTH = 400;
+
+function getImageHeight(img){
+  if(img.width <= img.height)
+    return IMAGE_MAX_HEIGHT;
+  return img.height * (1 - (img.width - IMAGE_MAX_WIDTH) / img.width);
+}
+
+function getImageWidth(img){
+  if(img.height <= img.width)
+    return IMAGE_MAX_WIDTH;
+  return img.width * (1 - (img.height - IMAGE_MAX_HEIGHT) / img.height);
+}
+
+function generateHistogram(imageBuffer, isRGB, yPosition, start, end){
+  let histBrightness = (new Array(256)).fill(0);
+  let histR = (new Array(256)).fill(0);
+  let histG = (new Array(256)).fill(0);
+  let histB = (new Array(256)).fill(0);
+  for (let i = start; i < end; i+=4) {
+    let r = imageBuffer[i];
+    let g = imageBuffer[i + 1];
+    let b = imageBuffer[i + 2];
+    histBrightness[r]++;
+    histBrightness[g]++;
+    histBrightness[b]++;
+    histR[r]++;
+    histG[g]++;
+    histB[b]++;
+  }
+  
+  let maxBrightness = 0;
+  if (isRGB) {
+    for (let i = 0; i < 256; i++) {
+      if (maxBrightness < histR[i]) {
+        maxBrightness = histR[i]
+      } else if (maxBrightness < histG[i]) {
+        maxBrightness = histG[i]
+      } else if (maxBrightness < histB[i]) {
+        maxBrightness = histB[i]
+      }
+    }
+  } else {
+    for (let i = 1; i < 256; i++) {
+      if (maxBrightness < histBrightness[i]) {
+        maxBrightness = histBrightness[i]
+      }
+    }
+  }
+  
+  const guideHeight = 8;
+  const startY = yPosition + 400;
+  const dx = width / 256;
+  const dy = 400 / maxBrightness;
+  rect(0, yPosition, 400, 400);
+  strokeWeight(dx);
+    
+  for (let i = 0; i < 256; i++) {
+    let x = i * dx;
+    if (!isRGB) {
+      // Value
+      stroke(&#34;#000000&#34;);
+      line(x, startY, x, startY - histBrightness[i] * dy);
+    } else {
+      // Red
+      stroke(&#34;rgba(220,0,0,0.5)&#34;);
+      line(x, startY, x, startY - histR[i] * dy);
+      // Green
+      stroke(&#34;rgba(0,210,0,0.5)&#34;);
+      line(x, startY, x, startY - histG[i] * dy);
+      // Blue
+      stroke(&#34;rgba(0,0,255,0.5)&#34;);
+      line(x, startY, x, startY - histB[i] * dy);
+    }
+    // Guide
+    stroke('rgb(' + i + ', ' + i + ', ' + i + ')');
+    line(x, startY, x, startY + guideHeight);
+  }
+}
+
+function convolve(matrix, yPosition){
+  convolutionCount++;
+  const w = 200;
+  const xstart = 0;
+  const ystart = 0;
+  const xend = 400;
+  const yend = 400;
+  
+  loadPixels();
+  // Begin our loop for every pixel in the smaller image
+  for (let x = xstart; x < xend; x++) {
+    for (let y = ystart; y < yend; y++ ) {
+      let c = convolution(x, y, matrix, originalImage);
+      
+      // retrieve the RGBA values from c and update pixels()
+      let loc = (x + (y + yPosition)  * 400) * 4;
+      pixels[loc] = red(c);
+      pixels[loc + 1] = green(c);
+      pixels[loc + 2] = blue(c);
+      pixels[loc + 3] = alpha(c);
+    }
+  }
+  updatePixels();
+}
+
+function convolution(x, y, matrix, img) {
+  let rtotal = 0.0;
+  let gtotal = 0.0;
+  let btotal = 0.0;
+  const offset = Math.floor(matrix.length / 2);
+  for (let i = 0; i < matrix.length; i++){
+    for (let j = 0; j < matrix.length; j++){
+      
+      // What pixel are we testing
+      const xloc = (x + i - offset);
+      const yloc = (y + j - offset);
+      let loc = (xloc + img.width * yloc) * 4;
+
+      // Make sure we haven't walked off our image, we could do better here
+      loc = constrain(loc, 0 , img.pixels.length - 1);
+
+      // Calculate the convolution
+      // retrieve RGB values
+      rtotal += (img.pixels[loc]) * matrix[i][j];
+      gtotal += (img.pixels[loc + 1]) * matrix[i][j];
+      btotal += (img.pixels[loc + 2]) * matrix[i][j];
+    }
+  }
+  // Make sure RGB is within range
+  rtotal = constrain(rtotal, 0, 255);
+  gtotal = constrain(gtotal, 0, 255);
+  btotal = constrain(btotal, 0, 255);
+  
+  // Return the resulting color
+  return color(rtotal, gtotal, btotal);
+}
+
+let originalImage;
+let histogramTypeSelect;
+let kernelTypeSelect;
+
+let convolutionCount = 0;
+
+function preload() {
+  originalImage = loadImage('https://cms-assets.tutsplus.com/uploads/users/1191/profiles/19701/profileImage/ngc2237_400.jpg');
+}
+
+let kernels = {
+  &#34;Sharpen&#34; : [[0,-1,0],
+               [-1,5,-1],
+               [0,-1,0]],
+  &#34;Box blur&#34; : [[1/9,1/9,1/9],
+                [1/9,1/9,1/9],
+                [1/9,1/9,1/9]],
+  &#34;Gaussian blur 3 × 3&#34; : [[1/16,1/8,1/16],
+                           [1/8,1/4,1/8],
+                           [1/16,1/8,1/16]],
+  &#34;Gaussian blur 5 × 5&#34; : [[1/256,4/256,6/256,4/256,1/256],
+                           [4/256,16/256,1/256,16/256,4/256],
+                           [6/256,24/256,36/256,24/256,6/256],
+                           [4/256,16/256,1/256,16/256,4/256],
+                           [1/256,4/256,6/256,4/256,1/256]],
+  &#34;Unsharp masking 5 × 5&#34; : [[-1/256,-4/256,-6/256,-4/256,-1/256],
+                             [-4/256,-16/256,-1/256,-16/256,-4/256],
+                             [-6/256,-24/256,476/256,-24/256,-6/256],
+                             [-4/256,-16/256,-1/256,-16/256,-4/256],
+                             [-1/256,-4/256,-6/256,-4/256,-1/256]],
+};
+
+function setup() {
+  createCanvas(400, 1800);
+  
+  histogramTypeSelect = createSelect();
+  histogramTypeSelect.position(0, 30)
+  histogramTypeSelect.option('Brightness histogram');
+  histogramTypeSelect.option('RGB histogram'); 
+  
+  kernelTypeSelect = createSelect();
+  kernelTypeSelect.position(0, 60)
+  kernelTypeSelect.option('Sharpen'); 
+  kernelTypeSelect.option('Box blur'); 
+  kernelTypeSelect.option('Gaussian blur 3 × 3'); 
+  kernelTypeSelect.option('Gaussian blur 5 × 5'); 
+  kernelTypeSelect.option('Unsharp masking 5 × 5'); 
+  
+  originalImage.loadPixels();
+  pixelDensity(1);
+}
+
+function draw() {
+  background(255);
+  if (originalImage) {
+    stroke(&#34;#000000&#34;);
+    rect(0, 100, getImageWidth(originalImage), getImageHeight(originalImage));
+    
+    const imageHeight = getImageHeight(originalImage);
+    image(originalImage, 0, 100, getImageWidth(originalImage), imageHeight);
+    
+    const isRGBHistogram = histogramTypeSelect.value() === 'RGB histogram';
+    
+    generateHistogram(originalImage.pixels, isRGBHistogram, imageHeight + 100, 0, originalImage.pixels.length / 4)
+    
+    convolve(kernels[kernelTypeSelect.value()] ,imageHeight + 508)
+
+    generateHistogram(pixels, isRGBHistogram, imageHeight + 908, (imageHeight + 508) * 400, (imageHeight + 909) * 400)
+  }
+}
+
+            </script>
+          </head>
+          <body>
+          </body>
+        </html>
+      "></iframe><h2 id=conclusions--future-work>Conclusions & future work
+<a class=anchor href=#conclusions--future-work>#</a></h2><h2 id=sources>Sources
+<a class=anchor href=#sources>#</a></h2><ul><li><a href=https://en.wikipedia.org/wiki/Image_histogram>Image histogram</a></li><li><a href=https://en.wikipedia.org/wiki/HSL_and_HSV#Lightness>HSL and HSV</a></li><li><a href=https://en.wikipedia.org/wiki/Kernel_%28image_processing%29>Kernel (image processing)</a></li></ul></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div><a class="flex align-center" href=https://github.com/AndresRPerez12/VisualComputing2022-2/commit/b6a9357acf9c9ccf7a7eb9cfc5fa5e5d8f571183 title='Last modified by Jhonatan Torres | September 5, 2022' target=_blank rel=noopener><img src=/VisualComputing2022-2/svg/calendar.svg class=book-icon alt=Calendar>
+<span>September 5, 2022</span></a></div></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#workshop-masking>Workshop: Masking</a><ul><li><a href=#problem-statement>Problem statement</a></li><li><a href=#background>Background</a><ul><li><a href=#image-kernel>Image Kernel</a></li><li><a href=#image-histogram>Image histogram</a></li><li><a href=#lightness>Lightness</a></li></ul></li><li><a href=#code-solution--results>Code (solution) & results</a><ul><li><a href=#utility-functions>Utility functions</a></li><li><a href=#p5js>P5.js</a></li><li><a href=#execution>Execution</a></li></ul></li><li><a href=#conclusions--future-work>Conclusions & future work</a></li><li><a href=#sources>Sources</a></li></ul></li></ul></nav></div></aside></main></body></html>
