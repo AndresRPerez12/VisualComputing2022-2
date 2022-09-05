@@ -454,15 +454,22 @@ function draw() {
     
     convolve(kernels[kernelTypeSelect.value()] ,imageHeight + 508)
 
+    stroke("#000000");
     generateHistogram(pixels, isRGBHistogram, imageHeight + 908, (imageHeight + 508) * 400, (imageHeight + 909) * 400)
   }
 }
 {{< /p5-global-iframe >}}
 
 ## Conclusions & future work
+In the future we can experiment with more types of kernels and analyze the difference between histograms.
+
+- The image histogram allows a general understanding of how the tonal distribution of an image varies when a kernel is applied to it.
+- Image kernels are an interesting way to apply effects to an image, highlighting the properties that interest us through arrays.
 
 ## Sources
 
+* [Convolution implementation on p5js](https://p5js.org/examples/image-convolution.html)
+* [Image histogram implementation o js](https://codepen.io/aNNiMON/pen/OqjGVP)
 * [Image histogram](https://en.wikipedia.org/wiki/Image_histogram)
 * [HSL and HSV](https://en.wikipedia.org/wiki/HSL_and_HSV#Lightness)
 * [Kernel (image processing)](https://en.wikipedia.org/wiki/Kernel_%28image_processing%29)
