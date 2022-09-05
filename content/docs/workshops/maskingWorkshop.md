@@ -113,8 +113,31 @@ function generateHistogram(imageBuffer, isRGB, yPosition, start, end){
 
 {{< details title="Convolve" open=false >}}
 ```js
+function applyLuma(yPosition){
+  const w = 200;
+  const xstart = 0;
+  const ystart = 0;
+  const xend = 400;
+  const yend = 400;
+  
+  loadPixels();
+  // Begin our loop for every pixel in the smaller image
+  for (let x = xstart; x < xend; x++) {
+    for (let y = ystart; y < yend; y++ ) {
+      let pos = (x + y * 400) * 4
+      
+      // retrieve the RGBA values from c and update pixels()
+      let loc = (x + (y + yPosition)  * 400) * 4;
+      pixels[loc] = 0;
+      pixels[loc + 1] = 0;
+      pixels[loc + 2] = 0;
+      pixels[loc + 3] = (originalImage.pixels[pos] + originalImage.pixels[pos + 1] + originalImage.pixels[pos + 2]) / 3
+    }
+  }
+  updatePixels();
+}
+
 function convolve(matrix, yPosition){
-  convolutionCount++;
   const w = 200;
   const xstart = 0;
   const ystart = 0;
@@ -243,7 +266,10 @@ function draw() {
     
     convolve(kernels[kernelTypeSelect.value()] ,imageHeight + 508)
 
+    stroke("#000000");
     generateHistogram(pixels, isRGBHistogram, imageHeight + 908, (imageHeight + 508) * 400, (imageHeight + 909) * 400)
+
+    applyLuma(imageHeight + 1316)
   }
 }
 ```
@@ -252,7 +278,7 @@ function draw() {
 
 ### Execution
 
-{{< p5-global-iframe id="breath" width="500" height="1900" >}}
+{{< p5-global-iframe id="breath" width="500" height="2200" >}}
 const IMAGE_MAX_HEIGHT = 400;
 const IMAGE_MAX_WIDTH = 400;
 
@@ -359,6 +385,30 @@ function convolve(matrix, yPosition){
   updatePixels();
 }
 
+function applyLuma(yPosition){
+  const w = 200;
+  const xstart = 0;
+  const ystart = 0;
+  const xend = 400;
+  const yend = 400;
+  
+  loadPixels();
+  // Begin our loop for every pixel in the smaller image
+  for (let x = xstart; x < xend; x++) {
+    for (let y = ystart; y < yend; y++ ) {
+      let pos = (x + y * 400) * 4
+      
+      // retrieve the RGBA values from c and update pixels()
+      let loc = (x + (y + yPosition)  * 400) * 4;
+      pixels[loc] = 0;
+      pixels[loc + 1] = 0;
+      pixels[loc + 2] = 0;
+      pixels[loc + 3] = (originalImage.pixels[pos] + originalImage.pixels[pos + 1] + originalImage.pixels[pos + 2]) / 3
+    }
+  }
+  updatePixels();
+}
+
 function convolution(x, y, matrix, img) {
   let rtotal = 0.0;
   let gtotal = 0.0;
@@ -424,7 +474,7 @@ let kernels = {
 };
 
 function setup() {
-  createCanvas(400, 1800);
+  createCanvas(400, 2200);
   
   histogramTypeSelect = createSelect();
   histogramTypeSelect.position(0, 30)
@@ -460,6 +510,8 @@ function draw() {
 
     stroke("#000000");
     generateHistogram(pixels, isRGBHistogram, imageHeight + 908, (imageHeight + 508) * 400, (imageHeight + 909) * 400)
+
+    applyLuma(imageHeight + 1316)
   }
 }
 {{< /p5-global-iframe >}}
