@@ -26,7 +26,7 @@ The simplest definition is just the arithmetic mean, i.e. average, of the three 
 
 ### Utility functions
 
-{{< details title="Utility functions" open=false >}}
+{{< details title="Generate histogram" open=false >}}
 ```js
 const IMAGE_MAX_HEIGHT = 400;
 const IMAGE_MAX_WIDTH = 400;
@@ -108,7 +108,11 @@ function generateHistogram(imageBuffer, isRGB, yPosition, start, end){
     line(x, startY, x, startY + guideHeight);
   }
 }
+```
+{{< /details >}}
 
+{{< details title="Convolve" open=false >}}
+```js
 function convolve(matrix, yPosition){
   convolutionCount++;
   const w = 200;
@@ -460,9 +464,12 @@ function draw() {
 }
 {{< /p5-global-iframe >}}
 
-## Conclusions & future work
-In the future we can experiment with more types of kernels and analyze the difference between histograms, and additionlly test with Lightness coversions.
+## Future work
+- In the future we could experiment with more types of kernels and analyze the difference between histograms.
+- We coudld implement Lightness coversions and test with it.
+- Additionally we could improve the user experiece and add the option to change the image.
 
+## Conclusions
 - The image histogram allows a general understanding of how the tonal distribution of an image varies when a kernel is applied to it.
 - Image kernels are an interesting way to apply effects to an image, highlighting the properties that interest us through arrays.
 
