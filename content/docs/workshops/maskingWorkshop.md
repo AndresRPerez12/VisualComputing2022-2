@@ -461,7 +461,7 @@ function draw() {
 {{< /p5-global-iframe >}}
 
 ## Conclusions & future work
-In the future we can experiment with more types of kernels and analyze the difference between histograms.
+In the future we can experiment with more types of kernels and analyze the difference between histograms, and additionlly test with Lightness coversions.
 
 - The image histogram allows a general understanding of how the tonal distribution of an image varies when a kernel is applied to it.
 - Image kernels are an interesting way to apply effects to an image, highlighting the properties that interest us through arrays.
