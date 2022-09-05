@@ -2,8 +2,8 @@
 Implement an image processing web app supporting different image kernels. Problem statement # Implement an image processing web app supporting different image kernels and supporting:
 Image histogram visualization. Different lightness (coloring brightness) tools. Background # Image Kernel # In image processing, a kernel, convolution matrix, or mask is a small matrix used for blurring, sharpening, embossing, edge detection, and more. This is accomplished by doing a convolution between the kernel and an image."><meta name=theme-color content="#FFFFFF"><meta name=color-scheme content="light dark"><meta property="og:title" content><meta property="og:description" content="Workshop: Masking # Workshop 2
 Implement an image processing web app supporting different image kernels. Problem statement # Implement an image processing web app supporting different image kernels and supporting:
-Image histogram visualization. Different lightness (coloring brightness) tools. Background # Image Kernel # In image processing, a kernel, convolution matrix, or mask is a small matrix used for blurring, sharpening, embossing, edge detection, and more. This is accomplished by doing a convolution between the kernel and an image."><meta property="og:type" content="article"><meta property="og:url" content="https://andresrperez12.github.io/VisualComputing2022-2/docs/workshops/maskingWorkshop/"><meta property="article:section" content="docs"><meta property="article:modified_time" content="2022-09-05T09:58:25-05:00"><title>Masking Workshop | Visual Computing 2022-2</title><link rel=manifest href=/VisualComputing2022-2/manifest.json><link rel=icon href=/VisualComputing2022-2/favicon.png type=image/x-icon><link rel=stylesheet href=/VisualComputing2022-2/book.min.ab46de3e725a6415339a37bba23a0067534a37289b063c9f8d011515a63097a8.css integrity="sha256-q0bePnJaZBUzmje7ojoAZ1NKNyibBjyfjQEVFaYwl6g=" crossorigin=anonymous><script defer src=/VisualComputing2022-2/flexsearch.min.js></script>
-<script defer src=/VisualComputing2022-2/en.search.min.cc8d218b4a7be7d7d32acacdf54bf9b71f4bb23321e906393320b8e4a75a04a5.js integrity="sha256-zI0hi0p759fTKsrN9Uv5tx9LsjMh6QY5MyC45KdaBKU=" crossorigin=anonymous></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+Image histogram visualization. Different lightness (coloring brightness) tools. Background # Image Kernel # In image processing, a kernel, convolution matrix, or mask is a small matrix used for blurring, sharpening, embossing, edge detection, and more. This is accomplished by doing a convolution between the kernel and an image."><meta property="og:type" content="article"><meta property="og:url" content="https://andresrperez12.github.io/VisualComputing2022-2/docs/workshops/maskingWorkshop/"><meta property="article:section" content="docs"><meta property="article:modified_time" content="2022-09-05T10:19:33-05:00"><title>Masking Workshop | Visual Computing 2022-2</title><link rel=manifest href=/VisualComputing2022-2/manifest.json><link rel=icon href=/VisualComputing2022-2/favicon.png type=image/x-icon><link rel=stylesheet href=/VisualComputing2022-2/book.min.ab46de3e725a6415339a37bba23a0067534a37289b063c9f8d011515a63097a8.css integrity="sha256-q0bePnJaZBUzmje7ojoAZ1NKNyibBjyfjQEVFaYwl6g=" crossorigin=anonymous><script defer src=/VisualComputing2022-2/flexsearch.min.js></script>
+<script defer src=/VisualComputing2022-2/en.search.min.c909d22dc063f6e4db4abbe2cc99933a00f6442a40fe91f113d03bbfdbf4e4c3.js integrity="sha256-yQnSLcBj9uTbSrvizJmTOgD2RCpA/pHxE9A7v9v05MM=" crossorigin=anonymous></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/VisualComputing2022-2/><span>Visual Computing 2022-2</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><input type=checkbox id=section-1ec4f879ff755259b18baf4fbdae0098 class=toggle>
 <label for=section-1ec4f879ff755259b18baf4fbdae0098 class="flex justify-between"><a href=/VisualComputing2022-2/docs/excercises/>Excercises</a></label><ul><li><a href=/VisualComputing2022-2/docs/excercises/ColorMultiplicationExcercise/>Color Multiplication Excercise</a></li><li><a href=/VisualComputing2022-2/docs/excercises/dither/>Dither</a></li><li><a href=/VisualComputing2022-2/docs/excercises/SpatialCoherence/>Spatial Coherence</a></li><li><a href=/VisualComputing2022-2/docs/excercises/TerrainVisualizationApplication/>Terrain Visualization Application</a></li></ul></li><li><input type=checkbox id=section-9370f1a5d0248572ac505e0c6d4ad190 class=toggle>
 <label for=section-9370f1a5d0248572ac505e0c6d4ad190 class="flex justify-between"><a href=/VisualComputing2022-2/docs/shortcodes/>Shortcodes</a></label><ul><li><a href=/VisualComputing2022-2/docs/shortcodes/buttons/>Buttons</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/columns/>Columns</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/details/>Details</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/hints/>Hints</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/katex/>Katex</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/mermaid/>Mermaid</a></li><li><input type=checkbox id=section-ec67a64aba70b9df3d2a9acd6c92e3bc class=toggle>
@@ -99,8 +99,31 @@ Image histogram visualization. Different lightness (coloring brightness) tools. 
 </span></span><span style=display:flex><span>    <span style=color:#a6e22e>line</span>(<span style=color:#a6e22e>x</span>, <span style=color:#a6e22e>startY</span>, <span style=color:#a6e22e>x</span>, <span style=color:#a6e22e>startY</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>guideHeight</span>);
 </span></span><span style=display:flex><span>  }
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div></div></details><details><summary>Convolve</summary><div class=markdown-inner><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>convolve</span>(<span style=color:#a6e22e>matrix</span>, <span style=color:#a6e22e>yPosition</span>){
-</span></span><span style=display:flex><span>  <span style=color:#a6e22e>convolutionCount</span><span style=color:#f92672>++</span>;
+</span></span></code></pre></div></div></details><details><summary>Convolve</summary><div class=markdown-inner><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>applyLuma</span>(<span style=color:#a6e22e>yPosition</span>){
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>w</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>200</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>xstart</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>ystart</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>xend</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>400</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>yend</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>400</span>;
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>loadPixels</span>();
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Begin our loop for every pixel in the smaller image
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>x</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>xstart</span>; <span style=color:#a6e22e>x</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>xend</span>; <span style=color:#a6e22e>x</span><span style=color:#f92672>++</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>y</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>ystart</span>; <span style=color:#a6e22e>y</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>yend</span>; <span style=color:#a6e22e>y</span><span style=color:#f92672>++</span> ) {
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>pos</span> <span style=color:#f92672>=</span> (<span style=color:#a6e22e>x</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>y</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>400</span>) <span style=color:#f92672>*</span> <span style=color:#ae81ff>4</span>
+</span></span><span style=display:flex><span>      
+</span></span><span style=display:flex><span>      <span style=color:#75715e>// retrieve the RGBA values from c and update pixels()
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>      <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>loc</span> <span style=color:#f92672>=</span> (<span style=color:#a6e22e>x</span> <span style=color:#f92672>+</span> (<span style=color:#a6e22e>y</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>yPosition</span>)  <span style=color:#f92672>*</span> <span style=color:#ae81ff>400</span>) <span style=color:#f92672>*</span> <span style=color:#ae81ff>4</span>;
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>pixels</span>[<span style=color:#a6e22e>loc</span>] <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>pixels</span>[<span style=color:#a6e22e>loc</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>] <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>pixels</span>[<span style=color:#a6e22e>loc</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>2</span>] <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>pixels</span>[<span style=color:#a6e22e>loc</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>3</span>] <span style=color:#f92672>=</span> (<span style=color:#a6e22e>originalImage</span>.<span style=color:#a6e22e>pixels</span>[<span style=color:#a6e22e>pos</span>] <span style=color:#f92672>+</span> <span style=color:#a6e22e>originalImage</span>.<span style=color:#a6e22e>pixels</span>[<span style=color:#a6e22e>pos</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>] <span style=color:#f92672>+</span> <span style=color:#a6e22e>originalImage</span>.<span style=color:#a6e22e>pixels</span>[<span style=color:#a6e22e>pos</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>2</span>]) <span style=color:#f92672>/</span> <span style=color:#ae81ff>3</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>updatePixels</span>();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>convolve</span>(<span style=color:#a6e22e>matrix</span>, <span style=color:#a6e22e>yPosition</span>){
 </span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>w</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>200</span>;
 </span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>xstart</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
 </span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>ystart</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
@@ -223,11 +246,14 @@ Image histogram visualization. Different lightness (coloring brightness) tools. 
 </span></span><span style=display:flex><span>    
 </span></span><span style=display:flex><span>    <span style=color:#a6e22e>convolve</span>(<span style=color:#a6e22e>kernels</span>[<span style=color:#a6e22e>kernelTypeSelect</span>.<span style=color:#a6e22e>value</span>()] ,<span style=color:#a6e22e>imageHeight</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>508</span>)
 </span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>stroke</span>(<span style=color:#e6db74>&#34;#000000&#34;</span>);
 </span></span><span style=display:flex><span>    <span style=color:#a6e22e>generateHistogram</span>(<span style=color:#a6e22e>pixels</span>, <span style=color:#a6e22e>isRGBHistogram</span>, <span style=color:#a6e22e>imageHeight</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>908</span>, (<span style=color:#a6e22e>imageHeight</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>508</span>) <span style=color:#f92672>*</span> <span style=color:#ae81ff>400</span>, (<span style=color:#a6e22e>imageHeight</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>909</span>) <span style=color:#f92672>*</span> <span style=color:#ae81ff>400</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>applyLuma</span>(<span style=color:#a6e22e>imageHeight</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>1316</span>)
 </span></span><span style=display:flex><span>  }
 </span></span><span style=display:flex><span>}
 </span></span></code></pre></div></div></details><h3 id=execution>Execution
-<a class=anchor href=#execution>#</a></h3><iframe id=breath style=width:500px;height:1900px srcdoc="
+<a class=anchor href=#execution>#</a></h3><iframe id=breath style=width:500px;height:2200px srcdoc="
         <!DOCTYPE html>
         <html>
           <head>
@@ -346,6 +372,30 @@ function convolve(matrix, yPosition){
   updatePixels();
 }
 
+function applyLuma(yPosition){
+  const w = 200;
+  const xstart = 0;
+  const ystart = 0;
+  const xend = 400;
+  const yend = 400;
+  
+  loadPixels();
+  // Begin our loop for every pixel in the smaller image
+  for (let x = xstart; x < xend; x++) {
+    for (let y = ystart; y < yend; y++ ) {
+      let pos = (x + y * 400) * 4
+      
+      // retrieve the RGBA values from c and update pixels()
+      let loc = (x + (y + yPosition)  * 400) * 4;
+      pixels[loc] = 0;
+      pixels[loc + 1] = 0;
+      pixels[loc + 2] = 0;
+      pixels[loc + 3] = (originalImage.pixels[pos] + originalImage.pixels[pos + 1] + originalImage.pixels[pos + 2]) / 3
+    }
+  }
+  updatePixels();
+}
+
 function convolution(x, y, matrix, img) {
   let rtotal = 0.0;
   let gtotal = 0.0;
@@ -411,7 +461,7 @@ let kernels = {
 };
 
 function setup() {
-  createCanvas(400, 1800);
+  createCanvas(400, 2200);
   
   histogramTypeSelect = createSelect();
   histogramTypeSelect.position(0, 30)
@@ -447,6 +497,8 @@ function draw() {
 
     stroke(&#34;#000000&#34;);
     generateHistogram(pixels, isRGBHistogram, imageHeight + 908, (imageHeight + 508) * 400, (imageHeight + 909) * 400)
+
+    applyLuma(imageHeight + 1316)
   }
 }
 
@@ -458,5 +510,5 @@ function draw() {
       "></iframe><h2 id=future-work>Future work
 <a class=anchor href=#future-work>#</a></h2><ul><li>In the future we could experiment with more types of kernels and analyze the difference between histograms.</li><li>We coudld implement Lightness coversions and test with it.</li><li>Additionally we could improve the user experiece and add the option to change the image.</li></ul><h2 id=conclusions>Conclusions
 <a class=anchor href=#conclusions>#</a></h2><ul><li>The image histogram allows a general understanding of how the tonal distribution of an image varies when a kernel is applied to it.</li><li>Image kernels are an interesting way to apply effects to an image, highlighting the properties that interest us through arrays.</li></ul><h2 id=sources>Sources
-<a class=anchor href=#sources>#</a></h2><ul><li><a href=https://p5js.org/examples/image-convolution.html>Convolution implementation on p5js</a></li><li><a href=https://codepen.io/aNNiMON/pen/OqjGVP>Image histogram implementation o js</a></li><li><a href=https://en.wikipedia.org/wiki/Image_histogram>Image histogram</a></li><li><a href=https://en.wikipedia.org/wiki/HSL_and_HSV#Lightness>HSL and HSV</a></li><li><a href=https://en.wikipedia.org/wiki/Kernel_%28image_processing%29>Kernel (image processing)</a></li></ul></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div><a class="flex align-center" href=https://github.com/AndresRPerez12/VisualComputing2022-2/commit/342ee20af601a848649e2d9d5c6e8fcbfca1aaf8 title='Last modified by Jhonatan Torres Forero | September 5, 2022' target=_blank rel=noopener><img src=/VisualComputing2022-2/svg/calendar.svg class=book-icon alt=Calendar>
+<a class=anchor href=#sources>#</a></h2><ul><li><a href=https://p5js.org/examples/image-convolution.html>Convolution implementation on p5js</a></li><li><a href=https://codepen.io/aNNiMON/pen/OqjGVP>Image histogram implementation o js</a></li><li><a href=https://en.wikipedia.org/wiki/Image_histogram>Image histogram</a></li><li><a href=https://en.wikipedia.org/wiki/HSL_and_HSV#Lightness>HSL and HSV</a></li><li><a href=https://en.wikipedia.org/wiki/Kernel_%28image_processing%29>Kernel (image processing)</a></li></ul></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div><a class="flex align-center" href=https://github.com/AndresRPerez12/VisualComputing2022-2/commit/59c3cdd6262617db954ee5d32f8c69ec447f1afb title='Last modified by Jhonatan Torres Forero | September 5, 2022' target=_blank rel=noopener><img src=/VisualComputing2022-2/svg/calendar.svg class=book-icon alt=Calendar>
 <span>September 5, 2022</span></a></div></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#workshop-masking>Workshop: Masking</a><ul><li><a href=#problem-statement>Problem statement</a></li><li><a href=#background>Background</a><ul><li><a href=#image-kernel>Image Kernel</a></li><li><a href=#image-histogram>Image histogram</a></li><li><a href=#lightness>Lightness</a></li></ul></li><li><a href=#code-solution--results>Code (solution) & results</a><ul><li><a href=#utility-functions>Utility functions</a></li><li><a href=#p5js>P5.js</a></li><li><a href=#execution>Execution</a></li></ul></li><li><a href=#future-work>Future work</a></li><li><a href=#conclusions>Conclusions</a></li><li><a href=#sources>Sources</a></li></ul></li></ul></nav></div></aside></main></body></html>
