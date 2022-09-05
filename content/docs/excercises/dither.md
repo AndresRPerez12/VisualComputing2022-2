@@ -26,7 +26,7 @@ Meanwhile, the second image is perceived as a smooth trasnstion between the colo
 Dithering also reduces the sharpness of the image, and may introduce a noticeable grainy pattern. This is specially significant when a full color image is dithered into a 216-color browser-safe palette. If the user has their display set to 256 colors, web browsers will dither the image colors into the 216-color browser-safe color pallette. This is a very rare occurace nowdays, but it is still important to remmeber that a small percentage of users will see the colors after dithering.
 
 ## Conclusions
-Dithering is a very important tool in computer graphics. Understanding the limitations of the used color spaces and the display methods in which they are visualized is key for presenting a great version of your graphics to the greatest amount of users possible. For example, by adding dithered images to a website, both speed and accesaibility can be improved by using a smaller image file size that still preserves a significant amount of the color perception of the original.
+Dithering is a very important tool in computer graphics. Understanding the limitations of the used color spaces and the display methods in which they are visualized is key for presenting a great version of your graphics to the greatest amount of users possible. For example, by adding dithered images to a website, both speed and accesibility can be improved by using a smaller image file size that still preserves a significant amount of the color perception of the original.
 
 ## References
 
