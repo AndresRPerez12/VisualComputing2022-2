@@ -12,11 +12,11 @@ Design and implement a 3D Application using WebGL, through some library or framw
 
 ### WebGL
 
-T
+WebGL is an API for creating 3D graphics on web browsers without the need for any additional plug-ins, and is itself based on the OpenGL API. It uses the Canvas element from HTML to visualize the resulting graphics, and therefore is integrated with the DOM model. The API is managed by the [Kronos Group](https://www.khronos.org/).
 
 ### Three.js
 
-T
+Three.js is an open-source JavaScript library used to create GPU-accelerated 3D animations inside of websites. It is based on the WebGL API, and therefore does not require additional plug-ins. It provides a higher level API for creating complex 3D graphics and animations.
 
 ## Code (solution) & results
 
