@@ -826,7 +826,7 @@ Use the arrow keys to move the car.
 Press the `R` key to reset the car's position and orientation.
 Press the `C` key tho switch betwee the orthographic and perspective camera.
 
-{{< p5-global-iframe id="breath" width="500" height="2200" >}}
+{{< p5-global-iframe id="breath" width="1000" height="2200" >}}
 function setup() {
     createCanvas(10, 10);
     const script = document.createElement('script');
