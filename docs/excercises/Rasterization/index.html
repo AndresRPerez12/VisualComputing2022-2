@@ -1,0 +1,461 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Excercise: Rasterization # Excercise
+Implement in software any of the following visualizations: primitive rasterization, color shading, z-depth and texture-mapping. Background # In computer graphics, rasterization is the task of taking an image described in a vector graphics format (shapes) and converting it into a raster image (a series of pixels, dots or lines, which, when displayed together, create the image which was represented via shapes). The rasterized image may then be displayed on a computer display, video display or printer, or stored in a bitmap file format."><meta name=theme-color content="#FFFFFF"><meta name=color-scheme content="light dark"><meta property="og:title" content><meta property="og:description" content="Excercise: Rasterization # Excercise
+Implement in software any of the following visualizations: primitive rasterization, color shading, z-depth and texture-mapping. Background # In computer graphics, rasterization is the task of taking an image described in a vector graphics format (shapes) and converting it into a raster image (a series of pixels, dots or lines, which, when displayed together, create the image which was represented via shapes). The rasterized image may then be displayed on a computer display, video display or printer, or stored in a bitmap file format."><meta property="og:type" content="article"><meta property="og:url" content="https://andresrperez12.github.io/VisualComputing2022-2/docs/excercises/Rasterization/"><meta property="article:section" content="docs"><meta property="article:modified_time" content="2022-10-19T08:22:58-05:00"><title>Rasterization | Visual Computing 2022-2</title><link rel=manifest href=/VisualComputing2022-2/manifest.json><link rel=icon href=/VisualComputing2022-2/favicon.png type=image/x-icon><link rel=stylesheet href=/VisualComputing2022-2/book.min.ab46de3e725a6415339a37bba23a0067534a37289b063c9f8d011515a63097a8.css integrity="sha256-q0bePnJaZBUzmje7ojoAZ1NKNyibBjyfjQEVFaYwl6g=" crossorigin=anonymous><script defer src=/VisualComputing2022-2/flexsearch.min.js></script>
+<script defer src=/VisualComputing2022-2/en.search.min.f8e9dab1097a8c1d676e38ce38567da76343c2000a438c361ecf1edb0104f1b9.js integrity="sha256-+OnasQl6jB1nbjjOOFZ9p2NDwgAKQ4w2Hs8e2wEE8bk=" crossorigin=anonymous></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/VisualComputing2022-2/><span>Visual Computing 2022-2</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><input type=checkbox id=section-1ec4f879ff755259b18baf4fbdae0098 class=toggle checked>
+<label for=section-1ec4f879ff755259b18baf4fbdae0098 class="flex justify-between"><a href=/VisualComputing2022-2/docs/excercises/>Excercises</a></label><ul><li><a href=/VisualComputing2022-2/docs/excercises/ColorMultiplicationExcercise/>Color Multiplication Excercise</a></li><li><a href=/VisualComputing2022-2/docs/excercises/dither/>Dither</a></li><li><a href=/VisualComputing2022-2/docs/excercises/Rasterization/ class=active>Rasterization</a></li><li><a href=/VisualComputing2022-2/docs/excercises/SpatialCoherence/>Spatial Coherence</a></li><li><a href=/VisualComputing2022-2/docs/excercises/TerrainVisualizationApplication/>Terrain Visualization Application</a></li></ul></li><li><input type=checkbox id=section-9370f1a5d0248572ac505e0c6d4ad190 class=toggle>
+<label for=section-9370f1a5d0248572ac505e0c6d4ad190 class="flex justify-between"><a href=/VisualComputing2022-2/docs/shortcodes/>Shortcodes</a></label><ul><li><a href=/VisualComputing2022-2/docs/shortcodes/buttons/>Buttons</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/columns/>Columns</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/details/>Details</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/hints/>Hints</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/katex/>Katex</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/mermaid/>Mermaid</a></li><li><input type=checkbox id=section-ec67a64aba70b9df3d2a9acd6c92e3bc class=toggle>
+<label for=section-ec67a64aba70b9df3d2a9acd6c92e3bc class="flex justify-between"><a href=/VisualComputing2022-2/docs/shortcodes/p5/>P5</a></label><ul><li><a href=/VisualComputing2022-2/docs/shortcodes/p5/div/>Div</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/p5/iframe/>Iframe</a></li></ul></li><li><a href=/VisualComputing2022-2/docs/shortcodes/tabs/>Tabs</a></li></ul></li><li><input type=checkbox id=section-bd592e6455531edb048edb6a320c69c4 class=toggle>
+<label for=section-bd592e6455531edb048edb6a320c69c4 class="flex justify-between"><a href=/VisualComputing2022-2/docs/team/>Team</a></label><ul></ul></li><li><input type=checkbox id=section-191d4fa5967ce9fef74cb18feb81d534 class=toggle>
+<label for=section-191d4fa5967ce9fef74cb18feb81d534 class="flex justify-between"><a href=/VisualComputing2022-2/docs/workshops/>Workshops</a></label><ul><li><a href=/VisualComputing2022-2/docs/workshops/3D_Application/>3 D Application</a></li><li><a href=/VisualComputing2022-2/docs/workshops/maskingWorkshop/>Masking Workshop</a></li><li><a href=/VisualComputing2022-2/docs/workshops/visualIllussionsWorkshop/>Visual Illussions Workshop</a></li></ul></li></ul><ul><li><a href=/VisualComputing2022-2/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/VisualComputing2022-2/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>Rasterization</strong>
+<label for=toc-control><img src=/VisualComputing2022-2/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#excercise-rasterization>Excercise: Rasterization</a><ul><li><a href=#background>Background</a></li><li><a href=#code--results>Code & Results</a><ul><li><a href=#primitive-rasterization>Primitive Rasterization</a></li><li><a href=#color-shading>Color Shading</a></li><li><a href=#texture-mapping>Texture Mapping</a></li></ul></li><li><a href=#conclusions>Conclusions</a></li><li><a href=#references>References</a></li></ul></li></ul></nav></aside></header><article class=markdown><h1 id=excercise-rasterization>Excercise: Rasterization
+<a class=anchor href=#excercise-rasterization>#</a></h1><blockquote class="book-hint info"><strong>Excercise</strong><br>Implement in software any of the following visualizations: primitive rasterization, color shading, z-depth and texture-mapping.</blockquote><h2 id=background>Background
+<a class=anchor href=#background>#</a></h2><p>In computer graphics, rasterization is the task of taking an image described in a vector graphics format (shapes) and converting it into a raster image (a series of pixels, dots or lines, which, when displayed together, create the image which was represented via shapes). The rasterized image may then be displayed on a computer display, video display or printer, or stored in a bitmap file format. Rasterization may refer to the technique of drawing 3D models, or the conversion of 2D rendering primitives such as polygons, line segments into a rasterized format.</p><img src=https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Raster_graphic_fish_20x23squares_sdtv-example.png/200px-Raster_graphic_fish_20x23squares_sdtv-example.png alt="banding illustration" style=width:50%><h2 id=code--results>Code & Results
+<a class=anchor href=#code--results>#</a></h2><h3 id=primitive-rasterization>Primitive Rasterization
+<a class=anchor href=#primitive-rasterization>#</a></h3><h4 id=code>Code
+<a class=anchor href=#code>#</a></h4><details><summary>Primitive Rasterization Code</summary><div class=markdown-inner><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>rows</span> <span style=color:#f92672>=</span> [<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>];
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>cols</span> <span style=color:#f92672>=</span> [<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>];
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>colors</span> <span style=color:#f92672>=</span> [<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>];
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>ROWS</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>20</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>COLS</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>20</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>23</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>quadrille</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>setup</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>createCanvas</span>(<span style=color:#a6e22e>COLS</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>LENGTH</span>, <span style=color:#a6e22e>ROWS</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>LENGTH</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>quadrille</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createQuadrille</span>(<span style=color:#ae81ff>20</span>,<span style=color:#ae81ff>20</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>generateNewRandomTriangle</span>();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>draw</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>background</span>(<span style=color:#e6db74>&#39;white&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>drawQuadrille</span>(<span style=color:#a6e22e>quadrille</span>, {<span style=color:#a6e22e>cellLength</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>LENGTH</span>, <span style=color:#a6e22e>outlineWeight</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>1</span>, <span style=color:#a6e22e>outline</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;gray&#39;</span>, <span style=color:#a6e22e>board</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span>});
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>push</span>();
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>stroke</span>(<span style=color:#e6db74>&#39;blue&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>strokeWeight</span>(<span style=color:#ae81ff>3</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>noFill</span>();
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>triangle</span>(<span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>0</span>]<span style=color:#f92672>*</span><span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>LENGTH</span><span style=color:#f92672>/</span><span style=color:#ae81ff>2</span>, <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>0</span>]<span style=color:#f92672>*</span><span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>LENGTH</span><span style=color:#f92672>/</span><span style=color:#ae81ff>2</span>, <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>1</span>]<span style=color:#f92672>*</span><span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>LENGTH</span><span style=color:#f92672>/</span><span style=color:#ae81ff>2</span>, <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>1</span>]<span style=color:#f92672>*</span><span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>LENGTH</span><span style=color:#f92672>/</span><span style=color:#ae81ff>2</span>, <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>2</span>]<span style=color:#f92672>*</span><span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>LENGTH</span><span style=color:#f92672>/</span><span style=color:#ae81ff>2</span>, <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>2</span>]<span style=color:#f92672>*</span><span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>LENGTH</span><span style=color:#f92672>/</span><span style=color:#ae81ff>2</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pop</span>();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>keyPressed</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>generateNewRandomTriangle</span>();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>generateNewRandomTriangle</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>=</span> <span style=color:#66d9ef>int</span>(<span style=color:#a6e22e>random</span>(<span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>ROWS</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>=</span> <span style=color:#66d9ef>int</span>(<span style=color:#a6e22e>random</span>(<span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>COLS</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>=</span> <span style=color:#66d9ef>int</span>(<span style=color:#a6e22e>random</span>(<span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>ROWS</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>=</span> <span style=color:#66d9ef>int</span>(<span style=color:#a6e22e>random</span>(<span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>COLS</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>=</span> <span style=color:#66d9ef>int</span>(<span style=color:#a6e22e>random</span>(<span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>ROWS</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>=</span> <span style=color:#66d9ef>int</span>(<span style=color:#a6e22e>random</span>(<span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>COLS</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>quadrille</span>.<span style=color:#a6e22e>clear</span>();
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>quadrille</span>.<span style=color:#a6e22e>colorizeTriangle</span>(<span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>0</span>], <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>0</span>], <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>1</span>], <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>1</span>], <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>2</span>], <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>2</span>], <span style=color:#e6db74>&#39;green&#39;</span>);
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div></div></details><h4 id=execution>Execution
+<a class=anchor href=#execution>#</a></h4><p>(click on the canvas and press any key)
+<iframe id=breath style=width:500px;height:500px srcdoc="
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js></script>
+            <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/addons/p5.sound.min.js></script>
+            <script src=https://cdn.jsdelivr.net/gh/objetos/p5.quadrille.js/p5.quadrille.js></script>
+            
+            
+            
+            
+            
+            <script>
+              
+const rows = [0, 0, 0];
+const cols = [0, 0, 0];
+const colors = [0, 0, 0];
+const ROWS = 20;
+const COLS = 20;
+const LENGTH = 23;
+let quadrille;
+
+function setup() {
+  createCanvas(COLS * LENGTH, ROWS * LENGTH);
+  quadrille = createQuadrille(20,20);
+  generateNewRandomTriangle();
+}
+
+function draw() {
+  background('white');
+  drawQuadrille(quadrille, {cellLength: LENGTH, outlineWeight: 1, outline: 'gray', board: true});
+  push();
+  stroke('blue');
+  strokeWeight(3);
+  noFill();
+  triangle(cols[0]*LENGTH + LENGTH/2, rows[0]*LENGTH + LENGTH/2, cols[1]*LENGTH + LENGTH/2, rows[1]*LENGTH + LENGTH/2, cols[2]*LENGTH + LENGTH/2, rows[2]*LENGTH + LENGTH/2);
+  pop();
+}
+
+function keyPressed() {
+  generateNewRandomTriangle();
+}
+
+function generateNewRandomTriangle() {
+  rows[0] = int(random(0, ROWS));
+  cols[0] = int(random(0, COLS));
+  rows[1] = int(random(0, ROWS));
+  cols[1] = int(random(0, COLS));
+  rows[2] = int(random(0, ROWS));
+  cols[2] = int(random(0, COLS));
+  quadrille.clear();
+  quadrille.colorizeTriangle(rows[0], cols[0], rows[1], cols[1], rows[2], cols[2], 'green');
+}
+
+            </script>
+          </head>
+          <body>
+          </body>
+        </html>
+      "></iframe></p><h3 id=color-shading>Color Shading
+<a class=anchor href=#color-shading>#</a></h3><h4 id=code-1>Code
+<a class=anchor href=#code-1>#</a></h4><details><summary>Color Shading Code</summary><div class=markdown-inner><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>rows</span> <span style=color:#f92672>=</span> [<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>];
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>cols</span> <span style=color:#f92672>=</span> [<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>];
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>colors</span> <span style=color:#f92672>=</span> [<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>];
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>ROWS</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>20</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>COLS</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>20</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>23</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>quadrille</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>setup</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>createCanvas</span>(<span style=color:#a6e22e>COLS</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>LENGTH</span>, <span style=color:#a6e22e>ROWS</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>LENGTH</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>quadrille</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createQuadrille</span>(<span style=color:#ae81ff>20</span>, <span style=color:#ae81ff>20</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>createColorPicker</span>(<span style=color:#a6e22e>color</span>(<span style=color:#e6db74>&#39;yellow&#39;</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>createColorPicker</span>(<span style=color:#a6e22e>color</span>(<span style=color:#e6db74>&#39;blue&#39;</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>createColorPicker</span>(<span style=color:#a6e22e>color</span>(<span style=color:#e6db74>&#39;red&#39;</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>0</span>].<span style=color:#a6e22e>position</span>(<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>10</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>1</span>].<span style=color:#a6e22e>position</span>(<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>40</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>2</span>].<span style=color:#a6e22e>position</span>(<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>70</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>0</span>].<span style=color:#a6e22e>input</span>(() =&gt; { <span style=color:#a6e22e>quadrille</span>.<span style=color:#a6e22e>colorizeTriangle</span>(<span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>0</span>], <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>0</span>], <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>1</span>], <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>1</span>], <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>2</span>], <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>2</span>], <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>0</span>].<span style=color:#a6e22e>color</span>(), <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>1</span>].<span style=color:#a6e22e>color</span>(), <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>2</span>].<span style=color:#a6e22e>color</span>()) });
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>1</span>].<span style=color:#a6e22e>input</span>(() =&gt; { <span style=color:#a6e22e>quadrille</span>.<span style=color:#a6e22e>colorizeTriangle</span>(<span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>0</span>], <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>0</span>], <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>1</span>], <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>1</span>], <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>2</span>], <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>2</span>], <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>0</span>].<span style=color:#a6e22e>color</span>(), <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>1</span>].<span style=color:#a6e22e>color</span>(), <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>2</span>].<span style=color:#a6e22e>color</span>()) });
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>2</span>].<span style=color:#a6e22e>input</span>(() =&gt; { <span style=color:#a6e22e>quadrille</span>.<span style=color:#a6e22e>colorizeTriangle</span>(<span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>0</span>], <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>0</span>], <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>1</span>], <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>1</span>], <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>2</span>], <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>2</span>], <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>0</span>].<span style=color:#a6e22e>color</span>(), <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>1</span>].<span style=color:#a6e22e>color</span>(), <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>2</span>].<span style=color:#a6e22e>color</span>()) });
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>generateNewRandomTriangle</span>();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>draw</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>background</span>(<span style=color:#e6db74>&#39;#white&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>drawQuadrille</span>(<span style=color:#a6e22e>quadrille</span>, { <span style=color:#a6e22e>cellLength</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>LENGTH</span>, <span style=color:#a6e22e>outlineWeight</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>1</span>, <span style=color:#a6e22e>outline</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;gray&#39;</span>, <span style=color:#a6e22e>board</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span> });
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>push</span>();
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>stroke</span>(<span style=color:#e6db74>&#39;blue&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>strokeWeight</span>(<span style=color:#ae81ff>3</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>noFill</span>();
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>triangle</span>(<span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>, <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>, <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>, <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>, <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>, <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pop</span>();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>keyPressed</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>generateNewRandomTriangle</span>();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>generateNewRandomTriangle</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>=</span> <span style=color:#66d9ef>int</span>(<span style=color:#a6e22e>random</span>(<span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>ROWS</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>=</span> <span style=color:#66d9ef>int</span>(<span style=color:#a6e22e>random</span>(<span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>COLS</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>=</span> <span style=color:#66d9ef>int</span>(<span style=color:#a6e22e>random</span>(<span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>ROWS</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>=</span> <span style=color:#66d9ef>int</span>(<span style=color:#a6e22e>random</span>(<span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>COLS</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>=</span> <span style=color:#66d9ef>int</span>(<span style=color:#a6e22e>random</span>(<span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>ROWS</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>=</span> <span style=color:#66d9ef>int</span>(<span style=color:#a6e22e>random</span>(<span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>COLS</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>quadrille</span>.<span style=color:#a6e22e>clear</span>();
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>quadrille</span>.<span style=color:#a6e22e>colorizeTriangle</span>(<span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>0</span>], <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>0</span>], <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>1</span>], <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>1</span>], <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>2</span>], <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>2</span>], <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>0</span>].<span style=color:#a6e22e>color</span>(), <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>1</span>].<span style=color:#a6e22e>color</span>(), <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>2</span>].<span style=color:#a6e22e>color</span>());
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div></div></details><h4 id=execution-1>Execution
+<a class=anchor href=#execution-1>#</a></h4><p>(click on the canvas and press any key)
+<iframe id=breath style=width:500px;height:500px srcdoc="
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js></script>
+            <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/addons/p5.sound.min.js></script>
+            <script src=https://cdn.jsdelivr.net/gh/objetos/p5.quadrille.js/p5.quadrille.js></script>
+            
+            
+            
+            
+            
+            <script>
+              
+const rows = [0, 0, 0];
+const cols = [0, 0, 0];
+const colors = [0, 0, 0];
+const ROWS = 20;
+const COLS = 20;
+const LENGTH = 23;
+let quadrille;
+
+function setup() {
+  createCanvas(COLS * LENGTH, ROWS * LENGTH);
+  quadrille = createQuadrille(20, 20);
+  colors[0] = createColorPicker(color('yellow'));
+  colors[1] = createColorPicker(color('blue'));
+  colors[2] = createColorPicker(color('red'));
+  colors[0].position(10, 10);
+  colors[1].position(10, 40);
+  colors[2].position(10, 70);
+  colors[0].input(() => { quadrille.colorizeTriangle(rows[0], cols[0], rows[1], cols[1], rows[2], cols[2], colors[0].color(), colors[1].color(), colors[2].color()) });
+  colors[1].input(() => { quadrille.colorizeTriangle(rows[0], cols[0], rows[1], cols[1], rows[2], cols[2], colors[0].color(), colors[1].color(), colors[2].color()) });
+  colors[2].input(() => { quadrille.colorizeTriangle(rows[0], cols[0], rows[1], cols[1], rows[2], cols[2], colors[0].color(), colors[1].color(), colors[2].color()) });
+  generateNewRandomTriangle();
+}
+
+function draw() {
+  background('#white');
+  drawQuadrille(quadrille, { cellLength: LENGTH, outlineWeight: 1, outline: 'gray', board: true });
+  
+  push();
+  stroke('blue');
+  strokeWeight(3);
+  noFill();
+  triangle(cols[0] * LENGTH + LENGTH / 2, rows[0] * LENGTH + LENGTH / 2, cols[1] * LENGTH + LENGTH / 2, rows[1] * LENGTH + LENGTH / 2, cols[2] * LENGTH + LENGTH / 2, rows[2] * LENGTH + LENGTH / 2);
+  pop();
+}
+
+function keyPressed() {
+  generateNewRandomTriangle();
+}
+
+function generateNewRandomTriangle() {
+  rows[0] = int(random(0, ROWS));
+  cols[0] = int(random(0, COLS));
+  rows[1] = int(random(0, ROWS));
+  cols[1] = int(random(0, COLS));
+  rows[2] = int(random(0, ROWS));
+  cols[2] = int(random(0, COLS));
+  quadrille.clear();
+  quadrille.colorizeTriangle(rows[0], cols[0], rows[1], cols[1], rows[2], cols[2], colors[0].color(), colors[1].color(), colors[2].color());
+}
+
+            </script>
+          </head>
+          <body>
+          </body>
+        </html>
+      "></iframe></p><h3 id=texture-mapping>Texture Mapping
+<a class=anchor href=#texture-mapping>#</a></h3><h4 id=code-2>Code
+<a class=anchor href=#code-2>#</a></h4><details><summary>Texture Mapping Code</summary><div class=markdown-inner><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>rows</span> <span style=color:#f92672>=</span> [<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>];
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>cols</span> <span style=color:#f92672>=</span> [<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>];
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>colors</span> <span style=color:#f92672>=</span> [<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>];
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>u</span> <span style=color:#f92672>=</span> [<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>];
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>v</span> <span style=color:#f92672>=</span> [<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>];
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>ROWS</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>20</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>COLS</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>20</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>LENGTH</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>quadrille</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>pg2</span>, <span style=color:#a6e22e>pg1</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>img</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>preload</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>img</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>loadImage</span>(<span style=color:#e6db74>&#39;https://nationaltoday.com/wp-content/uploads/2021/05/Turtle-1.jpg&#39;</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>setup</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>createCanvas</span>(<span style=color:#ae81ff>700</span>, <span style=color:#ae81ff>350</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg1</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createGraphics</span>(<span style=color:#a6e22e>width</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>, <span style=color:#a6e22e>height</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg2</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createGraphics</span>(<span style=color:#a6e22e>width</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>, <span style=color:#a6e22e>height</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>width</span> <span style=color:#f92672>/</span> (<span style=color:#a6e22e>COLS</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>2</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>quadrille</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createQuadrille</span>(<span style=color:#ae81ff>20</span>, <span style=color:#ae81ff>20</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>createColorPicker</span>(<span style=color:#a6e22e>color</span>(<span style=color:#e6db74>&#39;yellow&#39;</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>createColorPicker</span>(<span style=color:#a6e22e>color</span>(<span style=color:#e6db74>&#39;blue&#39;</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>createColorPicker</span>(<span style=color:#a6e22e>color</span>(<span style=color:#e6db74>&#39;red&#39;</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>0</span>].<span style=color:#a6e22e>position</span>(<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>10</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>1</span>].<span style=color:#a6e22e>position</span>(<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>40</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>2</span>].<span style=color:#a6e22e>position</span>(<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>70</span>);
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg2</span>.<span style=color:#a6e22e>rectMode</span>(<span style=color:#a6e22e>CENTER</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>resize</span>(<span style=color:#a6e22e>pg2</span>.<span style=color:#a6e22e>width</span>, <span style=color:#a6e22e>pg2</span>.<span style=color:#a6e22e>height</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>generateNewRandomTriangle</span>();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>draw</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg1</span>.<span style=color:#a6e22e>background</span>(<span style=color:#e6db74>&#39;white&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>drawQuadrille</span>(<span style=color:#a6e22e>quadrille</span>, { <span style=color:#a6e22e>graphics</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>pg1</span>, <span style=color:#a6e22e>cellLength</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>LENGTH</span>, <span style=color:#a6e22e>outlineWeight</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>1</span>, <span style=color:#a6e22e>outline</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;gray&#39;</span>, <span style=color:#a6e22e>board</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span> });
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg1</span>.<span style=color:#a6e22e>push</span>();
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg1</span>.<span style=color:#a6e22e>stroke</span>(<span style=color:#e6db74>&#39;blue&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg1</span>.<span style=color:#a6e22e>strokeWeight</span>(<span style=color:#ae81ff>3</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg1</span>.<span style=color:#a6e22e>noFill</span>();
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg1</span>.<span style=color:#a6e22e>triangle</span>(<span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>, <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>, <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>, <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>, <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>, <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>LENGTH</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg1</span>.<span style=color:#a6e22e>fill</span>(<span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>0</span>].<span style=color:#a6e22e>color</span>());
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg1</span>.<span style=color:#a6e22e>rect</span>(<span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>LENGTH</span>, <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>LENGTH</span>, <span style=color:#a6e22e>LENGTH</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg1</span>.<span style=color:#a6e22e>fill</span>(<span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>1</span>].<span style=color:#a6e22e>color</span>());
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg1</span>.<span style=color:#a6e22e>rect</span>(<span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>LENGTH</span>, <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>LENGTH</span>, <span style=color:#a6e22e>LENGTH</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg1</span>.<span style=color:#a6e22e>fill</span>(<span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>2</span>].<span style=color:#a6e22e>color</span>());
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg1</span>.<span style=color:#a6e22e>rect</span>(<span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>LENGTH</span>, <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>LENGTH</span>, <span style=color:#a6e22e>LENGTH</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg1</span>.<span style=color:#a6e22e>pop</span>();
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>image</span>(<span style=color:#a6e22e>pg1</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg2</span>.<span style=color:#a6e22e>image</span>(<span style=color:#a6e22e>img</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg2</span>.<span style=color:#a6e22e>push</span>();
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg2</span>.<span style=color:#a6e22e>stroke</span>(<span style=color:#e6db74>&#39;white&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg2</span>.<span style=color:#a6e22e>strokeWeight</span>(<span style=color:#ae81ff>3</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg2</span>.<span style=color:#a6e22e>noFill</span>();
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg2</span>.<span style=color:#a6e22e>triangle</span>(<span style=color:#a6e22e>u</span>[<span style=color:#ae81ff>0</span>], <span style=color:#a6e22e>v</span>[<span style=color:#ae81ff>0</span>], <span style=color:#a6e22e>u</span>[<span style=color:#ae81ff>1</span>], <span style=color:#a6e22e>v</span>[<span style=color:#ae81ff>1</span>], <span style=color:#a6e22e>u</span>[<span style=color:#ae81ff>2</span>], <span style=color:#a6e22e>v</span>[<span style=color:#ae81ff>2</span>]);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg2</span>.<span style=color:#a6e22e>fill</span>(<span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>0</span>].<span style=color:#a6e22e>color</span>());
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg2</span>.<span style=color:#a6e22e>rect</span>(<span style=color:#a6e22e>u</span>[<span style=color:#ae81ff>0</span>], <span style=color:#a6e22e>v</span>[<span style=color:#ae81ff>0</span>], <span style=color:#a6e22e>LENGTH</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg2</span>.<span style=color:#a6e22e>fill</span>(<span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>1</span>].<span style=color:#a6e22e>color</span>());
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg2</span>.<span style=color:#a6e22e>rect</span>(<span style=color:#a6e22e>u</span>[<span style=color:#ae81ff>1</span>], <span style=color:#a6e22e>v</span>[<span style=color:#ae81ff>1</span>], <span style=color:#a6e22e>LENGTH</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg2</span>.<span style=color:#a6e22e>fill</span>(<span style=color:#a6e22e>colors</span>[<span style=color:#ae81ff>2</span>].<span style=color:#a6e22e>color</span>());
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg2</span>.<span style=color:#a6e22e>rect</span>(<span style=color:#a6e22e>u</span>[<span style=color:#ae81ff>2</span>], <span style=color:#a6e22e>v</span>[<span style=color:#ae81ff>2</span>], <span style=color:#a6e22e>LENGTH</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pg2</span>.<span style=color:#a6e22e>pop</span>();
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>image</span>(<span style=color:#a6e22e>pg2</span>, <span style=color:#a6e22e>width</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>0</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>keyPressed</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>generateNewRandomTriangle</span>();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>generateNewRandomTriangle</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>u</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>=</span> <span style=color:#66d9ef>int</span>(<span style=color:#a6e22e>random</span>(<span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>width</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>v</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>=</span> <span style=color:#66d9ef>int</span>(<span style=color:#a6e22e>random</span>(<span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>height</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>u</span>[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>=</span> <span style=color:#66d9ef>int</span>(<span style=color:#a6e22e>random</span>(<span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>width</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>v</span>[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>=</span> <span style=color:#66d9ef>int</span>(<span style=color:#a6e22e>random</span>(<span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>height</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>u</span>[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>=</span> <span style=color:#66d9ef>int</span>(<span style=color:#a6e22e>random</span>(<span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>width</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>v</span>[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>=</span> <span style=color:#66d9ef>int</span>(<span style=color:#a6e22e>random</span>(<span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>height</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>round</span>(<span style=color:#a6e22e>map</span>(<span style=color:#a6e22e>v</span>[<span style=color:#ae81ff>0</span>], <span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>height</span>, <span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>COLS</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>round</span>(<span style=color:#a6e22e>map</span>(<span style=color:#a6e22e>u</span>[<span style=color:#ae81ff>0</span>], <span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>width</span>, <span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>ROWS</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>round</span>(<span style=color:#a6e22e>map</span>(<span style=color:#a6e22e>v</span>[<span style=color:#ae81ff>1</span>], <span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>height</span>, <span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>COLS</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>round</span>(<span style=color:#a6e22e>map</span>(<span style=color:#a6e22e>u</span>[<span style=color:#ae81ff>1</span>], <span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>width</span>, <span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>ROWS</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>round</span>(<span style=color:#a6e22e>map</span>(<span style=color:#a6e22e>v</span>[<span style=color:#ae81ff>2</span>], <span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>height</span>, <span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>COLS</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>round</span>(<span style=color:#a6e22e>map</span>(<span style=color:#a6e22e>u</span>[<span style=color:#ae81ff>2</span>], <span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>width</span>, <span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>ROWS</span>));
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>quadrille</span>.<span style=color:#a6e22e>clear</span>();
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>loadPixels</span>();
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>quadrille</span>.<span style=color:#a6e22e>rasterizeTriangle</span>(<span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>0</span>], <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>0</span>], <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>1</span>], <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>1</span>], <span style=color:#a6e22e>rows</span>[<span style=color:#ae81ff>2</span>], <span style=color:#a6e22e>cols</span>[<span style=color:#ae81ff>2</span>], <span style=color:#a6e22e>texturize</span>,
+</span></span><span style=display:flex><span>    [<span style=color:#a6e22e>u</span>[<span style=color:#ae81ff>0</span>], <span style=color:#a6e22e>v</span>[<span style=color:#ae81ff>0</span>]],
+</span></span><span style=display:flex><span>    [<span style=color:#a6e22e>u</span>[<span style=color:#ae81ff>1</span>], <span style=color:#a6e22e>v</span>[<span style=color:#ae81ff>1</span>]],
+</span></span><span style=display:flex><span>    [<span style=color:#a6e22e>u</span>[<span style=color:#ae81ff>2</span>], <span style=color:#a6e22e>v</span>[<span style=color:#ae81ff>2</span>]]
+</span></span><span style=display:flex><span>  );
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>texturize</span>({ <span style=color:#a6e22e>pattern</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>texcoords2</span> }) {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>index</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>4</span> <span style=color:#f92672>*</span> (<span style=color:#66d9ef>int</span>(<span style=color:#a6e22e>texcoords2</span>[<span style=color:#ae81ff>1</span>]) <span style=color:#f92672>*</span> <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>width</span> <span style=color:#f92672>+</span> <span style=color:#66d9ef>int</span>(<span style=color:#a6e22e>texcoords2</span>[<span style=color:#ae81ff>0</span>]));
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>color</span>(<span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>pixels</span>[<span style=color:#a6e22e>index</span>], <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>pixels</span>[<span style=color:#a6e22e>index</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>], <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>pixels</span>[<span style=color:#a6e22e>index</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>2</span>]);
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div></div></details><h4 id=execution-2>Execution
+<a class=anchor href=#execution-2>#</a></h4><p>(click on the canvas and press any key)
+<iframe id=breath style=width:730px;height:380px srcdoc="
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js></script>
+            <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/addons/p5.sound.min.js></script>
+            <script src=https://cdn.jsdelivr.net/gh/objetos/p5.quadrille.js/p5.quadrille.js></script>
+            
+            
+            
+            
+            
+            <script>
+              
+const rows = [0, 0, 0];
+const cols = [0, 0, 0];
+const colors = [0, 0, 0];
+const u = [0, 0, 0];
+const v = [0, 0, 0];
+
+const ROWS = 20;
+const COLS = 20;
+let LENGTH;
+let quadrille;
+let pg2, pg1;
+let img;
+
+function preload() {
+  img = loadImage('https://nationaltoday.com/wp-content/uploads/2021/05/Turtle-1.jpg');
+}
+
+function setup() {
+  createCanvas(700, 350);
+  pg1 = createGraphics(width / 2, height);
+  pg2 = createGraphics(width / 2, height);
+  LENGTH = width / (COLS * 2);
+  quadrille = createQuadrille(20, 20);
+  colors[0] = createColorPicker(color('yellow'));
+  colors[1] = createColorPicker(color('blue'));
+  colors[2] = createColorPicker(color('red'));
+  colors[0].position(10, 10);
+  colors[1].position(10, 40);
+  colors[2].position(10, 70);
+  
+  pg2.rectMode(CENTER);
+  img.resize(pg2.width, pg2.height);
+  generateNewRandomTriangle();
+}
+
+function draw() {
+  pg1.background('white');
+  drawQuadrille(quadrille, { graphics: pg1, cellLength: LENGTH, outlineWeight: 1, outline: 'gray', board: true });
+  pg1.push();
+  pg1.stroke('blue');
+  pg1.strokeWeight(3);
+  pg1.noFill();
+  pg1.triangle(cols[0] * LENGTH + LENGTH / 2, rows[0] * LENGTH + LENGTH / 2, cols[1] * LENGTH + LENGTH / 2, rows[1] * LENGTH + LENGTH / 2, cols[2] * LENGTH + LENGTH / 2, rows[2] * LENGTH + LENGTH / 2);
+  pg1.fill(colors[0].color());
+  pg1.rect(cols[0] * LENGTH, rows[0] * LENGTH, LENGTH);
+  pg1.fill(colors[1].color());
+  pg1.rect(cols[1] * LENGTH, rows[1] * LENGTH, LENGTH);
+  pg1.fill(colors[2].color());
+  pg1.rect(cols[2] * LENGTH, rows[2] * LENGTH, LENGTH);
+  pg1.pop();
+  image(pg1, 0, 0);
+  pg2.image(img, 0, 0);
+  pg2.push();
+  pg2.stroke('white');
+  pg2.strokeWeight(3);
+  pg2.noFill();
+  pg2.triangle(u[0], v[0], u[1], v[1], u[2], v[2]);
+  pg2.fill(colors[0].color());
+  pg2.rect(u[0], v[0], LENGTH);
+  pg2.fill(colors[1].color());
+  pg2.rect(u[1], v[1], LENGTH);
+  pg2.fill(colors[2].color());
+  pg2.rect(u[2], v[2], LENGTH);
+  pg2.pop();
+  image(pg2, width / 2, 0);
+}
+
+function keyPressed() {
+  generateNewRandomTriangle();
+}
+
+function generateNewRandomTriangle() {
+  u[0] = int(random(0, img.width));
+  v[0] = int(random(0, img.height));
+  u[1] = int(random(0, img.width));
+  v[1] = int(random(0, img.height));
+  u[2] = int(random(0, img.width));
+  v[2] = int(random(0, img.height));
+  rows[0] = round(map(v[0], 0, img.height, 0, COLS));
+  cols[0] = round(map(u[0], 0, img.width, 0, ROWS));
+  rows[1] = round(map(v[1], 0, img.height, 0, COLS));
+  cols[1] = round(map(u[1], 0, img.width, 0, ROWS));
+  rows[2] = round(map(v[2], 0, img.height, 0, COLS));
+  cols[2] = round(map(u[2], 0, img.width, 0, ROWS));
+  quadrille.clear();
+  img.loadPixels();
+  quadrille.rasterizeTriangle(rows[0], cols[0], rows[1], cols[1], rows[2], cols[2], texturize,
+    [u[0], v[0]],
+    [u[1], v[1]],
+    [u[2], v[2]]
+  );
+}
+
+function texturize({ pattern: texcoords2 }) {
+  let index = 4 * (int(texcoords2[1]) * img.width + int(texcoords2[0]));
+  return color(img.pixels[index], img.pixels[index + 1], img.pixels[index + 2]);
+}
+
+            </script>
+          </head>
+          <body>
+          </body>
+        </html>
+      "></iframe></p><h2 id=conclusions>Conclusions
+<a class=anchor href=#conclusions>#</a></h2><p>Real-time PC graphics have long used a technique called &ldquo;rasterization&rdquo; to display three-dimensional objects on a two-dimensional screen. It is a fast technique and the results have become very good over the last few years.
+Rasterization is still a topic that continues to be studied and improved to make modern applications faster and lighter. It has many applications at the level of video games and computer graphics.</p><h2 id=references>References
+<a class=anchor href=#references>#</a></h2><ul><li><a href=https://en.wikipedia.org/wiki/Rasterisation>Rasterisation</a></li></ul></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div><a class="flex align-center" href=https://github.com/AndresRPerez12/VisualComputing2022-2/commit/e31bf29ffc8fbe994333bfeca33a729fc20a9e5d title='Last modified by Jhonatan Torres | October 19, 2022' target=_blank rel=noopener><img src=/VisualComputing2022-2/svg/calendar.svg class=book-icon alt=Calendar>
+<span>October 19, 2022</span></a></div></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#excercise-rasterization>Excercise: Rasterization</a><ul><li><a href=#background>Background</a></li><li><a href=#code--results>Code & Results</a><ul><li><a href=#primitive-rasterization>Primitive Rasterization</a></li><li><a href=#color-shading>Color Shading</a></li><li><a href=#texture-mapping>Texture Mapping</a></li></ul></li><li><a href=#conclusions>Conclusions</a></li><li><a href=#references>References</a></li></ul></li></ul></nav></div></aside></main></body></html>
