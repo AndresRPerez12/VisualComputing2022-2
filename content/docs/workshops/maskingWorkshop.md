@@ -278,7 +278,7 @@ function draw() {
 
 ### Execution
 
-{{< p5-global-iframe id="breath" width="500" height="2200" >}}
+{{< p5-global-iframe id="breath" width="500" height="500" >}}
 const IMAGE_MAX_HEIGHT = 400;
 const IMAGE_MAX_WIDTH = 400;
 
