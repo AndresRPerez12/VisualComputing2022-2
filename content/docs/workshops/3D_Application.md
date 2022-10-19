@@ -594,7 +594,7 @@ window.addEventListener("resize", () => {
 * Press the `R` key to reset the car's position and orientation.
 * Press the `C` key tho switch betwee the orthographic and perspective camera.
 
-{{< p5-global-iframe id="breath" width="1000" height="1000" >}}
+{{< p5-global-iframe id="breath" width="1500" height="1500" >}}
 function setup() {
   importThree();
 }
