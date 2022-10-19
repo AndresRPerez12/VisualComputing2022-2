@@ -549,7 +549,7 @@ function draw() {
 
   perspective(60 * PI / 180, width / height, near, far);
 
-  background(0);
+  background(255);
   noStroke();
 
   rand.seed = 0;
@@ -771,7 +771,7 @@ function draw() {
 
   perspective(60 * PI / 180, width / height, near, far);
 
-  background(0);
+  background(255);
   noStroke();
 
   rand.seed = 0;
