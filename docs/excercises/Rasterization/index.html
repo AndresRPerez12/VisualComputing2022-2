@@ -1,7 +1,7 @@
 <!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Excercise: Rasterization # Excercise
 Implement in software any of the following visualizations: primitive rasterization, color shading, z-depth and texture-mapping. Background # In computer graphics, rasterization is the task of taking an image described in a vector graphics format (shapes) and converting it into a raster image (a series of pixels, dots or lines, which, when displayed together, create the image which was represented via shapes). The rasterized image may then be displayed on a computer display, video display or printer, or stored in a bitmap file format."><meta name=theme-color content="#FFFFFF"><meta name=color-scheme content="light dark"><meta property="og:title" content><meta property="og:description" content="Excercise: Rasterization # Excercise
-Implement in software any of the following visualizations: primitive rasterization, color shading, z-depth and texture-mapping. Background # In computer graphics, rasterization is the task of taking an image described in a vector graphics format (shapes) and converting it into a raster image (a series of pixels, dots or lines, which, when displayed together, create the image which was represented via shapes). The rasterized image may then be displayed on a computer display, video display or printer, or stored in a bitmap file format."><meta property="og:type" content="article"><meta property="og:url" content="https://andresrperez12.github.io/VisualComputing2022-2/docs/excercises/Rasterization/"><meta property="article:section" content="docs"><meta property="article:modified_time" content="2022-10-19T08:22:58-05:00"><title>Rasterization | Visual Computing 2022-2</title><link rel=manifest href=/VisualComputing2022-2/manifest.json><link rel=icon href=/VisualComputing2022-2/favicon.png type=image/x-icon><link rel=stylesheet href=/VisualComputing2022-2/book.min.ab46de3e725a6415339a37bba23a0067534a37289b063c9f8d011515a63097a8.css integrity="sha256-q0bePnJaZBUzmje7ojoAZ1NKNyibBjyfjQEVFaYwl6g=" crossorigin=anonymous><script defer src=/VisualComputing2022-2/flexsearch.min.js></script>
-<script defer src=/VisualComputing2022-2/en.search.min.f8e9dab1097a8c1d676e38ce38567da76343c2000a438c361ecf1edb0104f1b9.js integrity="sha256-+OnasQl6jB1nbjjOOFZ9p2NDwgAKQ4w2Hs8e2wEE8bk=" crossorigin=anonymous></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+Implement in software any of the following visualizations: primitive rasterization, color shading, z-depth and texture-mapping. Background # In computer graphics, rasterization is the task of taking an image described in a vector graphics format (shapes) and converting it into a raster image (a series of pixels, dots or lines, which, when displayed together, create the image which was represented via shapes). The rasterized image may then be displayed on a computer display, video display or printer, or stored in a bitmap file format."><meta property="og:type" content="article"><meta property="og:url" content="https://andresrperez12.github.io/VisualComputing2022-2/docs/excercises/Rasterization/"><meta property="article:section" content="docs"><meta property="article:modified_time" content="2022-10-19T10:02:44-05:00"><title>Rasterization | Visual Computing 2022-2</title><link rel=manifest href=/VisualComputing2022-2/manifest.json><link rel=icon href=/VisualComputing2022-2/favicon.png type=image/x-icon><link rel=stylesheet href=/VisualComputing2022-2/book.min.ab46de3e725a6415339a37bba23a0067534a37289b063c9f8d011515a63097a8.css integrity="sha256-q0bePnJaZBUzmje7ojoAZ1NKNyibBjyfjQEVFaYwl6g=" crossorigin=anonymous><script defer src=/VisualComputing2022-2/flexsearch.min.js></script>
+<script defer src=/VisualComputing2022-2/en.search.min.a1a817b6875f0e5b55f0ae666d73f05bf99e86872cfe68a3b2ab9397c65b4a36.js integrity="sha256-oagXtodfDltV8K5mbXPwW/mehocs/mijsquTl8ZbSjY=" crossorigin=anonymous></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/VisualComputing2022-2/><span>Visual Computing 2022-2</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><input type=checkbox id=section-1ec4f879ff755259b18baf4fbdae0098 class=toggle checked>
 <label for=section-1ec4f879ff755259b18baf4fbdae0098 class="flex justify-between"><a href=/VisualComputing2022-2/docs/excercises/>Excercises</a></label><ul><li><a href=/VisualComputing2022-2/docs/excercises/ColorMultiplicationExcercise/>Color Multiplication Excercise</a></li><li><a href=/VisualComputing2022-2/docs/excercises/dither/>Dither</a></li><li><a href=/VisualComputing2022-2/docs/excercises/Rasterization/ class=active>Rasterization</a></li><li><a href=/VisualComputing2022-2/docs/excercises/SpatialCoherence/>Spatial Coherence</a></li><li><a href=/VisualComputing2022-2/docs/excercises/TerrainVisualizationApplication/>Terrain Visualization Application</a></li></ul></li><li><input type=checkbox id=section-9370f1a5d0248572ac505e0c6d4ad190 class=toggle>
 <label for=section-9370f1a5d0248572ac505e0c6d4ad190 class="flex justify-between"><a href=/VisualComputing2022-2/docs/shortcodes/>Shortcodes</a></label><ul><li><a href=/VisualComputing2022-2/docs/shortcodes/buttons/>Buttons</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/columns/>Columns</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/details/>Details</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/hints/>Hints</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/katex/>Katex</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/mermaid/>Mermaid</a></li><li><input type=checkbox id=section-ec67a64aba70b9df3d2a9acd6c92e3bc class=toggle>
@@ -9,7 +9,7 @@ Implement in software any of the following visualizations: primitive rasterizati
 <label for=section-bd592e6455531edb048edb6a320c69c4 class="flex justify-between"><a href=/VisualComputing2022-2/docs/team/>Team</a></label><ul></ul></li><li><input type=checkbox id=section-191d4fa5967ce9fef74cb18feb81d534 class=toggle>
 <label for=section-191d4fa5967ce9fef74cb18feb81d534 class="flex justify-between"><a href=/VisualComputing2022-2/docs/workshops/>Workshops</a></label><ul><li><a href=/VisualComputing2022-2/docs/workshops/3D_Application/>3 D Application</a></li><li><a href=/VisualComputing2022-2/docs/workshops/maskingWorkshop/>Masking Workshop</a></li><li><a href=/VisualComputing2022-2/docs/workshops/visualIllussionsWorkshop/>Visual Illussions Workshop</a></li></ul></li></ul><ul><li><a href=/VisualComputing2022-2/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/VisualComputing2022-2/svg/menu.svg class=book-icon alt=Menu></label>
 <strong>Rasterization</strong>
-<label for=toc-control><img src=/VisualComputing2022-2/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#excercise-rasterization>Excercise: Rasterization</a><ul><li><a href=#background>Background</a></li><li><a href=#code--results>Code & Results</a><ul><li><a href=#primitive-rasterization>Primitive Rasterization</a></li><li><a href=#color-shading>Color Shading</a></li><li><a href=#texture-mapping>Texture Mapping</a></li></ul></li><li><a href=#conclusions>Conclusions</a></li><li><a href=#references>References</a></li></ul></li></ul></nav></aside></header><article class=markdown><h1 id=excercise-rasterization>Excercise: Rasterization
+<label for=toc-control><img src=/VisualComputing2022-2/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#excercise-rasterization>Excercise: Rasterization</a><ul><li><a href=#background>Background</a></li><li><a href=#code--results>Code & Results</a><ul><li><a href=#primitive-rasterization>Primitive Rasterization</a></li><li><a href=#color-shading>Color Shading</a></li><li><a href=#texture-mapping>Texture Mapping</a></li><li><a href=#z-depth>Z-Depth</a></li></ul></li><li><a href=#conclusions>Conclusions</a></li><li><a href=#references>References</a></li></ul></li></ul></nav></aside></header><article class=markdown><h1 id=excercise-rasterization>Excercise: Rasterization
 <a class=anchor href=#excercise-rasterization>#</a></h1><blockquote class="book-hint info"><strong>Excercise</strong><br>Implement in software any of the following visualizations: primitive rasterization, color shading, z-depth and texture-mapping.</blockquote><h2 id=background>Background
 <a class=anchor href=#background>#</a></h2><p>In computer graphics, rasterization is the task of taking an image described in a vector graphics format (shapes) and converting it into a raster image (a series of pixels, dots or lines, which, when displayed together, create the image which was represented via shapes). The rasterized image may then be displayed on a computer display, video display or printer, or stored in a bitmap file format. Rasterization may refer to the technique of drawing 3D models, or the conversion of 2D rendering primitives such as polygons, line segments into a rasterized format.</p><img src=https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Raster_graphic_fish_20x23squares_sdtv-example.png/200px-Raster_graphic_fish_20x23squares_sdtv-example.png alt="banding illustration" style=width:50%><h2 id=code--results>Code & Results
 <a class=anchor href=#code--results>#</a></h2><h3 id=primitive-rasterization>Primitive Rasterization
@@ -62,6 +62,7 @@ Implement in software any of the following visualizations: primitive rasterizati
             <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js></script>
             <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/addons/p5.sound.min.js></script>
             <script src=https://cdn.jsdelivr.net/gh/objetos/p5.quadrille.js/p5.quadrille.js></script>
+            <script src=https://cdn.jsdelivr.net/gh/freshfork/p5.EasyCam@1.2.1/p5.easycam.js></script>
             
             
             
@@ -174,6 +175,7 @@ function generateNewRandomTriangle() {
             <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js></script>
             <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/addons/p5.sound.min.js></script>
             <script src=https://cdn.jsdelivr.net/gh/objetos/p5.quadrille.js/p5.quadrille.js></script>
+            <script src=https://cdn.jsdelivr.net/gh/freshfork/p5.EasyCam@1.2.1/p5.easycam.js></script>
             
             
             
@@ -344,6 +346,7 @@ function generateNewRandomTriangle() {
             <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js></script>
             <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/addons/p5.sound.min.js></script>
             <script src=https://cdn.jsdelivr.net/gh/objetos/p5.quadrille.js/p5.quadrille.js></script>
+            <script src=https://cdn.jsdelivr.net/gh/freshfork/p5.EasyCam@1.2.1/p5.easycam.js></script>
             
             
             
@@ -454,8 +457,463 @@ function texturize({ pattern: texcoords2 }) {
           <body>
           </body>
         </html>
-      "></iframe></p><h2 id=conclusions>Conclusions
+      "></iframe></p><h3 id=z-depth>Z-Depth
+<a class=anchor href=#z-depth>#</a></h3><h4 id=code-3>Code
+<a class=anchor href=#code-3>#</a></h4><details><summary>Z-Depth Code</summary><div class=markdown-inner><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>easycam</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>depth_map</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>depthShader</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>near</span>, <span style=color:#a6e22e>far</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>preload</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>depthShader</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>loadShader</span>(<span style=color:#e6db74>&#39;/VisualComputing2022-2/docs/excercises/shader.vert&#39;</span>, <span style=color:#e6db74>&#39;/VisualComputing2022-2/docs/excercises/depthmap.frag&#39;</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>setup</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>pixelDensity</span>(<span style=color:#ae81ff>1</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>createCanvas</span>(<span style=color:#ae81ff>400</span>, <span style=color:#ae81ff>400</span>, <span style=color:#a6e22e>WEBGL</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>setAttributes</span>(<span style=color:#e6db74>&#39;antialias&#39;</span>, <span style=color:#66d9ef>true</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>state</span> <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>distance</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>164.411</span>,
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>center</span><span style=color:#f92672>:</span> [<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>],
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>rotation</span><span style=color:#f92672>:</span> [<span style=color:#f92672>-</span><span style=color:#ae81ff>0.285</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>0.257</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>0.619</span>, <span style=color:#ae81ff>0.685</span>],
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>near</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>;
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>far</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>500</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>easycam</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Dw</span>.<span style=color:#a6e22e>EasyCam</span>(<span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>_renderer</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>easycam</span>.<span style=color:#a6e22e>state_reset</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>state</span>;
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>easycam</span>.<span style=color:#a6e22e>setState</span>(<span style=color:#a6e22e>state</span>, <span style=color:#ae81ff>2000</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>depth_map</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>false</span>;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>keyPressed</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>toggleShader</span>();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>toggleShader</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>depth_map</span> <span style=color:#f92672>=</span> <span style=color:#f92672>!</span><span style=color:#a6e22e>depth_map</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>depth_map</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>shader</span>(<span style=color:#a6e22e>depthShader</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>depthShader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;near&#39;</span>, <span style=color:#a6e22e>near</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>depthShader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;far&#39;</span>, <span style=color:#a6e22e>far</span>);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>else</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>resetShader</span>();
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>windowResized</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>resizeCanvas</span>(<span style=color:#a6e22e>windowWidth</span>, <span style=color:#a6e22e>windowHeight</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>easycam</span>.<span style=color:#a6e22e>setViewport</span>([<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>windowWidth</span>, <span style=color:#a6e22e>windowHeight</span>]);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>m4_camera</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>p5</span>.<span style=color:#a6e22e>Matrix</span>();
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>m3_camera</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>p5</span>.<span style=color:#a6e22e>Matrix</span>(<span style=color:#e6db74>&#39;mat3&#39;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>backupCameraMatrix</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>m4_camera</span>.<span style=color:#a6e22e>set</span>(<span style=color:#a6e22e>easycam</span>.<span style=color:#a6e22e>renderer</span>.<span style=color:#a6e22e>uMVMatrix</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>m3_camera</span>.<span style=color:#a6e22e>inverseTranspose</span>(<span style=color:#a6e22e>m4_camera</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>matWhite</span> <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>diff</span><span style=color:#f92672>:</span> [<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>],
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>spec</span><span style=color:#f92672>:</span> [<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>],
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>spec_exp</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>400.0</span>,
+</span></span><span style=display:flex><span>};
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>ambientlight</span> <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>col</span><span style=color:#f92672>:</span> [<span style=color:#ae81ff>0.0002</span>, <span style=color:#ae81ff>0.0004</span>, <span style=color:#ae81ff>0.0006</span>],
+</span></span><span style=display:flex><span>};
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>directlights</span> <span style=color:#f92672>=</span> [
+</span></span><span style=display:flex><span>  {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>dir</span><span style=color:#f92672>:</span> [<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>2</span>],
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>col</span><span style=color:#f92672>:</span> [<span style=color:#ae81ff>0.0010</span>, <span style=color:#ae81ff>0.0005</span>, <span style=color:#ae81ff>0.00025</span>],
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>];
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>draw</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> (<span style=color:#f92672>!</span><span style=color:#a6e22e>depth_map</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>backupCameraMatrix</span>();
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>angle</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>frameCount</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>0.03</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>rad</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>30</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>px</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>cos</span>(<span style=color:#a6e22e>angle</span>) <span style=color:#f92672>*</span> <span style=color:#a6e22e>rad</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>py</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>sin</span>(<span style=color:#a6e22e>angle</span>) <span style=color:#f92672>*</span> <span style=color:#a6e22e>rad</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>r</span> <span style=color:#f92672>=</span> (<span style=color:#a6e22e>sin</span>(<span style=color:#a6e22e>angle</span>) <span style=color:#f92672>*</span> <span style=color:#ae81ff>0.5</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>0.5</span>);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>g</span> <span style=color:#f92672>=</span> (<span style=color:#a6e22e>sin</span>(<span style=color:#a6e22e>angle</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>0.5</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>PI</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>) <span style=color:#f92672>*</span> <span style=color:#ae81ff>0.5</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>0.5</span>);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>b</span> <span style=color:#f92672>=</span> (<span style=color:#a6e22e>sin</span>(<span style=color:#a6e22e>frameCount</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>0.02</span>) <span style=color:#f92672>*</span> <span style=color:#ae81ff>0.5</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>0.5</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>pz</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>sin</span>(<span style=color:#a6e22e>frameCount</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>0.02</span>);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>pointlights</span> <span style=color:#f92672>=</span> [
+</span></span><span style=display:flex><span>      {
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>pos</span><span style=color:#f92672>:</span> [<span style=color:#a6e22e>px</span>, <span style=color:#a6e22e>py</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>1</span>],
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>col</span><span style=color:#f92672>:</span> [<span style=color:#ae81ff>1</span> <span style=color:#f92672>-</span> <span style=color:#a6e22e>r</span>, <span style=color:#a6e22e>r</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>, <span style=color:#a6e22e>r</span>],
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>att</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>80</span>,
+</span></span><span style=display:flex><span>      },
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      {
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>pos</span><span style=color:#f92672>:</span> [<span style=color:#ae81ff>50</span>, <span style=color:#ae81ff>50</span>, <span style=color:#a6e22e>pz</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>40</span>, <span style=color:#ae81ff>1</span>],
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>col</span><span style=color:#f92672>:</span> [<span style=color:#a6e22e>r</span>, <span style=color:#ae81ff>1</span>, <span style=color:#a6e22e>g</span>],
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>att</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>80</span>,
+</span></span><span style=display:flex><span>      },
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      {
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>pos</span><span style=color:#f92672>:</span> [<span style=color:#f92672>-</span><span style=color:#ae81ff>50</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>50</span>, <span style=color:#f92672>-</span><span style=color:#a6e22e>pz</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>40</span>, <span style=color:#ae81ff>1</span>],
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>col</span><span style=color:#f92672>:</span> [<span style=color:#ae81ff>1</span>, <span style=color:#a6e22e>r</span>, <span style=color:#a6e22e>g</span>],
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>att</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>80</span>,
+</span></span><span style=display:flex><span>      },
+</span></span><span style=display:flex><span>    ];
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>setAmbientlight</span>(<span style=color:#a6e22e>ambientlight</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>setDirectlight</span>(<span style=color:#a6e22e>directlights</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>setPointlight</span>(<span style=color:#a6e22e>pointlights</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>push</span>();
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; <span style=color:#a6e22e>i</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>pointlights</span>.<span style=color:#a6e22e>length</span>; <span style=color:#a6e22e>i</span><span style=color:#f92672>++</span>) {
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>pl</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>pointlights</span>[<span style=color:#a6e22e>i</span>];
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>push</span>();
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>translate</span>(<span style=color:#a6e22e>pl</span>.<span style=color:#a6e22e>pos</span>[<span style=color:#ae81ff>0</span>], <span style=color:#a6e22e>pl</span>.<span style=color:#a6e22e>pos</span>[<span style=color:#ae81ff>1</span>], <span style=color:#a6e22e>pl</span>.<span style=color:#a6e22e>pos</span>[<span style=color:#ae81ff>2</span>]);
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>emissiveMaterial</span>(<span style=color:#a6e22e>pl</span>.<span style=color:#a6e22e>col</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>*</span> <span style=color:#ae81ff>255</span>, <span style=color:#a6e22e>pl</span>.<span style=color:#a6e22e>col</span>[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>*</span> <span style=color:#ae81ff>255</span>, <span style=color:#a6e22e>pl</span>.<span style=color:#a6e22e>col</span>[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>*</span> <span style=color:#ae81ff>255</span>);
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>fill</span>(<span style=color:#a6e22e>pl</span>.<span style=color:#a6e22e>col</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>*</span> <span style=color:#ae81ff>255</span>, <span style=color:#a6e22e>pl</span>.<span style=color:#a6e22e>col</span>[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>*</span> <span style=color:#ae81ff>255</span>, <span style=color:#a6e22e>pl</span>.<span style=color:#a6e22e>col</span>[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>*</span> <span style=color:#ae81ff>255</span>);
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>sphere</span>(<span style=color:#ae81ff>3</span>);
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>pop</span>();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>pop</span>();
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>perspective</span>(<span style=color:#ae81ff>60</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>PI</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>180</span>, <span style=color:#a6e22e>width</span> <span style=color:#f92672>/</span> <span style=color:#a6e22e>height</span>, <span style=color:#a6e22e>near</span>, <span style=color:#a6e22e>far</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>background</span>(<span style=color:#ae81ff>0</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>noStroke</span>();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>rand</span>.<span style=color:#a6e22e>seed</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>count</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>100</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>trange</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>100</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; <span style=color:#a6e22e>i</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>count</span>; <span style=color:#a6e22e>i</span><span style=color:#f92672>++</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>dx</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>rand</span>() <span style=color:#f92672>*</span> <span style=color:#ae81ff>25</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>8</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>tx</span> <span style=color:#f92672>=</span> (<span style=color:#a6e22e>rand</span>() <span style=color:#f92672>*</span> <span style=color:#ae81ff>2</span> <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>) <span style=color:#f92672>*</span> <span style=color:#a6e22e>trange</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>ty</span> <span style=color:#f92672>=</span> (<span style=color:#a6e22e>rand</span>() <span style=color:#f92672>*</span> <span style=color:#ae81ff>2</span> <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>) <span style=color:#f92672>*</span> <span style=color:#a6e22e>trange</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>tz</span> <span style=color:#f92672>=</span> (<span style=color:#a6e22e>rand</span>() <span style=color:#f92672>*</span> <span style=color:#ae81ff>2</span> <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>) <span style=color:#f92672>*</span> <span style=color:#a6e22e>trange</span>;
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>push</span>();
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>translate</span>(<span style=color:#a6e22e>tx</span>, <span style=color:#a6e22e>ty</span>, <span style=color:#a6e22e>tz</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>box</span>(<span style=color:#a6e22e>dx</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>pop</span>();
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>rand</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>function</span> () {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>x</span> <span style=color:#f92672>=</span> <span style=color:#f92672>++</span><span style=color:#a6e22e>rand</span>.<span style=color:#a6e22e>seed</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>y</span> <span style=color:#f92672>=</span> <span style=color:#f92672>++</span><span style=color:#a6e22e>rand</span>.<span style=color:#a6e22e>seed</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>val</span> <span style=color:#f92672>=</span> Math.<span style=color:#a6e22e>sin</span>(<span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>x</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>12.9898</span> <span style=color:#f92672>+</span> <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>y</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>78.233</span>) <span style=color:#f92672>*</span> <span style=color:#ae81ff>43758.545</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> (<span style=color:#a6e22e>val</span> <span style=color:#f92672>-</span> Math.<span style=color:#a6e22e>floor</span>(<span style=color:#a6e22e>val</span>));
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>rand</span>.<span style=color:#a6e22e>seed</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>setAmbientlight</span>(<span style=color:#a6e22e>ambientlight</span>) {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>ambientLight</span>(<span style=color:#a6e22e>ambientlight</span>.<span style=color:#a6e22e>col</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>*</span> <span style=color:#ae81ff>255</span>, <span style=color:#a6e22e>ambientlight</span>.<span style=color:#a6e22e>col</span>[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>*</span> <span style=color:#ae81ff>255</span>, <span style=color:#a6e22e>ambientlight</span>.<span style=color:#a6e22e>col</span>[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>*</span> <span style=color:#ae81ff>255</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>setDirectlight</span>(<span style=color:#a6e22e>directlights</span>) {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; <span style=color:#a6e22e>i</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>directlights</span>.<span style=color:#a6e22e>length</span>; <span style=color:#a6e22e>i</span><span style=color:#f92672>++</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>light</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>directlights</span>[<span style=color:#a6e22e>i</span>];
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>x</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>light</span>.<span style=color:#a6e22e>dir</span>[<span style=color:#ae81ff>0</span>];
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>y</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>light</span>.<span style=color:#a6e22e>dir</span>[<span style=color:#ae81ff>1</span>];
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>z</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>light</span>.<span style=color:#a6e22e>dir</span>[<span style=color:#ae81ff>2</span>];
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>mag</span> <span style=color:#f92672>=</span> Math.<span style=color:#a6e22e>sqrt</span>(<span style=color:#a6e22e>x</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>x</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>y</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>y</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>z</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>z</span>);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>light_dir</span> <span style=color:#f92672>=</span> [<span style=color:#a6e22e>x</span> <span style=color:#f92672>/</span> <span style=color:#a6e22e>mag</span>, <span style=color:#a6e22e>y</span> <span style=color:#f92672>/</span> <span style=color:#a6e22e>mag</span>, <span style=color:#a6e22e>z</span> <span style=color:#f92672>/</span> <span style=color:#a6e22e>mag</span>];
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>light_dir</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>m3_camera</span>.<span style=color:#a6e22e>multVec</span>(<span style=color:#a6e22e>light_dir</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>directionalLight</span>(<span style=color:#a6e22e>light</span>.<span style=color:#a6e22e>col</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>*</span> <span style=color:#ae81ff>255</span>, <span style=color:#a6e22e>light</span>.<span style=color:#a6e22e>col</span>[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>*</span> <span style=color:#ae81ff>255</span>, <span style=color:#a6e22e>light</span>.<span style=color:#a6e22e>col</span>[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>*</span> <span style=color:#ae81ff>255</span>,
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>light_dir</span>[<span style=color:#ae81ff>0</span>], <span style=color:#a6e22e>light_dir</span>[<span style=color:#ae81ff>1</span>], <span style=color:#a6e22e>light_dir</span>[<span style=color:#ae81ff>2</span>]);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>setPointlight</span>(<span style=color:#a6e22e>pointlights</span>) {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; <span style=color:#a6e22e>i</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>pointlights</span>.<span style=color:#a6e22e>length</span>; <span style=color:#a6e22e>i</span><span style=color:#f92672>++</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>light</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>pointlights</span>[<span style=color:#a6e22e>i</span>];
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>pointLight</span>(<span style=color:#a6e22e>light</span>.<span style=color:#a6e22e>col</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>*</span> <span style=color:#ae81ff>255</span>, <span style=color:#a6e22e>light</span>.<span style=color:#a6e22e>col</span>[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>*</span> <span style=color:#ae81ff>255</span>, <span style=color:#a6e22e>light</span>.<span style=color:#a6e22e>col</span>[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>*</span> <span style=color:#ae81ff>255</span>, <span style=color:#a6e22e>light</span>.<span style=color:#a6e22e>pos</span>[<span style=color:#ae81ff>0</span>], <span style=color:#a6e22e>light</span>.<span style=color:#a6e22e>pos</span>[<span style=color:#ae81ff>1</span>], <span style=color:#a6e22e>light</span>.<span style=color:#a6e22e>pos</span>[<span style=color:#ae81ff>2</span>]);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>p5</span>.<span style=color:#a6e22e>Matrix</span>.<span style=color:#a6e22e>prototype</span>.<span style=color:#a6e22e>multVec</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>function</span> (<span style=color:#a6e22e>vsrc</span>, <span style=color:#a6e22e>vdst</span>) {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>vdst</span> <span style=color:#f92672>=</span> (<span style=color:#a6e22e>vdst</span> <span style=color:#66d9ef>instanceof</span> Array) <span style=color:#f92672>?</span> <span style=color:#a6e22e>vdst</span> <span style=color:#f92672>:</span> [];
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>x</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>y</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>z</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>w</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>vsrc</span> <span style=color:#66d9ef>instanceof</span> <span style=color:#a6e22e>p5</span>.<span style=color:#a6e22e>Vector</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>x</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>vsrc</span>.<span style=color:#a6e22e>x</span>;
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>y</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>vsrc</span>.<span style=color:#a6e22e>y</span>;
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>z</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>vsrc</span>.<span style=color:#a6e22e>z</span>;
+</span></span><span style=display:flex><span>  } <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>vsrc</span> <span style=color:#66d9ef>instanceof</span> Array) {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>x</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>vsrc</span>[<span style=color:#ae81ff>0</span>];
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>y</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>vsrc</span>[<span style=color:#ae81ff>1</span>];
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>z</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>vsrc</span>[<span style=color:#ae81ff>2</span>];
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>w</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>vsrc</span>[<span style=color:#ae81ff>3</span>]; <span style=color:#a6e22e>w</span> <span style=color:#f92672>=</span> (<span style=color:#a6e22e>w</span> <span style=color:#f92672>===</span> <span style=color:#66d9ef>undefined</span>) <span style=color:#f92672>?</span> <span style=color:#ae81ff>1</span> <span style=color:#f92672>:</span> <span style=color:#a6e22e>w</span>;
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>mat</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>mat4</span> <span style=color:#f92672>||</span> <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>mat3</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>mat</span>.<span style=color:#a6e22e>length</span> <span style=color:#f92672>===</span> <span style=color:#ae81ff>16</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>vdst</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>mat</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>x</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>mat</span>[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>y</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>mat</span>[<span style=color:#ae81ff>8</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>z</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>mat</span>[<span style=color:#ae81ff>12</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>w</span>;
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>vdst</span>[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>mat</span>[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>x</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>mat</span>[<span style=color:#ae81ff>5</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>y</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>mat</span>[<span style=color:#ae81ff>9</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>z</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>mat</span>[<span style=color:#ae81ff>13</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>w</span>;
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>vdst</span>[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>mat</span>[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>x</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>mat</span>[<span style=color:#ae81ff>6</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>y</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>mat</span>[<span style=color:#ae81ff>10</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>z</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>mat</span>[<span style=color:#ae81ff>14</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>w</span>;
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>vdst</span>[<span style=color:#ae81ff>3</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>mat</span>[<span style=color:#ae81ff>3</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>x</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>mat</span>[<span style=color:#ae81ff>7</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>y</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>mat</span>[<span style=color:#ae81ff>11</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>z</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>mat</span>[<span style=color:#ae81ff>15</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>w</span>;
+</span></span><span style=display:flex><span>  } <span style=color:#66d9ef>else</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>vdst</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>mat</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>x</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>mat</span>[<span style=color:#ae81ff>3</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>y</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>mat</span>[<span style=color:#ae81ff>6</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>z</span>;
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>vdst</span>[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>mat</span>[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>x</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>mat</span>[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>y</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>mat</span>[<span style=color:#ae81ff>7</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>z</span>;
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>vdst</span>[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>mat</span>[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>x</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>mat</span>[<span style=color:#ae81ff>5</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>y</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>mat</span>[<span style=color:#ae81ff>8</span>] <span style=color:#f92672>*</span> <span style=color:#a6e22e>z</span>;
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>vdst</span>;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div></div></details><h4 id=execution-3>Execution
+<a class=anchor href=#execution-3>#</a></h4><h5 id=1-click-on-the-canvas-and-press-any-key>[1] (Click on the canvas and press any key)
+<a class=anchor href=#1-click-on-the-canvas-and-press-any-key>#</a></h5><h5 id=2-click-on-the-canvas-and-move-the-cursor-pointer>[2] (Click on the canvas and move the cursor pointer)
+<a class=anchor href=#2-click-on-the-canvas-and-move-the-cursor-pointer>#</a></h5><h5 id=3-click-on-the-canvas-and-zoom-in>[3] (Click on the canvas and zoom in)
+<a class=anchor href=#3-click-on-the-canvas-and-zoom-in>#</a></h5><iframe id=breath style=width:430px;height:430px srcdoc="
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js></script>
+            <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/addons/p5.sound.min.js></script>
+            <script src=https://cdn.jsdelivr.net/gh/objetos/p5.quadrille.js/p5.quadrille.js></script>
+            <script src=https://cdn.jsdelivr.net/gh/freshfork/p5.EasyCam@1.2.1/p5.easycam.js></script>
+            
+            
+            
+            
+            
+            <script>
+              
+let easycam;
+let depth_map;
+let depthShader;
+let near, far;
+
+function preload() {
+  depthShader = loadShader('/VisualComputing2022-2/docs/excercises/shader.vert', '/VisualComputing2022-2/docs/excercises/depthmap.frag');
+}
+
+function setup() {
+  pixelDensity(1);
+
+  createCanvas(400, 400, WEBGL);
+  setAttributes('antialias', true);
+
+  let state = {
+    distance: 164.411,
+    center: [0, 0, 0],
+    rotation: [-0.285, -0.257, -0.619, 0.685],
+  };
+
+  near = 1;
+  far = 500;
+
+  easycam = new Dw.EasyCam(this._renderer);
+  easycam.state_reset = state;
+  easycam.setState(state, 2000);
+
+  depth_map = false;
+}
+
+function keyPressed() {
+  toggleShader();
+}
+
+function toggleShader() {
+  depth_map = !depth_map;
+  if (depth_map) {
+    shader(depthShader);
+    depthShader.setUniform('near', near);
+    depthShader.setUniform('far', far);
+  }
+  else {
+    resetShader();
+  }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  easycam.setViewport([0, 0, windowWidth, windowHeight]);
+}
+
+let m4_camera = new p5.Matrix();
+let m3_camera = new p5.Matrix('mat3');
+
+function backupCameraMatrix() {
+  m4_camera.set(easycam.renderer.uMVMatrix);
+  m3_camera.inverseTranspose(m4_camera);
+}
+
+let matWhite = {
+  diff: [1, 1, 1],
+  spec: [1, 1, 1],
+  spec_exp: 400.0,
+};
+let ambientlight = {
+  col: [0.0002, 0.0004, 0.0006],
+};
+
+let directlights = [
+  {
+    dir: [-1, -1, -2],
+    col: [0.0010, 0.0005, 0.00025],
+  },
+];
+
+function draw() {
+  if (!depth_map) {
+    backupCameraMatrix();
+    let angle = frameCount * 0.03;
+    let rad = 30;
+    let px = cos(angle) * rad;
+    let py = sin(angle) * rad;
+
+    let r = (sin(angle) * 0.5 + 0.5);
+    let g = (sin(angle * 0.5 + PI / 2) * 0.5 + 0.5);
+    let b = (sin(frameCount * 0.02) * 0.5 + 0.5);
+
+    let pz = sin(frameCount * 0.02);
+    let pointlights = [
+      {
+        pos: [px, py, 0, 1],
+        col: [1 - r, r / 2, r],
+        att: 80,
+      },
+
+      {
+        pos: [50, 50, pz * 40, 1],
+        col: [r, 1, g],
+        att: 80,
+      },
+
+      {
+        pos: [-50, -50, -pz * 40, 1],
+        col: [1, r, g],
+        att: 80,
+      },
+    ];
+
+    setAmbientlight(ambientlight);
+    setDirectlight(directlights);
+    setPointlight(pointlights);
+
+    push();
+    for (let i = 0; i < pointlights.length; i++) {
+      let pl = pointlights[i];
+      push();
+      translate(pl.pos[0], pl.pos[1], pl.pos[2]);
+      emissiveMaterial(pl.col[0] * 255, pl.col[1] * 255, pl.col[2] * 255);
+      fill(pl.col[0] * 255, pl.col[1] * 255, pl.col[2] * 255);
+      sphere(3);
+      pop();
+    }
+    pop();
+  }
+
+  perspective(60 * PI / 180, width / height, near, far);
+
+  background(0);
+  noStroke();
+
+  rand.seed = 0;
+  let count = 100;
+  let trange = 100;
+  for (let i = 0; i < count; i++) {
+    let dx = rand() * 25 + 8;
+    let tx = (rand() * 2 - 1) * trange;
+    let ty = (rand() * 2 - 1) * trange;
+    let tz = (rand() * 2 - 1) * trange;
+    push();
+    translate(tx, ty, tz);
+    box(dx);
+    pop();
+  }
+}
+
+let rand = function () {
+  this.x = ++rand.seed;
+  this.y = ++rand.seed;
+  let val = Math.sin(this.x * 12.9898 + this.y * 78.233) * 43758.545;
+  return (val - Math.floor(val));
+}
+
+rand.seed = 0;
+
+function setAmbientlight(ambientlight) {
+  ambientLight(ambientlight.col[0] * 255, ambientlight.col[1] * 255, ambientlight.col[2] * 255);
+}
+
+function setDirectlight(directlights) {
+  for (let i = 0; i < directlights.length; i++) {
+    let light = directlights[i];
+
+    let x = light.dir[0];
+    let y = light.dir[1];
+    let z = light.dir[2];
+    let mag = Math.sqrt(x * x + y * y + z * z);
+    let light_dir = [x / mag, y / mag, z / mag];
+
+    light_dir = m3_camera.multVec(light_dir);
+
+    directionalLight(light.col[0] * 255, light.col[1] * 255, light.col[2] * 255,
+      light_dir[0], light_dir[1], light_dir[2]);
+  }
+}
+
+function setPointlight(pointlights) {
+  for (let i = 0; i < pointlights.length; i++) {
+    let light = pointlights[i];
+    pointLight(light.col[0] * 255, light.col[1] * 255, light.col[2] * 255, light.pos[0], light.pos[1], light.pos[2]);
+  }
+}
+
+p5.Matrix.prototype.multVec = function (vsrc, vdst) {
+
+  vdst = (vdst instanceof Array) ? vdst : [];
+
+  let x = 0, y = 0, z = 0, w = 1;
+
+  if (vsrc instanceof p5.Vector) {
+    x = vsrc.x;
+    y = vsrc.y;
+    z = vsrc.z;
+  } else if (vsrc instanceof Array) {
+    x = vsrc[0];
+    y = vsrc[1];
+    z = vsrc[2];
+    w = vsrc[3]; w = (w === undefined) ? 1 : w;
+  }
+
+  let mat = this.mat4 || this.mat3;
+  if (mat.length === 16) {
+    vdst[0] = mat[0] * x + mat[4] * y + mat[8] * z + mat[12] * w;
+    vdst[1] = mat[1] * x + mat[5] * y + mat[9] * z + mat[13] * w;
+    vdst[2] = mat[2] * x + mat[6] * y + mat[10] * z + mat[14] * w;
+    vdst[3] = mat[3] * x + mat[7] * y + mat[11] * z + mat[15] * w;
+  } else {
+    vdst[0] = mat[0] * x + mat[3] * y + mat[6] * z;
+    vdst[1] = mat[1] * x + mat[4] * y + mat[7] * z;
+    vdst[2] = mat[2] * x + mat[5] * y + mat[8] * z;
+  }
+
+  return vdst;
+}
+
+            </script>
+          </head>
+          <body>
+          </body>
+        </html>
+      "></iframe><h2 id=conclusions>Conclusions
 <a class=anchor href=#conclusions>#</a></h2><p>Real-time PC graphics have long used a technique called &ldquo;rasterization&rdquo; to display three-dimensional objects on a two-dimensional screen. It is a fast technique and the results have become very good over the last few years.
 Rasterization is still a topic that continues to be studied and improved to make modern applications faster and lighter. It has many applications at the level of video games and computer graphics.</p><h2 id=references>References
-<a class=anchor href=#references>#</a></h2><ul><li><a href=https://en.wikipedia.org/wiki/Rasterisation>Rasterisation</a></li></ul></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div><a class="flex align-center" href=https://github.com/AndresRPerez12/VisualComputing2022-2/commit/e31bf29ffc8fbe994333bfeca33a729fc20a9e5d title='Last modified by Jhonatan Torres | October 19, 2022' target=_blank rel=noopener><img src=/VisualComputing2022-2/svg/calendar.svg class=book-icon alt=Calendar>
-<span>October 19, 2022</span></a></div></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#excercise-rasterization>Excercise: Rasterization</a><ul><li><a href=#background>Background</a></li><li><a href=#code--results>Code & Results</a><ul><li><a href=#primitive-rasterization>Primitive Rasterization</a></li><li><a href=#color-shading>Color Shading</a></li><li><a href=#texture-mapping>Texture Mapping</a></li></ul></li><li><a href=#conclusions>Conclusions</a></li><li><a href=#references>References</a></li></ul></li></ul></nav></div></aside></main></body></html>
+<a class=anchor href=#references>#</a></h2><ul><li><a href=https://en.wikipedia.org/wiki/Rasterisation>Rasterisation</a></li><li><a href=https://objetos.github.io/p5.quadrille.js/docs/vc/rasterize_triangle>p5.Quadrille</a></li><li><a href=https://github.com/freshfork/p5.EasyCam/blob/master/examples/RandomBoxes/RandomBoxes.js>p5.EasyCam - Random Boxes Examples</a></li></ul></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div><a class="flex align-center" href=https://github.com/AndresRPerez12/VisualComputing2022-2/commit/a2ce637da8c4b669dfcadf21d33730e1e1e0fdd0 title='Last modified by Jhonatan Torres | October 19, 2022' target=_blank rel=noopener><img src=/VisualComputing2022-2/svg/calendar.svg class=book-icon alt=Calendar>
+<span>October 19, 2022</span></a></div></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#excercise-rasterization>Excercise: Rasterization</a><ul><li><a href=#background>Background</a></li><li><a href=#code--results>Code & Results</a><ul><li><a href=#primitive-rasterization>Primitive Rasterization</a></li><li><a href=#color-shading>Color Shading</a></li><li><a href=#texture-mapping>Texture Mapping</a></li><li><a href=#z-depth>Z-Depth</a></li></ul></li><li><a href=#conclusions>Conclusions</a></li><li><a href=#references>References</a></li></ul></li></ul></nav></div></aside></main></body></html>
