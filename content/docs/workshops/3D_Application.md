@@ -1,4 +1,4 @@
-# Workshop: Visual Illusions
+# Workshop: 3D WebGL app
 
 {{< hint info >}}
 **Workshop**  
@@ -594,7 +594,7 @@ window.addEventListener("resize", () => {
 * Press the `R` key to reset the car's position and orientation.
 * Press the `C` key tho switch betwee the orthographic and perspective camera.
 
-{{< p5-global-iframe id="breath" width="500" height="2200" >}}
+{{< p5-global-iframe id="breath" width="1000" height="1000" >}}
 function setup() {
   importThree();
 }
