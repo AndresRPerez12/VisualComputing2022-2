@@ -1,7 +1,7 @@
 # Workshop: 3D WebGL app
 
 {{< hint info >}}
-**Workshop 1**  
+**Workshop**  
 Implement a 3d webgl application. The p5.treegl or any other libraries may be used.
 {{< /hint >}}
 
@@ -26,8 +26,6 @@ Our code is based on [Hunor Marton's tutorial](https://www.freecodecamp.org/news
 
 {{< details title="JavaScript code" open=false >}}
 ```js
-import * as THREE from "three"
-
 window.focus(); // Capture keys right away (by default focus is on editor)
 
 // Pick a random value from an array
@@ -42,22 +40,15 @@ const vehicleColors = [
   0xff9f1c /*0xa52523, 0xbdb638, 0x78b14b*/
 ];
 
-const carStartingHeight = 0;
-
-const lawnGreen = "#67C240";
-const trackColor = "#546E90";
-const edgeColor = "#725F48";
-const treeCrownColor = 0x498c2c;
-const treeTrunkColor = 0x4b3f2f;
+const lavaRed = "#7cfc00";
+const trackColor = "black";
+const blockColor = "#BF9742";
+const mountainColor = "#A47E3B";
+const baseColor = "#61481C";
 
 const wheelGeometry = new THREE.BoxBufferGeometry(12, 33, 12);
-const wheelMaterial = new THREE.MeshLambertMaterial({ color: 0x333333 });
-const treeTrunkGeometry = new THREE.BoxBufferGeometry(15, 15, 80);
-const treeTrunkMaterial = new THREE.MeshLambertMaterial({
-  color: treeTrunkColor
-});
-const treeCrownMaterial = new THREE.MeshLambertMaterial({
-  color: treeCrownColor
+const wheelMaterial = new THREE.MeshLambertMaterial({
+  color: 0x333333
 });
 
 const config = {
@@ -66,9 +57,6 @@ const config = {
   curbs: true, // Show texture on the extruded geometry
   grid: false // Show grid helper
 };
-
-const baseSpeedForward = 0.3;
-const baseSpeedSideways = 0.004;
 
 const playerAngleInitial = Math.PI;
 let playerAngleMoved;
@@ -100,6 +88,25 @@ const arcAngle3 = Math.acos(arcCenterX / innerTrackRadius);
 
 const arcAngle4 = Math.acos(arcCenterX / outerTrackRadius);
 
+// Set up physics
+const world = new CANNON.World();
+world.gravity.set(0, 0, -9.82); 
+var lavaMesh, lavaBody;
+var trackMesh, trackBody;
+var blockMesh, blockBody;
+var mountainMesh, mountainBody;
+var baseMesh, baseBody;
+const groundPhysMat = new CANNON.Material();
+const carPhysMat = new CANNON.Material();
+const groundBoxContactMat = new CANNON.ContactMaterial(
+    groundPhysMat,
+    carPhysMat,
+    {
+      friction: 0.04,
+      restitution: 0
+    }
+);
+
 // Initialize ThreeJs
 // Set up camera
 const aspectRatio = window.innerWidth / window.innerHeight;
@@ -111,19 +118,28 @@ let camera = new THREE.OrthographicCamera(
   cameraWidth / 2, // right
   cameraHeight / 2, // top
   cameraHeight / -2, // bottom
-  50, // near plane
-  700 // far plane
+  5, // near plane
+  2000 // far plane
 );
 
-camera.position.set(0, -210, 300);
+camera.position.set(200, -500, 630);
+camera.up = new THREE.Vector3(0, 0, 1);
 camera.lookAt(0, 0, 0);
 
 const scene = new THREE.Scene();
 
 const playerCar = Car();
+const carBody = new CANNON.Body({
+    mass: 20,
+    shape: new CANNON.Box(new CANNON.Vec3(60, 30, 15)),
+    material: carPhysMat
+});
+world.addBody(carBody);
 scene.add(playerCar);
 
-renderMap(cameraWidth, cameraHeight * 2); // The map height is higher because we look at the map from an angle
+renderMap();
+
+world.addContactMaterial(groundBoxContactMat);
 
 // Set up lights
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
@@ -166,10 +182,17 @@ reset();
 function reset() {
   // Reset position
   playerAngleMoved = 0;
-  playerCar.position.x = 0;
-  playerCar.position.y = 0;
-  playerCar.position.z = carStartingHeight;
+  playerCar.position.x = -300;
+  playerCar.position.y = -300;
+  playerCar.position.z = 50;
+  playerCar.rotation.x = 0;
+  playerCar.rotation.y = 0;
+  playerCar.rotation.z = 0;
   lastTimestamp = undefined;
+
+  // Reset physics
+  carBody.position.copy(playerCar.position);
+  carBody.quaternion.copy(playerCar.quaternion);
 
   // Place the player's car to the starting position
   movePlayerCar(0);
@@ -187,389 +210,123 @@ function startGame() {
   }
 }
 
-function getLineMarkings(mapWidth, mapHeight) {
-  const canvas = document.createElement("canvas");
-  canvas.width = mapWidth;
-  canvas.height = mapHeight;
-  const context = canvas.getContext("2d");
+function renderMap() {
+  const lavaDimensions = {
+    x: 2000,
+    y: 2000,
+    pos_z: -200
+  }
+  const trackDimensions = {
+    x: 800,
+    y: 700,
+    pos_z: 10
+  }
+  const blockDimensions = {
+    x: 100,
+    y: 50,
+    pos_z: 0
+  }
+  const mountainDimensions = {
+    x: 150,
+    y: 100,
+    pos_z: 0
+  }
+  const baseDimensions = {
+    x: 400,
+    y: 400,
+    pos_z: -200
+  }
 
-  context.fillStyle = trackColor;
-  context.fillRect(0, 0, mapWidth, mapHeight);
 
-  context.lineWidth = 2;
-  context.strokeStyle = "#E0FFFF";
-  context.setLineDash([10, 14]);
+  // Lava
+  lavaBody = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(lavaDimensions.x/2, lavaDimensions.y/2, 0.1)),
+    type: CANNON.Body.STATIC,
+    material: groundPhysMat,
+    position: new CANNON.Vec3(0, 0, lavaDimensions.pos_z),
+  });
+  world.addBody(lavaBody);
 
-  // Left circle
-  context.beginPath();
-  context.arc(
-    mapWidth / 2 - arcCenterX,
-    mapHeight / 2,
-    trackRadius,
-    0,
-    Math.PI * 2
-  );
-  context.stroke();
+  const lavaGeo = new THREE.PlaneGeometry(lavaDimensions.x, lavaDimensions.y);
+  const lavaMat = new THREE.MeshBasicMaterial({ 
+    color: lavaRed,
+    side: THREE.DoubleSide,
+    wireframe: false 
+  });
+  lavaMesh = new THREE.Mesh(lavaGeo, lavaMat);
+  scene.add(lavaMesh);
+  
+  // Track
+  trackBody = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(trackDimensions.x/2, trackDimensions.y/2, 0.1)),
+    type: CANNON.Body.STATIC,
+    material: groundPhysMat,
+    position: new CANNON.Vec3(0, 0, trackDimensions.pos_z),
+  });
+  world.addBody(trackBody);
 
-  // Right circle
-  context.beginPath();
-  context.arc(
-    mapWidth / 2 + arcCenterX,
-    mapHeight / 2,
-    trackRadius,
-    0,
-    Math.PI * 2
-  );
-  context.stroke();
+  const trackGeo = new THREE.PlaneGeometry(trackDimensions.x, trackDimensions.y);
+  const trackMat = new THREE.MeshBasicMaterial({ 
+    color: trackColor,
+    side: THREE.DoubleSide,
+    wireframe: false 
+  });
+  trackMesh = new THREE.Mesh(trackGeo, trackMat);
+  scene.add(trackMesh);
+  
+  // Block
+  blockBody = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(blockDimensions.x/2, blockDimensions.y/2, 1000)),
+    type: CANNON.Body.STATIC,
+    material: groundPhysMat,
+    position: new CANNON.Vec3(0, 0, blockDimensions.pos_z),
+  });
+  world.addBody(blockBody);
 
-  return new THREE.CanvasTexture(canvas);
-}
+  const blockGeo = new THREE.BoxGeometry(blockDimensions.x, blockDimensions.y, 1000);
+  const blockMat = new THREE.MeshBasicMaterial({ 
+    color: blockColor,
+    side: THREE.DoubleSide,
+    wireframe: false 
+  });
+  blockMesh = new THREE.Mesh(blockGeo, blockMat);
+  scene.add(blockMesh);
 
-function getCurbsTexture(mapWidth, mapHeight) {
-  const canvas = document.createElement("canvas");
-  canvas.width = mapWidth;
-  canvas.height = mapHeight;
-  const context = canvas.getContext("2d");
+  // Mountain
+  mountainBody = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(mountainDimensions.x/2, mountainDimensions.y/2, 700)),
+    type: CANNON.Body.STATIC,
+    material: groundPhysMat,
+    position: new CANNON.Vec3(0, 0, mountainDimensions.pos_z),
+  });
+  world.addBody(mountainBody);
 
-  context.fillStyle = lawnGreen;
-  context.fillRect(0, 0, mapWidth, mapHeight);
-
-  // Extra big
-  context.lineWidth = 65;
-  context.strokeStyle = "#A2FF75";
-  context.beginPath();
-  context.arc(
-    mapWidth / 2 - arcCenterX,
-    mapHeight / 2,
-    innerTrackRadius,
-    arcAngle1,
-    -arcAngle1
-  );
-  context.arc(
-    mapWidth / 2 + arcCenterX,
-    mapHeight / 2,
-    outerTrackRadius,
-    Math.PI + arcAngle2,
-    Math.PI - arcAngle2,
-    true
-  );
-  context.stroke();
-
-  context.beginPath();
-  context.arc(
-    mapWidth / 2 + arcCenterX,
-    mapHeight / 2,
-    innerTrackRadius,
-    Math.PI + arcAngle1,
-    Math.PI - arcAngle1
-  );
-  context.arc(
-    mapWidth / 2 - arcCenterX,
-    mapHeight / 2,
-    outerTrackRadius,
-    arcAngle2,
-    -arcAngle2,
-    true
-  );
-  context.stroke();
-
-  // Extra small
-  context.lineWidth = 60;
-  context.strokeStyle = lawnGreen;
-  context.beginPath();
-  context.arc(
-    mapWidth / 2 - arcCenterX,
-    mapHeight / 2,
-    innerTrackRadius,
-    arcAngle1,
-    -arcAngle1
-  );
-  context.arc(
-    mapWidth / 2 + arcCenterX,
-    mapHeight / 2,
-    outerTrackRadius,
-    Math.PI + arcAngle2,
-    Math.PI - arcAngle2,
-    true
-  );
-  context.arc(
-    mapWidth / 2 + arcCenterX,
-    mapHeight / 2,
-    innerTrackRadius,
-    Math.PI + arcAngle1,
-    Math.PI - arcAngle1
-  );
-  context.arc(
-    mapWidth / 2 - arcCenterX,
-    mapHeight / 2,
-    outerTrackRadius,
-    arcAngle2,
-    -arcAngle2,
-    true
-  );
-  context.stroke();
+  const mountainGeo = new THREE.BoxGeometry(mountainDimensions.x, mountainDimensions.y, 700);
+  const mountainMat = new THREE.MeshBasicMaterial({ 
+    color: mountainColor,
+    side: THREE.DoubleSide,
+    wireframe: false 
+  });
+  mountainMesh = new THREE.Mesh(mountainGeo, mountainMat);
+  scene.add(mountainMesh);
 
   // Base
-  context.lineWidth = 6;
-  context.strokeStyle = edgeColor;
-
-  // Outer circle left
-  context.beginPath();
-  context.arc(
-    mapWidth / 2 - arcCenterX,
-    mapHeight / 2,
-    outerTrackRadius,
-    0,
-    Math.PI * 2
-  );
-  context.stroke();
-
-  // Outer circle right
-  context.beginPath();
-  context.arc(
-    mapWidth / 2 + arcCenterX,
-    mapHeight / 2,
-    outerTrackRadius,
-    0,
-    Math.PI * 2
-  );
-  context.stroke();
-
-  // Inner circle left
-  context.beginPath();
-  context.arc(
-    mapWidth / 2 - arcCenterX,
-    mapHeight / 2,
-    innerTrackRadius,
-    0,
-    Math.PI * 2
-  );
-  context.stroke();
-
-  // Inner circle right
-  context.beginPath();
-  context.arc(
-    mapWidth / 2 + arcCenterX,
-    mapHeight / 2,
-    innerTrackRadius,
-    0,
-    Math.PI * 2
-  );
-  context.stroke();
-
-  return new THREE.CanvasTexture(canvas);
-}
-
-function getLeftIsland() {
-  const islandLeft = new THREE.Shape();
-
-  islandLeft.absarc(
-    -arcCenterX,
-    0,
-    innerTrackRadius,
-    arcAngle1,
-    -arcAngle1,
-    false
-  );
-
-  islandLeft.absarc(
-    arcCenterX,
-    0,
-    outerTrackRadius,
-    Math.PI + arcAngle2,
-    Math.PI - arcAngle2,
-    true
-  );
-
-  return islandLeft;
-}
-
-function getMiddleIsland() {
-  const islandMiddle = new THREE.Shape();
-
-  islandMiddle.absarc(
-    -arcCenterX,
-    0,
-    innerTrackRadius,
-    arcAngle3,
-    -arcAngle3,
-    true
-  );
-
-  islandMiddle.absarc(
-    arcCenterX,
-    0,
-    innerTrackRadius,
-    Math.PI + arcAngle3,
-    Math.PI - arcAngle3,
-    true
-  );
-
-  return islandMiddle;
-}
-
-function getRightIsland() {
-  const islandRight = new THREE.Shape();
-
-  islandRight.absarc(
-    arcCenterX,
-    0,
-    innerTrackRadius,
-    Math.PI - arcAngle1,
-    Math.PI + arcAngle1,
-    true
-  );
-
-  islandRight.absarc(
-    -arcCenterX,
-    0,
-    outerTrackRadius,
-    -arcAngle2,
-    arcAngle2,
-    false
-  );
-
-  return islandRight;
-}
-
-function getOuterField(mapWidth, mapHeight) {
-  const field = new THREE.Shape();
-
-  field.moveTo(-mapWidth / 2, -mapHeight / 2);
-  field.lineTo(0, -mapHeight / 2);
-
-  field.absarc(-arcCenterX, 0, outerTrackRadius, -arcAngle4, arcAngle4, true);
-
-  field.absarc(
-    arcCenterX,
-    0,
-    outerTrackRadius,
-    Math.PI - arcAngle4,
-    Math.PI + arcAngle4,
-    true
-  );
-
-  field.lineTo(0, -mapHeight / 2);
-  field.lineTo(mapWidth / 2, -mapHeight / 2);
-  field.lineTo(mapWidth / 2, mapHeight / 2);
-  field.lineTo(-mapWidth / 2, mapHeight / 2);
-
-  return field;
-}
-
-function renderMap(mapWidth, mapHeight) {
-  const lineMarkingsTexture = getLineMarkings(mapWidth, mapHeight);
-
-  const planeGeometry = new THREE.PlaneBufferGeometry(mapWidth, mapHeight);
-  const planeMaterial = new THREE.MeshLambertMaterial({
-    map: lineMarkingsTexture
+  baseBody = new CANNON.Body({
+    shape: new CANNON.Box(new CANNON.Vec3(baseDimensions.x/2, baseDimensions.y/2, 500)),
+    type: CANNON.Body.STATIC,
+    material: groundPhysMat,
+    position: new CANNON.Vec3(0, 0, baseDimensions.pos_z),
   });
-  const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-  plane.receiveShadow = true;
-  plane.matrixAutoUpdate = false;
-  scene.add(plane);
+  world.addBody(baseBody);
 
-  // Extruded geometry with curbs
-  const islandLeft = getLeftIsland();
-  const islandMiddle = getMiddleIsland();
-  const islandRight = getRightIsland();
-  const outerField = getOuterField(mapWidth, mapHeight);
-
-  // Mapping a texture on an extruded geometry works differently than mapping it to a box
-  // By default it is mapped to a 1x1 unit square, and we have to stretch it out by setting repeat
-  // We also need to shift it by setting the offset to have it centered
-  const curbsTexture = getCurbsTexture(mapWidth, mapHeight);
-  curbsTexture.offset = new THREE.Vector2(0.5, 0.5);
-  curbsTexture.repeat.set(1 / mapWidth, 1 / mapHeight);
-
-  // An extruded geometry turns a 2D shape into 3D by giving it a depth
-  const fieldGeometry = new THREE.ExtrudeBufferGeometry(
-    [islandLeft, islandRight, islandMiddle, outerField],
-    { depth: 6, bevelEnabled: false }
-  );
-
-  const fieldMesh = new THREE.Mesh(fieldGeometry, [
-    new THREE.MeshLambertMaterial({
-      // Either set a plain color or a texture depending on config
-      color: !config.curbs && lawnGreen,
-      map: config.curbs && curbsTexture
-    }),
-    new THREE.MeshLambertMaterial({ color: 0x23311c })
-  ]);
-  fieldMesh.receiveShadow = true;
-  fieldMesh.matrixAutoUpdate = false;
-  scene.add(fieldMesh);
-
-  if (config.trees) {
-    const tree1 = Tree();
-    tree1.position.x = arcCenterX * 1.3;
-    scene.add(tree1);
-
-    const tree2 = Tree();
-    tree2.position.y = arcCenterX * 1.9;
-    tree2.position.x = arcCenterX * 1.3;
-    scene.add(tree2);
-
-    const tree3 = Tree();
-    tree3.position.x = arcCenterX * 0.8;
-    tree3.position.y = arcCenterX * 2;
-    scene.add(tree3);
-
-    const tree4 = Tree();
-    tree4.position.x = arcCenterX * 1.8;
-    tree4.position.y = arcCenterX * 2;
-    scene.add(tree4);
-
-    const tree5 = Tree();
-    tree5.position.x = -arcCenterX * 1;
-    tree5.position.y = arcCenterX * 2;
-    scene.add(tree5);
-
-    const tree6 = Tree();
-    tree6.position.x = -arcCenterX * 2;
-    tree6.position.y = arcCenterX * 1.8;
-    scene.add(tree6);
-
-    const tree7 = Tree();
-    tree7.position.x = arcCenterX * 0.8;
-    tree7.position.y = -arcCenterX * 2;
-    scene.add(tree7);
-
-    const tree8 = Tree();
-    tree8.position.x = arcCenterX * 1.8;
-    tree8.position.y = -arcCenterX * 2;
-    scene.add(tree8);
-
-    const tree9 = Tree();
-    tree9.position.x = -arcCenterX * 1;
-    tree9.position.y = -arcCenterX * 2;
-    scene.add(tree9);
-
-    const tree10 = Tree();
-    tree10.position.x = -arcCenterX * 2;
-    tree10.position.y = -arcCenterX * 1.8;
-    scene.add(tree10);
-
-    const tree11 = Tree();
-    tree11.position.x = arcCenterX * 0.6;
-    tree11.position.y = -arcCenterX * 2.3;
-    scene.add(tree11);
-
-    const tree12 = Tree();
-    tree12.position.x = arcCenterX * 1.5;
-    tree12.position.y = -arcCenterX * 2.4;
-    scene.add(tree12);
-
-    const tree13 = Tree();
-    tree13.position.x = -arcCenterX * 0.7;
-    tree13.position.y = -arcCenterX * 2.4;
-    scene.add(tree13);
-
-    const tree14 = Tree();
-    tree14.position.x = -arcCenterX * 1.5;
-    tree14.position.y = -arcCenterX * 1.8;
-    scene.add(tree14);
-  }
+  const baseGeo = new THREE.BoxGeometry(baseDimensions.x, baseDimensions.y, 500);
+  const baseMat = new THREE.MeshBasicMaterial({ 
+    color: baseColor,
+    side: THREE.DoubleSide,
+    wireframe: false 
+  });
+  baseMesh = new THREE.Mesh(baseGeo, baseMat);
+  scene.add(baseMesh);
 }
 
 function getCarFrontTexture() {
@@ -610,7 +367,9 @@ function Car() {
 
   const main = new THREE.Mesh(
     new THREE.BoxBufferGeometry(60, 30, 15),
-    new THREE.MeshLambertMaterial({ color })
+    new THREE.MeshLambertMaterial({
+      color
+    })
   );
   main.position.z = 12;
   main.castShadow = true;
@@ -631,12 +390,24 @@ function Car() {
   const carRightSideTexture = getCarSideTexture();
 
   const cabin = new THREE.Mesh(new THREE.BoxBufferGeometry(33, 24, 12), [
-    new THREE.MeshLambertMaterial({ map: carFrontTexture }),
-    new THREE.MeshLambertMaterial({ map: carBackTexture }),
-    new THREE.MeshLambertMaterial({ map: carLeftSideTexture }),
-    new THREE.MeshLambertMaterial({ map: carRightSideTexture }),
-    new THREE.MeshLambertMaterial({ color: 0xffffff }), // top
-    new THREE.MeshLambertMaterial({ color: 0xffffff }) // bottom
+    new THREE.MeshLambertMaterial({
+      map: carFrontTexture
+    }),
+    new THREE.MeshLambertMaterial({
+      map: carBackTexture
+    }),
+    new THREE.MeshLambertMaterial({
+      map: carLeftSideTexture
+    }),
+    new THREE.MeshLambertMaterial({
+      map: carRightSideTexture
+    }),
+    new THREE.MeshLambertMaterial({
+      color: 0xffffff
+    }), // top
+    new THREE.MeshLambertMaterial({
+      color: 0xffffff
+    }) // bottom
   ]);
   cabin.position.x = -6;
   cabin.position.z = 25.5;
@@ -663,31 +434,6 @@ function Wheel() {
   return wheel;
 }
 
-function Tree() {
-  const tree = new THREE.Group();
-
-  const trunk = new THREE.Mesh(treeTrunkGeometry, treeTrunkMaterial);
-  trunk.position.z = 10;
-  trunk.castShadow = true;
-  trunk.receiveShadow = true;
-  trunk.matrixAutoUpdate = false;
-  tree.add(trunk);
-
-  const treeHeights = [45, 60, 75];
-  const height = pickRandom(treeHeights);
-
-  const crown = new THREE.Mesh(
-    new THREE.SphereGeometry(height / 2, 30, 30),
-    treeCrownMaterial
-  );
-  crown.position.z = height / 2 + 30;
-  crown.castShadow = true;
-  crown.receiveShadow = false;
-  tree.add(crown);
-
-  return tree;
-}
-
 window.addEventListener("keydown", function (event) {
   if (event.key == "ArrowUp") {
     startGame();
@@ -711,8 +457,8 @@ window.addEventListener("keydown", function (event) {
     return;
   }
   if (event.key == "C" || event.key == "c") {
-    if( inOrthographicView ) inOrthographicView = false;
-    else{
+    if (inOrthographicView) inOrthographicView = false;
+    else {
       inOrthographicView = true;
       setUpOrthographicCamera();
     }
@@ -748,27 +494,48 @@ function animation(timestamp) {
   const timeDelta = timestamp - lastTimestamp;
   movePlayerCar(timeDelta);
 
+  // Apply gravity
+  const timeStep = 1 / 60;
+  world.step(timeStep);
+
+  // Update THREE car position
+  playerCar.position.copy(carBody.position);
+  playerCar.quaternion.copy(carBody.quaternion);
+
+  lavaMesh.position.copy(lavaBody.position);
+  lavaMesh.quaternion.copy(lavaBody.quaternion);
+  trackMesh.position.copy(trackBody.position);
+  trackMesh.quaternion.copy(trackBody.quaternion);
+  blockMesh.position.copy(blockBody.position);
+  blockMesh.quaternion.copy(blockBody.quaternion);
+
   renderer.render(scene, camera);
   lastTimestamp = timestamp;
 }
 
 function movePlayerCar(timeDelta) {
   const playerSpeed = getPlayerSpeed();
-  
+
   playerAngleMoved += playerSpeed.sideways * timeDelta;
   const totalPlayerAngle = playerAngleInitial + playerAngleMoved;
   playerCar.rotation.z = totalPlayerAngle - Math.PI / 2;
+  carBody.quaternion.copy(playerCar.quaternion);
 
   const forwardMovement = playerSpeed.forward * timeDelta;
   const deltaX = forwardMovement * Math.cos(playerCar.rotation.z);
   const deltaY = forwardMovement * Math.sin(playerCar.rotation.z);
-  playerCar.position.x += deltaX;
-  playerCar.position.y += deltaY;
+  // playerCar.position.x += deltaX;
+  // playerCar.position.y += deltaY;
 
-  if(inOrthographicView == false) setUpPerspectiveCamera();
+  const impulse = new CANNON.Vec3(playerSpeed.forward, 0, -1);
+  carBody.applyLocalImpulse(impulse,new CANNON.Vec3(0, 0, 0));
+
+  if (inOrthographicView == false) setUpPerspectiveCamera();
 }
 
 function getPlayerSpeed() {
+  const baseSpeedForward = 20;
+  const baseSpeedSideways = 0.004;
   let speedObject = {
     forward: 0,
     sideways: 0
@@ -782,28 +549,29 @@ function getPlayerSpeed() {
   return speedObject;
 }
 
-function setUpOrthographicCamera(){
+function setUpOrthographicCamera() {
   camera = new THREE.OrthographicCamera(
     cameraWidth / -2, // left
     cameraWidth / 2, // right
     cameraHeight / 2, // top
     cameraHeight / -2, // bottom
-    50, // near plane
-    700 // far plane
+    5, // near plane
+    2000 // far plane
   );
-  
-  camera.position.set(0, -210, 300);
+
+  camera.position.set(200, -500, 630);
+  camera.up = new THREE.Vector3(0, 0, 1);
   camera.lookAt(0, 0, 0);
   renderer.render(scene, camera);
 }
 
-function setUpPerspectiveCamera(){
-  camera = new THREE.PerspectiveCamera(45, aspectRatio , 1, 1000);
+function setUpPerspectiveCamera() {
+  camera = new THREE.PerspectiveCamera(45, aspectRatio, 1, 1000);
   const deltaCameraX = 200 * Math.cos(playerCar.rotation.z);
   const deltaCameraY = 200 * Math.sin(playerCar.rotation.z);
-  camera.position.set(playerCar.position.x-deltaCameraX, playerCar.position.y-deltaCameraY, playerCar.position.z + 150);
-  camera.up = new THREE.Vector3(0,0,1);
-  camera.lookAt(playerCar.position.x+deltaCameraX, playerCar.position.y+deltaCameraY, playerCar.position.z + 20);
+  camera.position.set(playerCar.position.x - deltaCameraX, playerCar.position.y - deltaCameraY, playerCar.position.z + 150);
+  camera.up = new THREE.Vector3(0, 0, 1);
+  camera.lookAt(playerCar.position.x + deltaCameraX, playerCar.position.y + deltaCameraY, playerCar.position.z + 20);
   camera.updateProjectionMatrix();
   renderer.render(scene, camera);
 }
@@ -812,7 +580,7 @@ window.addEventListener("resize", () => {
   console.log("resize", window.innerWidth, window.innerHeight);
 
   // Adjust camera
-  if( inOrthographicView ) setUpOrthographicCamera();
+  if (inOrthographicView) setUpOrthographicCamera();
   else setUpPerspectiveCamera();
 
   // Reset renderer
@@ -822,171 +590,213 @@ window.addEventListener("resize", () => {
 ```
 {{< /details >}}
 
-Use the arrow keys to move the car.
-Press the `R` key to reset the car's position and orientation.
-Press the `C` key tho switch betwee the orthographic and perspective camera.
+* Use the arrow keys to move the car.
+* Press the `R` key to reset the car's position and orientation.
+* Press the `C` key tho switch betwee the orthographic and perspective camera.
 
 {{< p5-global-iframe id="breath" width="1000" height="1000" >}}
 function setup() {
-    createCanvas(10, 10);
-    const script = document.createElement('script');
-    script.src = 'https://threejs.org/build/three.js';
-    script.async = true;
-    script.onload = () => {
-        console.log('Script loaded successfuly');
-        setUpApp();
-    };
-    script.onerror = () => {
-        console.log('Error occurred while loading script');
-    };
-    document.body.appendChild(script);
+  importThree();
 }
-  
+
 function draw() {}
 
-function setUpApp(){
-    window.focus(); // Capture keys right away (by default focus is on editor)
+function importThree(){
+  const script = document.createElement('script');
+  script.src = 'https://threejs.org/build/three.js';
+  script.async = true;
+  script.onload = () => {
+    console.log('Script loaded successfuly');
+    importCannon();
+  };
+  script.onerror = () => {
+    console.log('Error occurred while loading script');
+  };
+  document.body.appendChild(script);
+}
 
-    // Pick a random value from an array
-    function pickRandom(array) {
+function importCannon(){
+  const script = document.createElement('script');
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/cannon.js/0.6.2/cannon.js';
+  script.async = true;
+  script.onload = () => {
+    console.log('Script loaded successfuly');
+    setUpApp();
+  };
+  script.onerror = () => {
+    console.log('Error occurred while loading script');
+  };
+  document.body.appendChild(script);
+}
+
+function setUpApp() {
+  window.focus(); // Capture keys right away (by default focus is on editor)
+
+  // Pick a random value from an array
+  function pickRandom(array) {
     return array[Math.floor(Math.random() * array.length)];
-    }
+  }
 
-    const vehicleColors = [
+  const vehicleColors = [
     0xa52523,
     0xef2d56,
     0x0ad3ff,
     0xff9f1c /*0xa52523, 0xbdb638, 0x78b14b*/
-    ];
+  ];
 
-    const carStartingHeight = 0;
+  const lavaRed = "#7cfc00";
+  const trackColor = "black";
+  const blockColor = "#BF9742";
+  const mountainColor = "#A47E3B";
+  const baseColor = "#61481C";
 
-    const lawnGreen = "#67C240";
-    const trackColor = "#546E90";
-    const edgeColor = "#725F48";
-    const treeCrownColor = 0x498c2c;
-    const treeTrunkColor = 0x4b3f2f;
+  const wheelGeometry = new THREE.BoxBufferGeometry(12, 33, 12);
+  const wheelMaterial = new THREE.MeshLambertMaterial({
+    color: 0x333333
+  });
 
-    const wheelGeometry = new THREE.BoxBufferGeometry(12, 33, 12);
-    const wheelMaterial = new THREE.MeshLambertMaterial({ color: 0x333333 });
-    const treeTrunkGeometry = new THREE.BoxBufferGeometry(15, 15, 80);
-    const treeTrunkMaterial = new THREE.MeshLambertMaterial({
-    color: treeTrunkColor
-    });
-    const treeCrownMaterial = new THREE.MeshLambertMaterial({
-    color: treeCrownColor
-    });
-
-    const config = {
+  const config = {
     shadows: true, // Use shadow
     trees: true, // Add trees to the map
     curbs: true, // Show texture on the extruded geometry
     grid: false // Show grid helper
-    };
+  };
 
-    const baseSpeedForward = 0.3;
-    const baseSpeedSideways = 0.004;
+  const playerAngleInitial = Math.PI;
+  let playerAngleMoved;
+  let accelerate = false; // Is the player accelerating
+  let decelerate = false; // Is the player decelerating
+  let turnLeft = false; // Is player turning left
+  let turnRight = false; // Is player turning right
+  let inOrthographicView = true;
 
-    const playerAngleInitial = Math.PI;
-    let playerAngleMoved;
-    let accelerate = false; // Is the player accelerating
-    let decelerate = false; // Is the player decelerating
-    let turnLeft = false; // Is player turning left
-    let turnRight = false; // Is player turning right
-    let inOrthographicView = true;
+  let ready;
+  let lastTimestamp;
 
-    let ready;
-    let lastTimestamp;
+  const trackRadius = 225;
+  const trackWidth = 45;
+  const innerTrackRadius = trackRadius - trackWidth;
+  const outerTrackRadius = trackRadius + trackWidth;
 
-    const trackRadius = 225;
-    const trackWidth = 45;
-    const innerTrackRadius = trackRadius - trackWidth;
-    const outerTrackRadius = trackRadius + trackWidth;
+  const arcAngle1 = (1 / 3) * Math.PI; // 60 degrees
 
-    const arcAngle1 = (1 / 3) * Math.PI; // 60 degrees
+  const deltaY = Math.sin(arcAngle1) * innerTrackRadius;
+  const arcAngle2 = Math.asin(deltaY / outerTrackRadius);
 
-    const deltaY = Math.sin(arcAngle1) * innerTrackRadius;
-    const arcAngle2 = Math.asin(deltaY / outerTrackRadius);
-
-    const arcCenterX =
+  const arcCenterX =
     (Math.cos(arcAngle1) * innerTrackRadius +
-        Math.cos(arcAngle2) * outerTrackRadius) /
+      Math.cos(arcAngle2) * outerTrackRadius) /
     2;
 
-    const arcAngle3 = Math.acos(arcCenterX / innerTrackRadius);
+  const arcAngle3 = Math.acos(arcCenterX / innerTrackRadius);
 
-    const arcAngle4 = Math.acos(arcCenterX / outerTrackRadius);
+  const arcAngle4 = Math.acos(arcCenterX / outerTrackRadius);
 
-    // Initialize ThreeJs
-    // Set up camera
-    const aspectRatio = window.innerWidth / window.innerHeight;
-    const cameraWidth = 960;
-    const cameraHeight = cameraWidth / aspectRatio;
+  // Set up physics
+  const world = new CANNON.World();
+  world.gravity.set(0, 0, -9.82); 
+  var lavaMesh, lavaBody;
+  var trackMesh, trackBody;
+  var blockMesh, blockBody;
+  var mountainMesh, mountainBody;
+  var baseMesh, baseBody;
+  const groundPhysMat = new CANNON.Material();
+  const carPhysMat = new CANNON.Material();
+  const groundBoxContactMat = new CANNON.ContactMaterial(
+      groundPhysMat,
+      carPhysMat,
+      {
+        friction: 0.04,
+        restitution: 0
+      }
+  );
 
-    let camera = new THREE.OrthographicCamera(
+  // Initialize ThreeJs
+  // Set up camera
+  const aspectRatio = window.innerWidth / window.innerHeight;
+  const cameraWidth = 960;
+  const cameraHeight = cameraWidth / aspectRatio;
+
+  let camera = new THREE.OrthographicCamera(
     cameraWidth / -2, // left
     cameraWidth / 2, // right
     cameraHeight / 2, // top
     cameraHeight / -2, // bottom
-    50, // near plane
-    700 // far plane
-    );
+    5, // near plane
+    2000 // far plane
+  );
 
-    camera.position.set(0, -210, 300);
-    camera.lookAt(0, 0, 0);
+  camera.position.set(200, -500, 630);
+  camera.up = new THREE.Vector3(0, 0, 1);
+  camera.lookAt(0, 0, 0);
 
-    const scene = new THREE.Scene();
+  const scene = new THREE.Scene();
+  
+  const playerCar = Car();
+  const carBody = new CANNON.Body({
+      mass: 20,
+      shape: new CANNON.Box(new CANNON.Vec3(60, 30, 15)),
+      material: carPhysMat
+  });
+  world.addBody(carBody);
+  scene.add(playerCar);
 
-    const playerCar = Car();
-    scene.add(playerCar);
+  renderMap();
 
-    renderMap(cameraWidth, cameraHeight * 2); // The map height is higher because we look at the map from an angle
+  world.addContactMaterial(groundBoxContactMat);
 
-    // Set up lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-    scene.add(ambientLight);
+  // Set up lights
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+  scene.add(ambientLight);
 
-    const dirLight = new THREE.DirectionalLight(0xffffff, 0.6);
-    dirLight.position.set(100, -300, 300);
-    dirLight.castShadow = true;
-    dirLight.shadow.mapSize.width = 1024;
-    dirLight.shadow.mapSize.height = 1024;
-    dirLight.shadow.camera.left = -800;
-    dirLight.shadow.camera.right = 700;
-    dirLight.shadow.camera.top = 800;
-    dirLight.shadow.camera.bottom = -300;
-    dirLight.shadow.camera.near = 100;
-    dirLight.shadow.camera.far = 800;
-    scene.add(dirLight);
+  const dirLight = new THREE.DirectionalLight(0xffffff, 0.6);
+  dirLight.position.set(100, -300, 300);
+  dirLight.castShadow = true;
+  dirLight.shadow.mapSize.width = 1024;
+  dirLight.shadow.mapSize.height = 1024;
+  dirLight.shadow.camera.left = -800;
+  dirLight.shadow.camera.right = 700;
+  dirLight.shadow.camera.top = 800;
+  dirLight.shadow.camera.bottom = -300;
+  dirLight.shadow.camera.near = 100;
+  dirLight.shadow.camera.far = 800;
+  scene.add(dirLight);
 
-    // const cameraHelper = new THREE.CameraHelper(dirLight.shadow.camera);
-    // scene.add(cameraHelper);
+  // const cameraHelper = new THREE.CameraHelper(dirLight.shadow.camera);
+  // scene.add(cameraHelper);
 
-    if (config.grid) {
+  if (config.grid) {
     const gridHelper = new THREE.GridHelper(80, 8);
     gridHelper.rotation.x = Math.PI / 2;
     scene.add(gridHelper);
-    }
+  }
 
-    // Set up renderer
-    const renderer = new THREE.WebGLRenderer({
+  // Set up renderer
+  const renderer = new THREE.WebGLRenderer({
     antialias: true,
     powerPreference: "high-performance",
     alpha: true
-    });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    if (config.shadows) renderer.shadowMap.enabled = true;
-    document.body.appendChild(renderer.domElement);
+  });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  if (config.shadows) renderer.shadowMap.enabled = true;
+  document.body.appendChild(renderer.domElement);
 
-    reset();
+  reset();
 
-    function reset() {
+  function reset() {
     // Reset position
     playerAngleMoved = 0;
-    playerCar.position.x = 0;
-    playerCar.position.y = 0;
-    playerCar.position.z = carStartingHeight;
+    playerCar.position.x = -300;
+    playerCar.position.y = -300;
+    playerCar.position.z = 50;
+    playerCar.rotation.x = 0;
+    playerCar.rotation.y = 0;
+    playerCar.rotation.z = 0;
     lastTimestamp = undefined;
+
+    // Reset physics
+    carBody.position.copy(playerCar.position);
+    carBody.quaternion.copy(playerCar.quaternion);
 
     // Place the player's car to the starting position
     movePlayerCar(0);
@@ -995,401 +805,135 @@ function setUpApp(){
     renderer.render(scene, camera);
 
     ready = true;
-    }
+  }
 
-    function startGame() {
+  function startGame() {
     if (ready) {
-        ready = false;
-        renderer.setAnimationLoop(animation);
+      ready = false;
+      renderer.setAnimationLoop(animation);
     }
+  }
+
+  function renderMap() {
+    const lavaDimensions = {
+      x: 2000,
+      y: 2000,
+      pos_z: -200
     }
-
-    function getLineMarkings(mapWidth, mapHeight) {
-    const canvas = document.createElement("canvas");
-    canvas.width = mapWidth;
-    canvas.height = mapHeight;
-    const context = canvas.getContext("2d");
-
-    context.fillStyle = trackColor;
-    context.fillRect(0, 0, mapWidth, mapHeight);
-
-    context.lineWidth = 2;
-    context.strokeStyle = "#E0FFFF";
-    context.setLineDash([10, 14]);
-
-    // Left circle
-    context.beginPath();
-    context.arc(
-        mapWidth / 2 - arcCenterX,
-        mapHeight / 2,
-        trackRadius,
-        0,
-        Math.PI * 2
-    );
-    context.stroke();
-
-    // Right circle
-    context.beginPath();
-    context.arc(
-        mapWidth / 2 + arcCenterX,
-        mapHeight / 2,
-        trackRadius,
-        0,
-        Math.PI * 2
-    );
-    context.stroke();
-
-    return new THREE.CanvasTexture(canvas);
+    const trackDimensions = {
+      x: 800,
+      y: 700,
+      pos_z: 10
+    }
+    const blockDimensions = {
+      x: 100,
+      y: 50,
+      pos_z: 0
+    }
+    const mountainDimensions = {
+      x: 150,
+      y: 100,
+      pos_z: 0
+    }
+    const baseDimensions = {
+      x: 400,
+      y: 400,
+      pos_z: -200
     }
 
-    function getCurbsTexture(mapWidth, mapHeight) {
-    const canvas = document.createElement("canvas");
-    canvas.width = mapWidth;
-    canvas.height = mapHeight;
-    const context = canvas.getContext("2d");
 
-    context.fillStyle = lawnGreen;
-    context.fillRect(0, 0, mapWidth, mapHeight);
+    // Lava
+    lavaBody = new CANNON.Body({
+      shape: new CANNON.Box(new CANNON.Vec3(lavaDimensions.x/2, lavaDimensions.y/2, 0.1)),
+      type: CANNON.Body.STATIC,
+      material: groundPhysMat,
+      position: new CANNON.Vec3(0, 0, lavaDimensions.pos_z),
+    });
+    world.addBody(lavaBody);
 
-    // Extra big
-    context.lineWidth = 65;
-    context.strokeStyle = "#A2FF75";
-    context.beginPath();
-    context.arc(
-        mapWidth / 2 - arcCenterX,
-        mapHeight / 2,
-        innerTrackRadius,
-        arcAngle1,
-        -arcAngle1
-    );
-    context.arc(
-        mapWidth / 2 + arcCenterX,
-        mapHeight / 2,
-        outerTrackRadius,
-        Math.PI + arcAngle2,
-        Math.PI - arcAngle2,
-        true
-    );
-    context.stroke();
+    const lavaGeo = new THREE.PlaneGeometry(lavaDimensions.x, lavaDimensions.y);
+    const lavaMat = new THREE.MeshBasicMaterial({ 
+      color: lavaRed,
+      side: THREE.DoubleSide,
+      wireframe: false 
+    });
+    lavaMesh = new THREE.Mesh(lavaGeo, lavaMat);
+    scene.add(lavaMesh);
+    
+    // Track
+    trackBody = new CANNON.Body({
+      shape: new CANNON.Box(new CANNON.Vec3(trackDimensions.x/2, trackDimensions.y/2, 0.1)),
+      type: CANNON.Body.STATIC,
+      material: groundPhysMat,
+      position: new CANNON.Vec3(0, 0, trackDimensions.pos_z),
+    });
+    world.addBody(trackBody);
 
-    context.beginPath();
-    context.arc(
-        mapWidth / 2 + arcCenterX,
-        mapHeight / 2,
-        innerTrackRadius,
-        Math.PI + arcAngle1,
-        Math.PI - arcAngle1
-    );
-    context.arc(
-        mapWidth / 2 - arcCenterX,
-        mapHeight / 2,
-        outerTrackRadius,
-        arcAngle2,
-        -arcAngle2,
-        true
-    );
-    context.stroke();
+    const trackGeo = new THREE.PlaneGeometry(trackDimensions.x, trackDimensions.y);
+    const trackMat = new THREE.MeshBasicMaterial({ 
+      color: trackColor,
+      side: THREE.DoubleSide,
+      wireframe: false 
+    });
+    trackMesh = new THREE.Mesh(trackGeo, trackMat);
+    scene.add(trackMesh);
+    
+    // Block
+    blockBody = new CANNON.Body({
+      shape: new CANNON.Box(new CANNON.Vec3(blockDimensions.x/2, blockDimensions.y/2, 1000)),
+      type: CANNON.Body.STATIC,
+      material: groundPhysMat,
+      position: new CANNON.Vec3(0, 0, blockDimensions.pos_z),
+    });
+    world.addBody(blockBody);
 
-    // Extra small
-    context.lineWidth = 60;
-    context.strokeStyle = lawnGreen;
-    context.beginPath();
-    context.arc(
-        mapWidth / 2 - arcCenterX,
-        mapHeight / 2,
-        innerTrackRadius,
-        arcAngle1,
-        -arcAngle1
-    );
-    context.arc(
-        mapWidth / 2 + arcCenterX,
-        mapHeight / 2,
-        outerTrackRadius,
-        Math.PI + arcAngle2,
-        Math.PI - arcAngle2,
-        true
-    );
-    context.arc(
-        mapWidth / 2 + arcCenterX,
-        mapHeight / 2,
-        innerTrackRadius,
-        Math.PI + arcAngle1,
-        Math.PI - arcAngle1
-    );
-    context.arc(
-        mapWidth / 2 - arcCenterX,
-        mapHeight / 2,
-        outerTrackRadius,
-        arcAngle2,
-        -arcAngle2,
-        true
-    );
-    context.stroke();
+    const blockGeo = new THREE.BoxGeometry(blockDimensions.x, blockDimensions.y, 1000);
+    const blockMat = new THREE.MeshBasicMaterial({ 
+      color: blockColor,
+      side: THREE.DoubleSide,
+      wireframe: false 
+    });
+    blockMesh = new THREE.Mesh(blockGeo, blockMat);
+    scene.add(blockMesh);
+
+    // Mountain
+    mountainBody = new CANNON.Body({
+      shape: new CANNON.Box(new CANNON.Vec3(mountainDimensions.x/2, mountainDimensions.y/2, 700)),
+      type: CANNON.Body.STATIC,
+      material: groundPhysMat,
+      position: new CANNON.Vec3(0, 0, mountainDimensions.pos_z),
+    });
+    world.addBody(mountainBody);
+
+    const mountainGeo = new THREE.BoxGeometry(mountainDimensions.x, mountainDimensions.y, 700);
+    const mountainMat = new THREE.MeshBasicMaterial({ 
+      color: mountainColor,
+      side: THREE.DoubleSide,
+      wireframe: false 
+    });
+    mountainMesh = new THREE.Mesh(mountainGeo, mountainMat);
+    scene.add(mountainMesh);
 
     // Base
-    context.lineWidth = 6;
-    context.strokeStyle = edgeColor;
-
-    // Outer circle left
-    context.beginPath();
-    context.arc(
-        mapWidth / 2 - arcCenterX,
-        mapHeight / 2,
-        outerTrackRadius,
-        0,
-        Math.PI * 2
-    );
-    context.stroke();
-
-    // Outer circle right
-    context.beginPath();
-    context.arc(
-        mapWidth / 2 + arcCenterX,
-        mapHeight / 2,
-        outerTrackRadius,
-        0,
-        Math.PI * 2
-    );
-    context.stroke();
-
-    // Inner circle left
-    context.beginPath();
-    context.arc(
-        mapWidth / 2 - arcCenterX,
-        mapHeight / 2,
-        innerTrackRadius,
-        0,
-        Math.PI * 2
-    );
-    context.stroke();
-
-    // Inner circle right
-    context.beginPath();
-    context.arc(
-        mapWidth / 2 + arcCenterX,
-        mapHeight / 2,
-        innerTrackRadius,
-        0,
-        Math.PI * 2
-    );
-    context.stroke();
-
-    return new THREE.CanvasTexture(canvas);
-    }
-
-    function getLeftIsland() {
-    const islandLeft = new THREE.Shape();
-
-    islandLeft.absarc(
-        -arcCenterX,
-        0,
-        innerTrackRadius,
-        arcAngle1,
-        -arcAngle1,
-        false
-    );
-
-    islandLeft.absarc(
-        arcCenterX,
-        0,
-        outerTrackRadius,
-        Math.PI + arcAngle2,
-        Math.PI - arcAngle2,
-        true
-    );
-
-    return islandLeft;
-    }
-
-    function getMiddleIsland() {
-    const islandMiddle = new THREE.Shape();
-
-    islandMiddle.absarc(
-        -arcCenterX,
-        0,
-        innerTrackRadius,
-        arcAngle3,
-        -arcAngle3,
-        true
-    );
-
-    islandMiddle.absarc(
-        arcCenterX,
-        0,
-        innerTrackRadius,
-        Math.PI + arcAngle3,
-        Math.PI - arcAngle3,
-        true
-    );
-
-    return islandMiddle;
-    }
-
-    function getRightIsland() {
-    const islandRight = new THREE.Shape();
-
-    islandRight.absarc(
-        arcCenterX,
-        0,
-        innerTrackRadius,
-        Math.PI - arcAngle1,
-        Math.PI + arcAngle1,
-        true
-    );
-
-    islandRight.absarc(
-        -arcCenterX,
-        0,
-        outerTrackRadius,
-        -arcAngle2,
-        arcAngle2,
-        false
-    );
-
-    return islandRight;
-    }
-
-    function getOuterField(mapWidth, mapHeight) {
-    const field = new THREE.Shape();
-
-    field.moveTo(-mapWidth / 2, -mapHeight / 2);
-    field.lineTo(0, -mapHeight / 2);
-
-    field.absarc(-arcCenterX, 0, outerTrackRadius, -arcAngle4, arcAngle4, true);
-
-    field.absarc(
-        arcCenterX,
-        0,
-        outerTrackRadius,
-        Math.PI - arcAngle4,
-        Math.PI + arcAngle4,
-        true
-    );
-
-    field.lineTo(0, -mapHeight / 2);
-    field.lineTo(mapWidth / 2, -mapHeight / 2);
-    field.lineTo(mapWidth / 2, mapHeight / 2);
-    field.lineTo(-mapWidth / 2, mapHeight / 2);
-
-    return field;
-    }
-
-    function renderMap(mapWidth, mapHeight) {
-    const lineMarkingsTexture = getLineMarkings(mapWidth, mapHeight);
-
-    const planeGeometry = new THREE.PlaneBufferGeometry(mapWidth, mapHeight);
-    const planeMaterial = new THREE.MeshLambertMaterial({
-        map: lineMarkingsTexture
+    baseBody = new CANNON.Body({
+      shape: new CANNON.Box(new CANNON.Vec3(baseDimensions.x/2, baseDimensions.y/2, 500)),
+      type: CANNON.Body.STATIC,
+      material: groundPhysMat,
+      position: new CANNON.Vec3(0, 0, baseDimensions.pos_z),
     });
-    const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-    plane.receiveShadow = true;
-    plane.matrixAutoUpdate = false;
-    scene.add(plane);
+    world.addBody(baseBody);
 
-    // Extruded geometry with curbs
-    const islandLeft = getLeftIsland();
-    const islandMiddle = getMiddleIsland();
-    const islandRight = getRightIsland();
-    const outerField = getOuterField(mapWidth, mapHeight);
+    const baseGeo = new THREE.BoxGeometry(baseDimensions.x, baseDimensions.y, 500);
+    const baseMat = new THREE.MeshBasicMaterial({ 
+      color: baseColor,
+      side: THREE.DoubleSide,
+      wireframe: false 
+    });
+    baseMesh = new THREE.Mesh(baseGeo, baseMat);
+    scene.add(baseMesh);
+  }
 
-    // Mapping a texture on an extruded geometry works differently than mapping it to a box
-    // By default it is mapped to a 1x1 unit square, and we have to stretch it out by setting repeat
-    // We also need to shift it by setting the offset to have it centered
-    const curbsTexture = getCurbsTexture(mapWidth, mapHeight);
-    curbsTexture.offset = new THREE.Vector2(0.5, 0.5);
-    curbsTexture.repeat.set(1 / mapWidth, 1 / mapHeight);
-
-    // An extruded geometry turns a 2D shape into 3D by giving it a depth
-    const fieldGeometry = new THREE.ExtrudeBufferGeometry(
-        [islandLeft, islandRight, islandMiddle, outerField],
-        { depth: 6, bevelEnabled: false }
-    );
-
-    const fieldMesh = new THREE.Mesh(fieldGeometry, [
-        new THREE.MeshLambertMaterial({
-        // Either set a plain color or a texture depending on config
-        color: !config.curbs && lawnGreen,
-        map: config.curbs && curbsTexture
-        }),
-        new THREE.MeshLambertMaterial({ color: 0x23311c })
-    ]);
-    fieldMesh.receiveShadow = true;
-    fieldMesh.matrixAutoUpdate = false;
-    scene.add(fieldMesh);
-
-    if (config.trees) {
-        const tree1 = Tree();
-        tree1.position.x = arcCenterX * 1.3;
-        scene.add(tree1);
-
-        const tree2 = Tree();
-        tree2.position.y = arcCenterX * 1.9;
-        tree2.position.x = arcCenterX * 1.3;
-        scene.add(tree2);
-
-        const tree3 = Tree();
-        tree3.position.x = arcCenterX * 0.8;
-        tree3.position.y = arcCenterX * 2;
-        scene.add(tree3);
-
-        const tree4 = Tree();
-        tree4.position.x = arcCenterX * 1.8;
-        tree4.position.y = arcCenterX * 2;
-        scene.add(tree4);
-
-        const tree5 = Tree();
-        tree5.position.x = -arcCenterX * 1;
-        tree5.position.y = arcCenterX * 2;
-        scene.add(tree5);
-
-        const tree6 = Tree();
-        tree6.position.x = -arcCenterX * 2;
-        tree6.position.y = arcCenterX * 1.8;
-        scene.add(tree6);
-
-        const tree7 = Tree();
-        tree7.position.x = arcCenterX * 0.8;
-        tree7.position.y = -arcCenterX * 2;
-        scene.add(tree7);
-
-        const tree8 = Tree();
-        tree8.position.x = arcCenterX * 1.8;
-        tree8.position.y = -arcCenterX * 2;
-        scene.add(tree8);
-
-        const tree9 = Tree();
-        tree9.position.x = -arcCenterX * 1;
-        tree9.position.y = -arcCenterX * 2;
-        scene.add(tree9);
-
-        const tree10 = Tree();
-        tree10.position.x = -arcCenterX * 2;
-        tree10.position.y = -arcCenterX * 1.8;
-        scene.add(tree10);
-
-        const tree11 = Tree();
-        tree11.position.x = arcCenterX * 0.6;
-        tree11.position.y = -arcCenterX * 2.3;
-        scene.add(tree11);
-
-        const tree12 = Tree();
-        tree12.position.x = arcCenterX * 1.5;
-        tree12.position.y = -arcCenterX * 2.4;
-        scene.add(tree12);
-
-        const tree13 = Tree();
-        tree13.position.x = -arcCenterX * 0.7;
-        tree13.position.y = -arcCenterX * 2.4;
-        scene.add(tree13);
-
-        const tree14 = Tree();
-        tree14.position.x = -arcCenterX * 1.5;
-        tree14.position.y = -arcCenterX * 1.8;
-        scene.add(tree14);
-    }
-    }
-
-    function getCarFrontTexture() {
+  function getCarFrontTexture() {
     const canvas = document.createElement("canvas");
     canvas.width = 64;
     canvas.height = 32;
@@ -1402,9 +946,9 @@ function setUpApp(){
     context.fillRect(8, 8, 48, 24);
 
     return new THREE.CanvasTexture(canvas);
-    }
+  }
 
-    function getCarSideTexture() {
+  function getCarSideTexture() {
     const canvas = document.createElement("canvas");
     canvas.width = 128;
     canvas.height = 32;
@@ -1418,16 +962,18 @@ function setUpApp(){
     context.fillRect(58, 8, 60, 24);
 
     return new THREE.CanvasTexture(canvas);
-    }
+  }
 
-    function Car() {
+  function Car() {
     const car = new THREE.Group();
 
     const color = pickRandom(vehicleColors);
 
     const main = new THREE.Mesh(
-        new THREE.BoxBufferGeometry(60, 30, 15),
-        new THREE.MeshLambertMaterial({ color })
+      new THREE.BoxBufferGeometry(60, 30, 15),
+      new THREE.MeshLambertMaterial({
+        color
+      })
     );
     main.position.z = 12;
     main.castShadow = true;
@@ -1448,12 +994,24 @@ function setUpApp(){
     const carRightSideTexture = getCarSideTexture();
 
     const cabin = new THREE.Mesh(new THREE.BoxBufferGeometry(33, 24, 12), [
-        new THREE.MeshLambertMaterial({ map: carFrontTexture }),
-        new THREE.MeshLambertMaterial({ map: carBackTexture }),
-        new THREE.MeshLambertMaterial({ map: carLeftSideTexture }),
-        new THREE.MeshLambertMaterial({ map: carRightSideTexture }),
-        new THREE.MeshLambertMaterial({ color: 0xffffff }), // top
-        new THREE.MeshLambertMaterial({ color: 0xffffff }) // bottom
+      new THREE.MeshLambertMaterial({
+        map: carFrontTexture
+      }),
+      new THREE.MeshLambertMaterial({
+        map: carBackTexture
+      }),
+      new THREE.MeshLambertMaterial({
+        map: carLeftSideTexture
+      }),
+      new THREE.MeshLambertMaterial({
+        map: carRightSideTexture
+      }),
+      new THREE.MeshLambertMaterial({
+        color: 0xffffff
+      }), // top
+      new THREE.MeshLambertMaterial({
+        color: 0xffffff
+      }) // bottom
     ]);
     cabin.position.x = -6;
     cabin.position.z = 25.5;
@@ -1470,125 +1028,121 @@ function setUpApp(){
     car.add(frontWheel);
 
     return car;
-    }
+  }
 
-    function Wheel() {
+  function Wheel() {
     const wheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
     wheel.position.z = 6;
     wheel.castShadow = false;
     wheel.receiveShadow = false;
     return wheel;
-    }
+  }
 
-    function Tree() {
-    const tree = new THREE.Group();
-
-    const trunk = new THREE.Mesh(treeTrunkGeometry, treeTrunkMaterial);
-    trunk.position.z = 10;
-    trunk.castShadow = true;
-    trunk.receiveShadow = true;
-    trunk.matrixAutoUpdate = false;
-    tree.add(trunk);
-
-    const treeHeights = [45, 60, 75];
-    const height = pickRandom(treeHeights);
-
-    const crown = new THREE.Mesh(
-        new THREE.SphereGeometry(height / 2, 30, 30),
-        treeCrownMaterial
-    );
-    crown.position.z = height / 2 + 30;
-    crown.castShadow = true;
-    crown.receiveShadow = false;
-    tree.add(crown);
-
-    return tree;
-    }
-
-    window.addEventListener("keydown", function (event) {
+  window.addEventListener("keydown", function (event) {
     if (event.key == "ArrowUp") {
-        startGame();
-        accelerate = true;
-        return;
+      startGame();
+      accelerate = true;
+      return;
     }
     if (event.key == "ArrowDown") {
-        decelerate = true;
-        return;
+      decelerate = true;
+      return;
     }
     if (event.key == "ArrowLeft") {
-        turnLeft = true;
-        return;
+      turnLeft = true;
+      return;
     }
     if (event.key == "ArrowRight") {
-        turnRight = true;
-        return;
+      turnRight = true;
+      return;
     }
     if (event.key == "R" || event.key == "r") {
-        reset();
-        return;
+      reset();
+      return;
     }
     if (event.key == "C" || event.key == "c") {
-        if( inOrthographicView ) inOrthographicView = false;
-        else{
+      if (inOrthographicView) inOrthographicView = false;
+      else {
         inOrthographicView = true;
         setUpOrthographicCamera();
-        }
-        return;
+      }
+      return;
     }
-    });
+  });
 
-    window.addEventListener("keyup", function (event) {
+  window.addEventListener("keyup", function (event) {
     if (event.key == "ArrowUp") {
-        accelerate = false;
-        return;
+      accelerate = false;
+      return;
     }
     if (event.key == "ArrowDown") {
-        decelerate = false;
-        return;
+      decelerate = false;
+      return;
     }
     if (event.key == "ArrowLeft") {
-        turnLeft = false;
-        return;
+      turnLeft = false;
+      return;
     }
     if (event.key == "ArrowRight") {
-        turnRight = false;
-        return;
+      turnRight = false;
+      return;
     }
-    });
+  });
 
-    function animation(timestamp) {
+  function animation(timestamp) {
     if (!lastTimestamp) {
-        lastTimestamp = timestamp;
-        return;
+      lastTimestamp = timestamp;
+      return;
     }
 
     const timeDelta = timestamp - lastTimestamp;
     movePlayerCar(timeDelta);
 
+    // Apply gravity
+    const timeStep = 1 / 60;
+    world.step(timeStep);
+
+    // Update THREE car position
+    playerCar.position.copy(carBody.position);
+    playerCar.quaternion.copy(carBody.quaternion);
+
+    lavaMesh.position.copy(lavaBody.position);
+    lavaMesh.quaternion.copy(lavaBody.quaternion);
+    trackMesh.position.copy(trackBody.position);
+    trackMesh.quaternion.copy(trackBody.quaternion);
+    blockMesh.position.copy(blockBody.position);
+    blockMesh.quaternion.copy(blockBody.quaternion);
+
     renderer.render(scene, camera);
     lastTimestamp = timestamp;
-    }
+  }
 
-    function movePlayerCar(timeDelta) {
+  function movePlayerCar(timeDelta) {
     const playerSpeed = getPlayerSpeed();
-    
+
     playerAngleMoved += playerSpeed.sideways * timeDelta;
     const totalPlayerAngle = playerAngleInitial + playerAngleMoved;
     playerCar.rotation.z = totalPlayerAngle - Math.PI / 2;
+    carBody.quaternion.copy(playerCar.quaternion);
 
     const forwardMovement = playerSpeed.forward * timeDelta;
     const deltaX = forwardMovement * Math.cos(playerCar.rotation.z);
     const deltaY = forwardMovement * Math.sin(playerCar.rotation.z);
-    playerCar.position.x += deltaX;
-    playerCar.position.y += deltaY;
+    // playerCar.position.x += deltaX;
+    // playerCar.position.y += deltaY;
 
-    if(inOrthographicView == false) setUpPerspectiveCamera();
-    }
+    const impulse = new CANNON.Vec3(playerSpeed.forward, 0, -1);
+    carBody.applyLocalImpulse(impulse,new CANNON.Vec3(0, 0, 0));
 
-    function getPlayerSpeed() {
+    if (inOrthographicView == false) setUpPerspectiveCamera();
+  }
+
+  function getPlayerSpeed() {
+    const baseSpeedForward = 20;
+    const baseSpeedSideways = 0.004;
     let speedObject = {
-        forward: 0,
-        sideways: 0
+      forward: 0,
+      sideways: 0
     }
     if (accelerate == decelerate) speedObject.forward = 0;
     else if (accelerate) speedObject.forward = baseSpeedForward;
@@ -1597,45 +1151,46 @@ function setUpApp(){
     else if (turnLeft) speedObject.sideways = baseSpeedSideways;
     else if (turnRight) speedObject.sideways = -baseSpeedSideways;
     return speedObject;
-    }
+  }
 
-    function setUpOrthographicCamera(){
+  function setUpOrthographicCamera() {
     camera = new THREE.OrthographicCamera(
-        cameraWidth / -2, // left
-        cameraWidth / 2, // right
-        cameraHeight / 2, // top
-        cameraHeight / -2, // bottom
-        50, // near plane
-        700 // far plane
+      cameraWidth / -2, // left
+      cameraWidth / 2, // right
+      cameraHeight / 2, // top
+      cameraHeight / -2, // bottom
+      5, // near plane
+      2000 // far plane
     );
-    
-    camera.position.set(0, -210, 300);
+
+    camera.position.set(200, -500, 630);
+    camera.up = new THREE.Vector3(0, 0, 1);
     camera.lookAt(0, 0, 0);
     renderer.render(scene, camera);
-    }
+  }
 
-    function setUpPerspectiveCamera(){
-    camera = new THREE.PerspectiveCamera(45, aspectRatio , 1, 1000);
+  function setUpPerspectiveCamera() {
+    camera = new THREE.PerspectiveCamera(45, aspectRatio, 1, 1000);
     const deltaCameraX = 200 * Math.cos(playerCar.rotation.z);
     const deltaCameraY = 200 * Math.sin(playerCar.rotation.z);
-    camera.position.set(playerCar.position.x-deltaCameraX, playerCar.position.y-deltaCameraY, playerCar.position.z + 150);
-    camera.up = new THREE.Vector3(0,0,1);
-    camera.lookAt(playerCar.position.x+deltaCameraX, playerCar.position.y+deltaCameraY, playerCar.position.z + 20);
+    camera.position.set(playerCar.position.x - deltaCameraX, playerCar.position.y - deltaCameraY, playerCar.position.z + 150);
+    camera.up = new THREE.Vector3(0, 0, 1);
+    camera.lookAt(playerCar.position.x + deltaCameraX, playerCar.position.y + deltaCameraY, playerCar.position.z + 20);
     camera.updateProjectionMatrix();
     renderer.render(scene, camera);
-    }
+  }
 
-    window.addEventListener("resize", () => {
+  window.addEventListener("resize", () => {
     console.log("resize", window.innerWidth, window.innerHeight);
 
     // Adjust camera
-    if( inOrthographicView ) setUpOrthographicCamera();
+    if (inOrthographicView) setUpOrthographicCamera();
     else setUpPerspectiveCamera();
 
     // Reset renderer
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.render(scene, camera);
-    });
+  });
 
 }
 {{< /p5-global-iframe >}}
@@ -1651,3 +1206,7 @@ Furthermore, a possible future area of work could be the implementation of a sea
 ## Sources
 
 [1] Márton Borbély, Hunor. Three.js Tutorial - How to Build a Simple Car with Texture in 3D. freeCodeCamp. 2021. Available: https://www.freecodecamp.org/news/three-js-tutorial/
+
+[2] [WebGL](https://www.khronos.org/webgl/wiki/Main_Page)
+
+[3] [Three.js](https://threejs.org/)
