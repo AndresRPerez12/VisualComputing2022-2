@@ -1,0 +1,199 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Excercise: Mosaic # Excercise
+Implement a mosaic (or/and ascii art) visual application. Problem statement # Create an app that implements a mosaic or ascii art app.
+Background # In the field of photographic imaging, a photographic mosaic, also known under the term Photomosaic, is a picture (usually a photograph) that has been divided into (usually equal sized) tiled sections, each of which is replaced with another photograph that matches the target photo."><meta name=theme-color content="#FFFFFF"><meta name=color-scheme content="light dark"><meta property="og:title" content><meta property="og:description" content="Excercise: Mosaic # Excercise
+Implement a mosaic (or/and ascii art) visual application. Problem statement # Create an app that implements a mosaic or ascii art app.
+Background # In the field of photographic imaging, a photographic mosaic, also known under the term Photomosaic, is a picture (usually a photograph) that has been divided into (usually equal sized) tiled sections, each of which is replaced with another photograph that matches the target photo."><meta property="og:type" content="article"><meta property="og:url" content="https://andresrperez12.github.io/VisualComputing2022-2/docs/excercises/Mosaic/"><meta property="article:section" content="docs"><meta property="article:modified_time" content="2022-11-15T19:55:44-05:00"><title>Mosaic | Visual Computing 2022-2</title><link rel=manifest href=/VisualComputing2022-2/manifest.json><link rel=icon href=/VisualComputing2022-2/favicon.png type=image/x-icon><link rel=stylesheet href=/VisualComputing2022-2/book.min.ab46de3e725a6415339a37bba23a0067534a37289b063c9f8d011515a63097a8.css integrity="sha256-q0bePnJaZBUzmje7ojoAZ1NKNyibBjyfjQEVFaYwl6g=" crossorigin=anonymous><script defer src=/VisualComputing2022-2/flexsearch.min.js></script>
+<script defer src=/VisualComputing2022-2/en.search.min.5e6e4af7e77b147e854402990cc70f04737ec7c4e2f8beb941ef74edc24b23d6.js integrity="sha256-Xm5K9+d7FH6FRAKZDMcPBHN+x8Ti+L65Qe907cJLI9Y=" crossorigin=anonymous></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/VisualComputing2022-2/><span>Visual Computing 2022-2</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><input type=checkbox id=section-1ec4f879ff755259b18baf4fbdae0098 class=toggle checked>
+<label for=section-1ec4f879ff755259b18baf4fbdae0098 class="flex justify-between"><a href=/VisualComputing2022-2/docs/excercises/>Excercises</a></label><ul><li><a href=/VisualComputing2022-2/docs/excercises/ColorMultiplicationExcercise/>Color Multiplication Excercise</a></li><li><a href=/VisualComputing2022-2/docs/excercises/dither/>Dither</a></li><li><a href=/VisualComputing2022-2/docs/excercises/Mosaic/ class=active>Mosaic</a></li><li><a href=/VisualComputing2022-2/docs/excercises/Rasterization/>Rasterization</a></li><li><a href=/VisualComputing2022-2/docs/excercises/SpatialCoherence/>Spatial Coherence</a></li><li><a href=/VisualComputing2022-2/docs/excercises/TerrainVisualizationApplication/>Terrain Visualization Application</a></li></ul></li><li><input type=checkbox id=section-9370f1a5d0248572ac505e0c6d4ad190 class=toggle>
+<label for=section-9370f1a5d0248572ac505e0c6d4ad190 class="flex justify-between"><a href=/VisualComputing2022-2/docs/shortcodes/>Shortcodes</a></label><ul><li><a href=/VisualComputing2022-2/docs/shortcodes/buttons/>Buttons</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/columns/>Columns</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/details/>Details</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/hints/>Hints</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/katex/>Katex</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/mermaid/>Mermaid</a></li><li><input type=checkbox id=section-ec67a64aba70b9df3d2a9acd6c92e3bc class=toggle>
+<label for=section-ec67a64aba70b9df3d2a9acd6c92e3bc class="flex justify-between"><a href=/VisualComputing2022-2/docs/shortcodes/p5/>P5</a></label><ul><li><a href=/VisualComputing2022-2/docs/shortcodes/p5/div/>Div</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/p5/iframe/>Iframe</a></li></ul></li><li><a href=/VisualComputing2022-2/docs/shortcodes/tabs/>Tabs</a></li></ul></li><li><input type=checkbox id=section-bd592e6455531edb048edb6a320c69c4 class=toggle>
+<label for=section-bd592e6455531edb048edb6a320c69c4 class="flex justify-between"><a href=/VisualComputing2022-2/docs/team/>Team</a></label><ul></ul></li><li><input type=checkbox id=section-191d4fa5967ce9fef74cb18feb81d534 class=toggle>
+<label for=section-191d4fa5967ce9fef74cb18feb81d534 class="flex justify-between"><a href=/VisualComputing2022-2/docs/workshops/>Workshops</a></label><ul><li><a href=/VisualComputing2022-2/docs/workshops/3D_Application/>3 D Application</a></li><li><a href=/VisualComputing2022-2/docs/workshops/maskingWorkshop/>Masking Workshop</a></li><li><a href=/VisualComputing2022-2/docs/workshops/visualIllussionsWorkshop/>Visual Illussions Workshop</a></li></ul></li></ul><ul><li><a href=/VisualComputing2022-2/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/VisualComputing2022-2/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>Mosaic</strong>
+<label for=toc-control><img src=/VisualComputing2022-2/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#excercise-mosaic>Excercise: Mosaic</a><ul><li><a href=#problem-statement>Problem statement</a></li><li><a href=#background>Background</a></li><li><a href=#code-solution--results>Code (solution) & results</a></li><li><a href=#conclusions>Conclusions</a></li></ul></li></ul></nav></aside></header><article class=markdown><h1 id=excercise-mosaic>Excercise: Mosaic
+<a class=anchor href=#excercise-mosaic>#</a></h1><blockquote class="book-hint info"><strong>Excercise</strong><br>Implement a mosaic (or/and ascii art) visual application.</blockquote><h2 id=problem-statement>Problem statement
+<a class=anchor href=#problem-statement>#</a></h2><p>Create an app that implements a mosaic or ascii art app.</p><h2 id=background>Background
+<a class=anchor href=#background>#</a></h2><p>In the field of photographic imaging, a photographic mosaic, also known under the term Photomosaic, is a picture (usually a photograph) that has been divided into (usually equal sized) tiled sections, each of which is replaced with another photograph that matches the target photo. <a href=https://en.wikipedia.org/wiki/Photographic_mosaic>Reference</a></p><p>ASCII art is a graphic design technique that uses computers for presentation and consists of pictures pieced together from the 95 printable (from a total of 128) characters defined by the ASCII Standard from 1963 and ASCII compliant character sets with proprietary extended characters (beyond the 128 characters of standard 7-bit ASCII).<a href=https://en.wikipedia.org/wiki/ASCII_art>Reference</a></p><img src=https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Wikipedia_Logo_as_ASCII_Art.png/450px-Wikipedia_Logo_as_ASCII_Art.png alt="banding illustration" style=width:50%><h2 id=code-solution--results>Code (solution) & results
+<a class=anchor href=#code-solution--results>#</a></h2><p>TODO</p><details><summary>Mosaic Visualization App Code</summary><div class=markdown-inner><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#75715e>// Image to ASCII
+</span></span></span><span style=display:flex><span><span style=color:#75715e>// Adapted from: The Coding Train / Daniel Shiffman
+</span></span></span><span style=display:flex><span><span style=color:#75715e>// https://thecodingtrain.com/CodingChallenges/166-ascii-image.html
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>density</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;Ñ@#W$9876543210?!abc;:+=-,._ &#39;</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>image1</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>selBg</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>bg</span> <span style=color:#f92672>=</span> { <span style=color:#a6e22e>bg</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>color</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>255</span>}
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>densityBtn</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>dStatus</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>preload</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>image1</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>loadImage</span>(<span style=color:#e6db74>&#39;../../../media/chess48.jpg&#39;</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>setup</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>createCanvas</span>(<span style=color:#ae81ff>400</span>, <span style=color:#ae81ff>400</span>); 
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>selBg</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createSelect</span>();
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>selBg</span>.<span style=color:#a6e22e>position</span>(<span style=color:#ae81ff>10</span>,<span style=color:#ae81ff>30</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>selBg</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;Dark&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>selBg</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;Light&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>selBg</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;Green&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>selBg</span>.<span style=color:#a6e22e>changed</span>(<span style=color:#a6e22e>selBgEvent</span>);
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>densityBtn</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createButton</span>(<span style=color:#e6db74>&#39;density&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>densityBtn</span>.<span style=color:#a6e22e>position</span>(<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>5</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>densityBtn</span>.<span style=color:#a6e22e>mousePressed</span>(<span style=color:#a6e22e>changeDensity</span>);
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>changeDensity</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>dStatus</span> <span style=color:#f92672>=</span> <span style=color:#f92672>!</span><span style=color:#a6e22e>dStatus</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>dStatus</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>density</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;$@B%8&amp;WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft;:+=-,._ &#39;</span>
+</span></span><span style=display:flex><span>  } <span style=color:#66d9ef>else</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>density</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;Ñ@#W$9876543210?!abc;:+=-,._ &#39;</span>
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>selBgEvent</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>opt</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>selBg</span>.<span style=color:#a6e22e>value</span>();
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>opt</span> <span style=color:#f92672>==</span> <span style=color:#e6db74>&#39;Light&#39;</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>bg</span>.<span style=color:#a6e22e>bg</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>255</span>;
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>bg</span>.<span style=color:#a6e22e>color</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; 
+</span></span><span style=display:flex><span>  } <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>opt</span> <span style=color:#f92672>==</span> <span style=color:#e6db74>&#39;Dark&#39;</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>bg</span>.<span style=color:#a6e22e>bg</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>bg</span>.<span style=color:#a6e22e>color</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>255</span>; 
+</span></span><span style=display:flex><span>  } <span style=color:#66d9ef>else</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>bg</span>.<span style=color:#a6e22e>bg</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>bg</span>.<span style=color:#a6e22e>color</span> <span style=color:#f92672>=</span> [<span style=color:#ae81ff>0</span>,<span style=color:#ae81ff>255</span>,<span style=color:#ae81ff>0</span>];  
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>draw</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>background</span>(<span style=color:#a6e22e>bg</span>.<span style=color:#a6e22e>bg</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>image</span>(<span style=color:#a6e22e>image1</span>, <span style=color:#ae81ff>350</span>, <span style=color:#ae81ff>0</span>);
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>w</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>width</span> <span style=color:#f92672>/</span> <span style=color:#a6e22e>image1</span>.<span style=color:#a6e22e>width</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>h</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>height</span> <span style=color:#f92672>/</span> <span style=color:#a6e22e>image1</span>.<span style=color:#a6e22e>height</span>;
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>image1</span>.<span style=color:#a6e22e>loadPixels</span>();
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; <span style=color:#a6e22e>i</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>image1</span>.<span style=color:#a6e22e>width</span>; <span style=color:#a6e22e>i</span><span style=color:#f92672>++</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>j</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; <span style=color:#a6e22e>j</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>image1</span>.<span style=color:#a6e22e>height</span>; <span style=color:#a6e22e>j</span><span style=color:#f92672>++</span>) {
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>pixelIndex</span> <span style=color:#f92672>=</span> (<span style=color:#a6e22e>i</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>j</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>image1</span>.<span style=color:#a6e22e>width</span>) <span style=color:#f92672>*</span> <span style=color:#ae81ff>4</span>;
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>r</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>image1</span>.<span style=color:#a6e22e>pixels</span>[<span style=color:#a6e22e>pixelIndex</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>0</span>];
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>g</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>image1</span>.<span style=color:#a6e22e>pixels</span>[<span style=color:#a6e22e>pixelIndex</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>];
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>b</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>image1</span>.<span style=color:#a6e22e>pixels</span>[<span style=color:#a6e22e>pixelIndex</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>2</span>];
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>avg</span> <span style=color:#f92672>=</span> (<span style=color:#a6e22e>r</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>g</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>b</span>) <span style=color:#f92672>/</span> <span style=color:#ae81ff>3</span>;
+</span></span><span style=display:flex><span>      
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>noStroke</span>();
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>fill</span>(<span style=color:#a6e22e>bg</span>.<span style=color:#a6e22e>color</span>)
+</span></span><span style=display:flex><span>      
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>len</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>density</span>.<span style=color:#a6e22e>length</span>;
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>charIndex</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>floor</span>(<span style=color:#a6e22e>map</span>(<span style=color:#a6e22e>avg</span>,<span style=color:#ae81ff>0</span>,<span style=color:#ae81ff>255</span>,<span style=color:#a6e22e>len</span>,<span style=color:#ae81ff>0</span>));    
+</span></span><span style=display:flex><span>      
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>textSize</span>(<span style=color:#a6e22e>w</span>);
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>textAlign</span>(<span style=color:#a6e22e>CENTER</span>, <span style=color:#a6e22e>CENTER</span>);
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>text</span>(<span style=color:#a6e22e>density</span>.<span style=color:#a6e22e>charAt</span>(<span style=color:#a6e22e>charIndex</span>), <span style=color:#a6e22e>i</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>w</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>w</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>0.5</span>, <span style=color:#a6e22e>j</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>h</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>h</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>0.5</span>);      
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div></div></details><iframe id=breath style=width:450px;height:450px srcdoc="
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js></script>
+            <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/addons/p5.sound.min.js></script>
+            <script src=https://cdn.jsdelivr.net/gh/objetos/p5.quadrille.js/p5.quadrille.js></script>
+            <script src=https://cdn.jsdelivr.net/gh/freshfork/p5.EasyCam@1.2.1/p5.easycam.js></script>
+            
+            
+            
+            
+            
+            <script>
+              
+// Image to ASCII
+// Adapted from: The Coding Train / Daniel Shiffman
+// https://thecodingtrain.com/CodingChallenges/166-ascii-image.html
+
+let density = 'Ñ@#W$9876543210?!abc;:+=-,._ ';
+let image1;
+let selBg;
+let bg = { bg: 0, color: 255}
+let densityBtn;
+let dStatus = true;
+
+function preload() {
+  image1 = loadImage('../../../media/chess48.jpg');
+}
+
+function setup() {
+  createCanvas(400, 400); 
+  selBg = createSelect();
+  selBg.position(10,30);
+  selBg.option('Dark');
+  selBg.option('Light');
+  selBg.option('Green');
+  selBg.changed(selBgEvent);
+  
+  densityBtn = createButton('density');
+  densityBtn.position(10, 5);
+  densityBtn.mousePressed(changeDensity);
+  
+}
+
+function changeDensity() {
+  dStatus = !dStatus
+  if (dStatus) {
+    density = '$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft;:+=-,._ '
+  } else {
+    density = 'Ñ@#W$9876543210?!abc;:+=-,._ '
+  }
+}
+
+function selBgEvent() {
+  let opt = selBg.value();
+  if (opt == 'Light') {
+    bg.bg = 255;
+    bg.color = 0; 
+  } else if (opt == 'Dark') {
+    bg.bg = 0;
+    bg.color = 255; 
+  } else {
+    bg.bg = 0;
+    bg.color = [0,255,0];  
+  }
+}
+
+function draw() {
+  background(bg.bg);
+  image(image1, 350, 0);
+  let w = width / image1.width;
+  let h = height / image1.height;
+  image1.loadPixels();
+  for (let i = 0; i < image1.width; i++) {
+    for (let j = 0; j < image1.height; j++) {
+      const pixelIndex = (i + j * image1.width) * 4;
+      const r = image1.pixels[pixelIndex + 0];
+      const g = image1.pixels[pixelIndex + 1];
+      const b = image1.pixels[pixelIndex + 2];
+      const avg = (r + g + b) / 3;
+      
+      noStroke();
+      fill(bg.color)
+      
+      const len = density.length;
+      const charIndex = floor(map(avg,0,255,len,0));    
+      
+      textSize(w);
+      textAlign(CENTER, CENTER);
+      text(density.charAt(charIndex), i * w + w * 0.5, j * h + h * 0.5);      
+    }
+  }
+}
+
+            </script>
+          </head>
+          <body>
+          </body>
+        </html>
+      "></iframe><h2 id=conclusions>Conclusions
+<a class=anchor href=#conclusions>#</a></h2><p>TODO</p></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div><a class="flex align-center" href=https://github.com/AndresRPerez12/VisualComputing2022-2/commit/cb015db2de88e250fee1a4c5b22c1b7ab812b064 title='Last modified by andiazo | November 16, 2022' target=_blank rel=noopener><img src=/VisualComputing2022-2/svg/calendar.svg class=book-icon alt=Calendar>
+<span>November 16, 2022</span></a></div></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#excercise-mosaic>Excercise: Mosaic</a><ul><li><a href=#problem-statement>Problem statement</a></li><li><a href=#background>Background</a></li><li><a href=#code-solution--results>Code (solution) & results</a></li><li><a href=#conclusions>Conclusions</a></li></ul></li></ul></nav></div></aside></main></body></html>
