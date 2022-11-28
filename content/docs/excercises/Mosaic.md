@@ -16,7 +16,7 @@ ASCII art is a graphic design technique that uses computers for presentation and
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Wikipedia_Logo_as_ASCII_Art.png/450px-Wikipedia_Logo_as_ASCII_Art.png" alt="banding illustration" style="width: 50%;"/>
 
 ## Code (solution) & results
-TODO
+For the development of this solution, it was based on the tutorial of Professor Daniel Shiffman. Below you can see, the code that transforms an image into ascii characters
 
 {{< details title="Mosaic Visualization App Code" open=false >}}
 ```js
