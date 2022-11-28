@@ -20,7 +20,7 @@ uniform bool magnifier;
 // Magnifier zoom
 const float Zoom = 2.0;
 // Radius for magnifier/region of interest
-const float actionRadius = 0.2;
+uniform float actionRadius;
 
 float lumaFunction(vec3 texel) {
   return 0.299 * texel.r + 0.587 * texel.g + 0.114 * texel.b;
@@ -28,7 +28,7 @@ float lumaFunction(vec3 texel) {
 
 vec4 magnifiedTexture(sampler2D currTexture, vec2 point){
   // Returns the color at the point after applying the maginifier operations if needed
-  if(magnifier && distance(point,mouse) <= 0.2){
+  if(magnifier && distance(point,mouse) <= actionRadius){
     vec2 centerVector = point-mouse;
     centerVector = (1.0/Zoom) * centerVector;
     return texture2D(currTexture,mouse+centerVector);
@@ -37,7 +37,7 @@ vec4 magnifiedTexture(sampler2D currTexture, vec2 point){
 }
 
 void main() {
-  if(apply_mask && (roi == false || distance(texcoords2,mouse) <= 0.2)){
+  if(apply_mask && (roi == false || distance(texcoords2,mouse) <= actionRadius)){
     // 1. Use offset to move along texture space.
     // In this case to find the texcoords of the texel neighbours.
     vec2 tc0 = texcoords2 + vec2(-texOffset.s, -texOffset.t);
