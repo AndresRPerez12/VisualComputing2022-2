@@ -185,4 +185,5 @@ function draw() {
 {{< /p5-global-iframe >}}
 
 ## Conclusions
-TODO
+
+Art/ASCII visualizations are very interesting, and have great applicability, especially in art, however it can be applied to design, video games, advertising, among other creative areas.
