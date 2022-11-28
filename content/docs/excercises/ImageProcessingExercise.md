@@ -74,9 +74,23 @@ The 3x3 kernel for this efect is:
 
 * Region of interest
 
-A region of interest shader can be directly implemented in the fragment shader. This feature allows a user to define where the kernel should me applied by moving the mouse.
+A region of interest feature can be directly implemented in the fragment shader. This feature allows a user to define where the kernel should me applied by moving the mouse and setting and action radius for the effect. 
+
+* Magnifier
+
+A magnifier effect can be applied from the fragment shader by using the passed texture as reference. The mouse position is used as a center and an action radius is defined. To magnify the image, a vector is calculated from the center (the mouse position) to each pixel, and the color returned is determined by reducing the magnitude of this vector while maintaining its position:
+
+<img src="../../../media/ImageProcessingMagnifier.png" alt="Magnifying illustration" style="width: 65%;"/>
 
 ## Code (solution) & results
+
+The different checkbox turn features on and off:
+* The video checkbox changes the source from an image to a video. 
+* The mask checkbox informs the shader if it should apply the mask chosen in the drop down menu.
+* The luma checkbox changes the color mode to luma coloring brightness mode.
+* The region of interest checkbox informs the shader that it should only apply the effect in the area around the mouse.
+* The magnifier checkbox informs the shader that it should magnify the area around the mouse.
+* The slider sets the radious for the region of interest and magnifier features, with a default value of 20% of the canvas.
 
 {{< details title="p5-global-iframe markdown" open=false >}}
 {{< highlight js >}}
@@ -386,7 +400,9 @@ function uniformUpdate(){
 {{< /p5-global-iframe >}}
 
 ## Conclusions
-Color multiplication is rather easy to define and implement, past this first convenient consensus, its utility is rather limited. In developed frameworks such as canva or p5, it has already been integrated as one of many possible blendmodes, however, its popularity suffers mainly because its heavy darkening effect for most colors than may happen to overlap. 
+Shaders provide a lot of flexibility to work with image convolutions, specially when managing several textures at the same time. By giving access to our complete texture in the fragment shader, we can create powerful tools to be used from p5 and other processing languages. Convolutions are an efficient way to create impactful visual effects, and by implementing them via shaders, they are very flexible and can be applied to different objects and areas independently.
+
+In terms of future work, creating methods that allow and easier way to pass kernels as uniforms to the fragment shader, and to use them in a more simple manner in glsl would allow for more efficient development of features that use them in p5. Addtionally, these notable kernels could be pre-implemented in a library so that their use in both p5 and the fragment shader would be more direct.
 
 ## References
 * [Convolution](https://www.songho.ca/dsp/convolution/convolution.html) by Song Ho Ahn
