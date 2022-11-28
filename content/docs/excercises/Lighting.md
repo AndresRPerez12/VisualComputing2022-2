@@ -127,7 +127,7 @@ void main() {
 {{< /details >}}
 
 #### Execution
-{{< p5-global-iframe id="breath" width="600" height="600" >}}
+{{< p5-global-iframe id="breath" width="530" height="530" >}}
 let easycam;
 let models;
 let modelsDisplayed;
@@ -321,7 +321,7 @@ void main() {
 ```
 {{< /details >}}
 #### Execution
-{{< p5-global-iframe id="breath" width="600" height="600" >}}
+{{< p5-global-iframe id="breath" width="530" height="530" >}}
 'use strict';
 
 let easycam;
@@ -550,7 +550,7 @@ void main() {
 ```
 {{< /details >}}
 #### Execution
-{{< p5-global-iframe id="breath" width="600" height="600" >}}
+{{< p5-global-iframe id="breath" width="530" height="530" >}}
 'use strict';
 
 let easycam;
