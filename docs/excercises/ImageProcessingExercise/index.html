@@ -1,0 +1,338 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Excercise - Image Processing # Excercise
+Implement an image / video processing app supporting different masks, and:
+A region-of-interest base tool to selectively apply a given mask. A magnifier tool Integrate luma Problem statement # How can we apply different masks to a media source via shaders? Is it possible to add features like a region of interest, magnifier tool and luma?
+Background # Convolutions can be used as a general purpose filter effect that can be applied to an image or the frame of a video."><meta name=theme-color content="#FFFFFF"><meta name=color-scheme content="light dark"><meta property="og:title" content><meta property="og:description" content="Excercise - Image Processing # Excercise
+Implement an image / video processing app supporting different masks, and:
+A region-of-interest base tool to selectively apply a given mask. A magnifier tool Integrate luma Problem statement # How can we apply different masks to a media source via shaders? Is it possible to add features like a region of interest, magnifier tool and luma?
+Background # Convolutions can be used as a general purpose filter effect that can be applied to an image or the frame of a video."><meta property="og:type" content="article"><meta property="og:url" content="https://andresrperez12.github.io/VisualComputing2022-2/docs/excercises/ImageProcessingExercise/"><meta property="article:section" content="docs"><meta property="article:modified_time" content="2022-11-27T22:32:46-05:00"><title>Image Processing Exercise | Visual Computing 2022-2</title><link rel=manifest href=/VisualComputing2022-2/manifest.json><link rel=icon href=/VisualComputing2022-2/favicon.png type=image/x-icon><link rel=stylesheet href=/VisualComputing2022-2/book.min.ab46de3e725a6415339a37bba23a0067534a37289b063c9f8d011515a63097a8.css integrity="sha256-q0bePnJaZBUzmje7ojoAZ1NKNyibBjyfjQEVFaYwl6g=" crossorigin=anonymous><script defer src=/VisualComputing2022-2/flexsearch.min.js></script>
+<script defer src=/VisualComputing2022-2/en.search.min.c1706216d3235383e6a8ae9d257c088652c95c9c591d37645f6c8dde08cb8d7b.js integrity="sha256-wXBiFtMjU4PmqK6dJXwIhlLJXJxZHTdkX2yN3gjLjXs=" crossorigin=anonymous></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/VisualComputing2022-2/><span>Visual Computing 2022-2</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><input type=checkbox id=section-1ec4f879ff755259b18baf4fbdae0098 class=toggle checked>
+<label for=section-1ec4f879ff755259b18baf4fbdae0098 class="flex justify-between"><a href=/VisualComputing2022-2/docs/excercises/>Excercises</a></label><ul><li><a href=/VisualComputing2022-2/docs/excercises/ColorMultiplicationExcercise/>Color Multiplication Excercise</a></li><li><a href=/VisualComputing2022-2/docs/excercises/dither/>Dither</a></li><li><a href=/VisualComputing2022-2/docs/excercises/ImageProcessingExercise/ class=active>Image Processing Exercise</a></li><li><a href=/VisualComputing2022-2/docs/excercises/Lighting/>Lighting</a></li><li><a href=/VisualComputing2022-2/docs/excercises/Mosaic/>Mosaic</a></li><li><a href=/VisualComputing2022-2/docs/excercises/Rasterization/>Rasterization</a></li><li><a href=/VisualComputing2022-2/docs/excercises/SpatialCoherence/>Spatial Coherence</a></li><li><a href=/VisualComputing2022-2/docs/excercises/TerrainVisualizationApplication/>Terrain Visualization Application</a></li></ul></li><li><input type=checkbox id=section-9370f1a5d0248572ac505e0c6d4ad190 class=toggle>
+<label for=section-9370f1a5d0248572ac505e0c6d4ad190 class="flex justify-between"><a href=/VisualComputing2022-2/docs/shortcodes/>Shortcodes</a></label><ul><li><a href=/VisualComputing2022-2/docs/shortcodes/buttons/>Buttons</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/columns/>Columns</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/details/>Details</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/hints/>Hints</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/katex/>Katex</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/mermaid/>Mermaid</a></li><li><input type=checkbox id=section-ec67a64aba70b9df3d2a9acd6c92e3bc class=toggle>
+<label for=section-ec67a64aba70b9df3d2a9acd6c92e3bc class="flex justify-between"><a href=/VisualComputing2022-2/docs/shortcodes/p5/>P5</a></label><ul><li><a href=/VisualComputing2022-2/docs/shortcodes/p5/div/>Div</a></li><li><a href=/VisualComputing2022-2/docs/shortcodes/p5/iframe/>Iframe</a></li></ul></li><li><a href=/VisualComputing2022-2/docs/shortcodes/tabs/>Tabs</a></li></ul></li><li><input type=checkbox id=section-bd592e6455531edb048edb6a320c69c4 class=toggle>
+<label for=section-bd592e6455531edb048edb6a320c69c4 class="flex justify-between"><a href=/VisualComputing2022-2/docs/team/>Team</a></label><ul></ul></li><li><input type=checkbox id=section-191d4fa5967ce9fef74cb18feb81d534 class=toggle>
+<label for=section-191d4fa5967ce9fef74cb18feb81d534 class="flex justify-between"><a href=/VisualComputing2022-2/docs/workshops/>Workshops</a></label><ul><li><a href=/VisualComputing2022-2/docs/workshops/3D_Application/>3 D Application</a></li><li><a href=/VisualComputing2022-2/docs/workshops/maskingWorkshop/>Masking Workshop</a></li><li><a href=/VisualComputing2022-2/docs/workshops/visualIllussionsWorkshop/>Visual Illussions Workshop</a></li></ul></li></ul><ul><li><a href=/VisualComputing2022-2/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/VisualComputing2022-2/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>Image Processing Exercise</strong>
+<label for=toc-control><img src=/VisualComputing2022-2/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#excercise---image-processing>Excercise - Image Processing</a><ul><li><a href=#problem-statement>Problem statement</a></li><li><a href=#background>Background</a><ul><li><a href=#addtional-features>Addtional features</a></li></ul></li><li><a href=#code-solution--results>Code (solution) & results</a></li><li><a href=#conclusions>Conclusions</a></li><li><a href=#references>References</a></li></ul></li></ul></nav></aside></header><article class=markdown><h1 id=excercise---image-processing>Excercise - Image Processing
+<a class=anchor href=#excercise---image-processing>#</a></h1><blockquote class="book-hint info"><p><strong>Excercise</strong><br>Implement an image / video processing app supporting different masks, and:</p><ul><li>A region-of-interest base tool to selectively apply a given mask.</li><li>A magnifier tool</li><li>Integrate luma</li></ul></blockquote><h2 id=problem-statement>Problem statement
+<a class=anchor href=#problem-statement>#</a></h2><p>How can we apply different masks to a media source via shaders? Is it possible to add features like a region of interest, magnifier tool and luma?</p><h2 id=background>Background
+<a class=anchor href=#background>#</a></h2><p>Convolutions can be used as a general purpose filter effect that can be applied to an image or the frame of a video. It is defined as a matrix, that is used to determine the new value of each central pixel as a linear combination of its neighbors. In the case that the image has several channels, the operation is applied over each individual channel independently. This matrix is also known as a kernel.</p><p>One of the most common kernel sizes is 3x3. In this case, the central pixel value is calculated as a combination of itself, and the values of its 8 neighbors. Usually they are normalized by dividing by the total sum of the kernel, or by 1 if the sum is zero.</p><img src=https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/2D_Convolution_Animation.gif/220px-2D_Convolution_Animation.gif alt="Kernel example" style=width:40%><p>A selection of important kernels were implemented with shaders for this exercise, including:</p><ul><li>Gaussian Blur</li></ul><p>This effect reduces the amount of detail by blurring the image according to a gaussian function. Applying this kernel results in the same image as convolving the input with a Gaussian function. The formula for this functions in two dimensions is:</p><img src=https://wikimedia.org/api/rest_v1/media/math/render/svg/6717136818f2166eba2db0cfc915d732add9c64f alt="Gaussian function" style=width:20%;background-color:#fff><p>The 3x3 kernel for this efect is:</p><table><thead><tr><th></th><th></th><th></th></tr></thead><tbody><tr><td>1/16</td><td>2/16</td><td>1/16</td></tr><tr><td>2/16</td><td>4/16</td><td>2/16</td></tr><tr><td>1/16</td><td>2/16</td><td>1/16</td></tr></tbody></table><ul><li>Sharpening</li></ul><p>This effect accentuates the differences between the central pixel and its neighbors, resulting in a sharper, more vivid image.</p><p>The 3x3 kernel for this efect is:</p><table><thead><tr><th></th><th></th><th></th></tr></thead><tbody><tr><td>0</td><td>-1</td><td>0</td></tr><tr><td>-1</td><td>5</td><td>-1</td></tr><tr><td>0</td><td>-1</td><td>0</td></tr></tbody></table><ul><li>Edges (also know as ridges)</li></ul><p>This effect highlights significant diffetences with the neighboring pixels, resulting in a pixel very similar to its surroundings turning black, and one very different to its surroundings wil be vrey bright. In the resulting image, the outline of the objects is highlighted.</p><p>The 3x3 kernel for this efect is:</p><table><thead><tr><th></th><th></th><th></th></tr></thead><tbody><tr><td>-1</td><td>-1</td><td>-1</td></tr><tr><td>-1</td><td>8</td><td>-1</td></tr><tr><td>-1</td><td>-1</td><td>-1</td></tr></tbody></table><ul><li>Emboss</li></ul><p>This effect creates the illusion of depth by highlighting the diffence in pixels in a specific direction. For the standard kernel, this direction is taken from the top left to the bottom right.</p><p>The 3x3 kernel for this efect is:</p><table><thead><tr><th></th><th></th><th></th></tr></thead><tbody><tr><td>-2</td><td>-1</td><td>0</td></tr><tr><td>-1</td><td>1</td><td>1</td></tr><tr><td>0</td><td>1</td><td>2</td></tr></tbody></table><h3 id=addtional-features>Addtional features
+<a class=anchor href=#addtional-features>#</a></h3><ul><li>Region of interest</li></ul><p>A region of interest feature can be directly implemented in the fragment shader. This feature allows a user to define where the kernel should me applied by moving the mouse and setting and action radius for the effect.</p><ul><li>Magnifier</li></ul><p>A magnifier effect can be applied from the fragment shader by using the passed texture as reference. The mouse position is used as a center and an action radius is defined. To magnify the image, a vector is calculated from the center (the mouse position) to each pixel, and the color returned is determined by reducing the magnitude of this vector while maintaining its position:</p><img src=../../../media/ImageProcessingMagnifier.png alt="Magnifying illustration" style=width:65%><h2 id=code-solution--results>Code (solution) & results
+<a class=anchor href=#code-solution--results>#</a></h2><p>The different checkbox turn features on and off:</p><ul><li>The video checkbox changes the source from an image to a video.</li><li>The mask checkbox informs the shader if it should apply the mask chosen in the drop down menu.</li><li>The luma checkbox changes the color mode to luma coloring brightness mode.</li><li>The region of interest checkbox informs the shader that it should only apply the effect in the area around the mouse.</li><li>The magnifier checkbox informs the shader that it should magnify the area around the mouse.</li><li>The slider sets the radious for the region of interest and magnifier features, with a default value of 20% of the canvas.</li></ul><details><summary>p5-global-iframe markdown</summary><div class=markdown-inner><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>maskShader</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>img</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>vid</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>video_checkbox</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>mask_checkbox</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>luma_checkbox</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>roi_checkbox</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>magnifier_checkbox</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>radius_slider</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>preload</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>maskShader</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>readShader</span>(<span style=color:#e6db74>&#39;/shaders/mask.frag&#39;</span>,
+</span></span><span style=display:flex><span>                        { <span style=color:#a6e22e>varyings</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>Tree</span>.<span style=color:#a6e22e>texcoords2</span> });
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Load image and video files
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#a6e22e>img</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>loadImage</span>(<span style=color:#e6db74>&#39;/media/image.jpg&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>vid</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createVideo</span>(<span style=color:#e6db74>&#39;media/videoSquare.mp4&#39;</span>,<span style=color:#a6e22e>vidLoad</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>setup</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>createCanvas</span>(<span style=color:#ae81ff>640</span>, <span style=color:#ae81ff>640</span>, <span style=color:#a6e22e>WEBGL</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>noStroke</span>();
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Set up video and hide it HTML element
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#a6e22e>vid</span>.<span style=color:#a6e22e>hide</span>();
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>vid</span>.<span style=color:#a6e22e>loop</span>();
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Set up the shader
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#a6e22e>textureMode</span>(<span style=color:#a6e22e>NORMAL</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>shader</span>(<span style=color:#a6e22e>maskShader</span>);
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Set up the checkboxes and slider
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#a6e22e>video_checkbox</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createCheckbox</span>(<span style=color:#e6db74>&#39;video&#39;</span>, <span style=color:#66d9ef>false</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>video_checkbox</span>.<span style=color:#a6e22e>position</span>(<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>10</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>video_checkbox</span>.<span style=color:#a6e22e>style</span>(<span style=color:#e6db74>&#39;color&#39;</span>, <span style=color:#e6db74>&#39;white&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>video_checkbox</span>.<span style=color:#a6e22e>input</span>(<span style=color:#a6e22e>uniformUpdate</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>mask_checkbox</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createCheckbox</span>(<span style=color:#e6db74>&#39;mask&#39;</span>, <span style=color:#66d9ef>false</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>mask_checkbox</span>.<span style=color:#a6e22e>position</span>(<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>30</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>mask_checkbox</span>.<span style=color:#a6e22e>style</span>(<span style=color:#e6db74>&#39;color&#39;</span>, <span style=color:#e6db74>&#39;white&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>mask_checkbox</span>.<span style=color:#a6e22e>input</span>(<span style=color:#a6e22e>uniformUpdate</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>luma_checkbox</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createCheckbox</span>(<span style=color:#e6db74>&#39;luma&#39;</span>, <span style=color:#66d9ef>false</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>luma_checkbox</span>.<span style=color:#a6e22e>position</span>(<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>50</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>luma_checkbox</span>.<span style=color:#a6e22e>style</span>(<span style=color:#e6db74>&#39;color&#39;</span>, <span style=color:#e6db74>&#39;white&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>luma_checkbox</span>.<span style=color:#a6e22e>input</span>(<span style=color:#a6e22e>uniformUpdate</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>roi_checkbox</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createCheckbox</span>(<span style=color:#e6db74>&#39;Region of interest&#39;</span>, <span style=color:#66d9ef>false</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>roi_checkbox</span>.<span style=color:#a6e22e>position</span>(<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>70</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>roi_checkbox</span>.<span style=color:#a6e22e>style</span>(<span style=color:#e6db74>&#39;color&#39;</span>, <span style=color:#e6db74>&#39;white&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>roi_checkbox</span>.<span style=color:#a6e22e>input</span>(<span style=color:#a6e22e>uniformUpdate</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>magnifier_checkbox</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createCheckbox</span>(<span style=color:#e6db74>&#39;Magnifier&#39;</span>, <span style=color:#66d9ef>false</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>magnifier_checkbox</span>.<span style=color:#a6e22e>position</span>(<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>90</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>magnifier_checkbox</span>.<span style=color:#a6e22e>style</span>(<span style=color:#e6db74>&#39;color&#39;</span>, <span style=color:#e6db74>&#39;white&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>magnifier_checkbox</span>.<span style=color:#a6e22e>input</span>(<span style=color:#a6e22e>uniformUpdate</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>radius_slider</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createSlider</span>(<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>100</span>, <span style=color:#ae81ff>20</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>radius_slider</span>.<span style=color:#a6e22e>position</span>(<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>110</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>radius_slider</span>.<span style=color:#a6e22e>style</span>(<span style=color:#e6db74>&#39;width&#39;</span>, <span style=color:#e6db74>&#39;80px&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Masl selector
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#a6e22e>sel</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createSelect</span>();
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>sel</span>.<span style=color:#a6e22e>position</span>(<span style=color:#ae81ff>500</span>,<span style=color:#ae81ff>10</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>sel</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;Gaussian blur&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>sel</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;Sharpening&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>sel</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;Edges&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>sel</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;Emboss&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>sel</span>.<span style=color:#a6e22e>input</span>(<span style=color:#a6e22e>uniformUpdate</span>);
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Initialize mask
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#a6e22e>uniformUpdate</span>();
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>draw</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>background</span>(<span style=color:#ae81ff>0</span>);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>quad</span>(<span style=color:#f92672>-</span><span style=color:#a6e22e>width</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>, <span style=color:#f92672>-</span><span style=color:#a6e22e>height</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>, <span style=color:#a6e22e>width</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>, <span style=color:#f92672>-</span><span style=color:#a6e22e>height</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>width</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>, <span style=color:#a6e22e>height</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>, <span style=color:#f92672>-</span><span style=color:#a6e22e>width</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>, <span style=color:#a6e22e>height</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>2</span>);
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Send mouse position and radius in every frame
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#a6e22e>maskShader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;mouse&#39;</span>, [<span style=color:#a6e22e>mouseX</span><span style=color:#f92672>/</span><span style=color:#a6e22e>width</span>, <span style=color:#a6e22e>mouseY</span><span style=color:#f92672>/</span><span style=color:#a6e22e>height</span>]);
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>maskShader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;actionRadius&#39;</span>, <span style=color:#a6e22e>radius_slider</span>.<span style=color:#a6e22e>value</span>()<span style=color:#f92672>/</span><span style=color:#ae81ff>100.0</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>vidLoad</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Play the video
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#a6e22e>vid</span>.<span style=color:#a6e22e>loop</span>();
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>vid</span>.<span style=color:#a6e22e>volume</span>(<span style=color:#ae81ff>0</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>uniformUpdate</span>(){
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Media source
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#66d9ef>if</span>(<span style=color:#a6e22e>video_checkbox</span>.<span style=color:#a6e22e>checked</span>()){
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>maskShader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;texture&#39;</span>, <span style=color:#a6e22e>vid</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>maskShader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;texOffset&#39;</span>, [<span style=color:#ae81ff>1</span> <span style=color:#f92672>/</span> <span style=color:#a6e22e>vid</span>.<span style=color:#a6e22e>width</span>, <span style=color:#ae81ff>1</span> <span style=color:#f92672>/</span> <span style=color:#a6e22e>vid</span>.<span style=color:#a6e22e>height</span>])
+</span></span><span style=display:flex><span>  }<span style=color:#66d9ef>else</span>{
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>maskShader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;texture&#39;</span>, <span style=color:#a6e22e>img</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>maskShader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;texOffset&#39;</span>, [<span style=color:#ae81ff>1</span> <span style=color:#f92672>/</span> <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>width</span>, <span style=color:#ae81ff>1</span> <span style=color:#f92672>/</span> <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>height</span>])
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Mask application
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#a6e22e>maskShader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;apply_mask&#39;</span>,<span style=color:#a6e22e>mask_checkbox</span>.<span style=color:#a6e22e>checked</span>());
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Luma application
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#a6e22e>maskShader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;luma&#39;</span>,<span style=color:#a6e22e>luma_checkbox</span>.<span style=color:#a6e22e>checked</span>());
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Mask selection
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#66d9ef>if</span>( <span style=color:#a6e22e>sel</span>.<span style=color:#a6e22e>value</span>() <span style=color:#f92672>==</span> <span style=color:#e6db74>&#39;Gaussian blur&#39;</span> ){
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>maskShader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;mask&#39;</span>, [<span style=color:#ae81ff>1.0</span><span style=color:#f92672>/</span><span style=color:#ae81ff>16.0</span>,<span style=color:#ae81ff>2.0</span><span style=color:#f92672>/</span><span style=color:#ae81ff>16.0</span>,<span style=color:#ae81ff>1.0</span><span style=color:#f92672>/</span><span style=color:#ae81ff>16.0</span>, <span style=color:#ae81ff>2.0</span><span style=color:#f92672>/</span><span style=color:#ae81ff>16.0</span>,<span style=color:#ae81ff>4.0</span><span style=color:#f92672>/</span><span style=color:#ae81ff>16.0</span>,<span style=color:#ae81ff>2.0</span><span style=color:#f92672>/</span><span style=color:#ae81ff>16.0</span>, <span style=color:#ae81ff>1.0</span><span style=color:#f92672>/</span><span style=color:#ae81ff>16.0</span>,<span style=color:#ae81ff>2.0</span><span style=color:#f92672>/</span><span style=color:#ae81ff>16.0</span>,<span style=color:#ae81ff>1.0</span><span style=color:#f92672>/</span><span style=color:#ae81ff>16.0</span>]);
+</span></span><span style=display:flex><span>  }<span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span>( <span style=color:#a6e22e>sel</span>.<span style=color:#a6e22e>value</span>() <span style=color:#f92672>==</span> <span style=color:#e6db74>&#39;Sharpening&#39;</span> ){
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>maskShader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;mask&#39;</span>, [<span style=color:#ae81ff>0.0</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>1.0</span>,<span style=color:#ae81ff>0.0</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>1.0</span>,<span style=color:#ae81ff>5.0</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>1.0</span>, <span style=color:#ae81ff>0.0</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>1.0</span>,<span style=color:#ae81ff>0.0</span>]);
+</span></span><span style=display:flex><span>  }<span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span>( <span style=color:#a6e22e>sel</span>.<span style=color:#a6e22e>value</span>() <span style=color:#f92672>==</span> <span style=color:#e6db74>&#39;Edges&#39;</span> ){
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>maskShader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;mask&#39;</span>, [<span style=color:#f92672>-</span><span style=color:#ae81ff>1.0</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>1.0</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>1.0</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>1.0</span>,<span style=color:#ae81ff>8.0</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>1.0</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>1.0</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>1.0</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>1.0</span>,]);
+</span></span><span style=display:flex><span>  }<span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span>( <span style=color:#a6e22e>sel</span>.<span style=color:#a6e22e>value</span>() <span style=color:#f92672>==</span> <span style=color:#e6db74>&#39;Emboss&#39;</span> ){
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>maskShader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;mask&#39;</span>, [<span style=color:#f92672>-</span><span style=color:#ae81ff>2.0</span>,<span style=color:#f92672>-</span><span style=color:#ae81ff>1.0</span>,<span style=color:#ae81ff>0.0</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>1.0</span>,<span style=color:#ae81ff>1.0</span>,<span style=color:#ae81ff>1.0</span>, <span style=color:#ae81ff>0.0</span>,<span style=color:#ae81ff>1.0</span>,<span style=color:#ae81ff>2.0</span>]);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Region of interest
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#a6e22e>maskShader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;roi&#39;</span>,<span style=color:#a6e22e>roi_checkbox</span>.<span style=color:#a6e22e>checked</span>());
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Magnifier
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#a6e22e>maskShader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;magnifier&#39;</span>,<span style=color:#a6e22e>magnifier_checkbox</span>.<span style=color:#a6e22e>checked</span>());
+</span></span><span style=display:flex><span>}</span></span></code></pre></div></div></details><details><summary>mask.frag</summary><div class=markdown-inner><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-glsl data-lang=glsl><span style=display:flex><span><span style=color:#66d9ef>precision</span> <span style=color:#66d9ef>mediump</span> <span style=color:#66d9ef>float</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// uniforms are defined and sent by the sketch</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>uniform</span> <span style=color:#66d9ef>sampler2D</span> texture;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// interpolated texcoord (same name and type as in vertex shader)</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>varying</span> <span style=color:#66d9ef>vec2</span> texcoords2;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>uniform</span> <span style=color:#66d9ef>vec2</span> texOffset;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>uniform</span> <span style=color:#66d9ef>vec2</span> mouse;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// holds the 3x3 kernel</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>uniform</span> <span style=color:#66d9ef>float</span> mask[<span style=color:#ae81ff>9</span>];
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>uniform</span> <span style=color:#66d9ef>bool</span> apply_mask;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>uniform</span> <span style=color:#66d9ef>bool</span> luma;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>uniform</span> <span style=color:#66d9ef>bool</span> roi;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>uniform</span> <span style=color:#66d9ef>bool</span> magnifier;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// Magnifier zoom</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#66d9ef>float</span> Zoom <span style=color:#f92672>=</span> <span style=color:#ae81ff>2.0</span>;
+</span></span><span style=display:flex><span><span style=color:#75715e>// Radius for magnifier/region of interest</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>uniform</span> <span style=color:#66d9ef>float</span> actionRadius;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>float</span> lumaFunction(<span style=color:#66d9ef>vec3</span> texel) {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0.299</span> <span style=color:#f92672>*</span> texel.r <span style=color:#f92672>+</span> <span style=color:#ae81ff>0.587</span> <span style=color:#f92672>*</span> texel.g <span style=color:#f92672>+</span> <span style=color:#ae81ff>0.114</span> <span style=color:#f92672>*</span> texel.b;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>vec4</span> magnifiedTexture(<span style=color:#66d9ef>sampler2D</span> currTexture, <span style=color:#66d9ef>vec2</span> point){
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Returns the color at the point after applying the maginifier operations if needed</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span>(magnifier <span style=color:#f92672>&amp;&amp;</span> distance(point,mouse) <span style=color:#f92672>&lt;=</span> actionRadius){
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>vec2</span> centerVector <span style=color:#f92672>=</span> point<span style=color:#f92672>-</span>mouse;
+</span></span><span style=display:flex><span>    centerVector <span style=color:#f92672>=</span> (<span style=color:#ae81ff>1.0</span><span style=color:#f92672>/</span>Zoom) <span style=color:#f92672>*</span> centerVector;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> texture2D(currTexture,mouse<span style=color:#f92672>+</span>centerVector);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> texture2D(currTexture,point);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>void</span> main() {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span>(apply_mask <span style=color:#f92672>&amp;&amp;</span> (roi <span style=color:#f92672>==</span> <span style=color:#66d9ef>false</span> <span style=color:#f92672>||</span> distance(texcoords2,mouse) <span style=color:#f92672>&lt;=</span> actionRadius)){
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// 1. Use offset to move along texture space.</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// In this case to find the texcoords of the texel neighbours.</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>vec2</span> tc0 <span style=color:#f92672>=</span> texcoords2 <span style=color:#f92672>+</span> <span style=color:#66d9ef>vec2</span>(<span style=color:#f92672>-</span>texOffset.s, <span style=color:#f92672>-</span>texOffset.t);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>vec2</span> tc1 <span style=color:#f92672>=</span> texcoords2 <span style=color:#f92672>+</span> <span style=color:#66d9ef>vec2</span>(         <span style=color:#ae81ff>0.0</span>, <span style=color:#f92672>-</span>texOffset.t);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>vec2</span> tc2 <span style=color:#f92672>=</span> texcoords2 <span style=color:#f92672>+</span> <span style=color:#66d9ef>vec2</span>(<span style=color:#f92672>+</span>texOffset.s, <span style=color:#f92672>-</span>texOffset.t);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>vec2</span> tc3 <span style=color:#f92672>=</span> texcoords2 <span style=color:#f92672>+</span> <span style=color:#66d9ef>vec2</span>(<span style=color:#f92672>-</span>texOffset.s,          <span style=color:#ae81ff>0.0</span>);
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// origin (current fragment texcoords)</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>vec2</span> tc4 <span style=color:#f92672>=</span> texcoords2 <span style=color:#f92672>+</span> <span style=color:#66d9ef>vec2</span>(         <span style=color:#ae81ff>0.0</span>,          <span style=color:#ae81ff>0.0</span>);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>vec2</span> tc5 <span style=color:#f92672>=</span> texcoords2 <span style=color:#f92672>+</span> <span style=color:#66d9ef>vec2</span>(<span style=color:#f92672>+</span>texOffset.s,          <span style=color:#ae81ff>0.0</span>);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>vec2</span> tc6 <span style=color:#f92672>=</span> texcoords2 <span style=color:#f92672>+</span> <span style=color:#66d9ef>vec2</span>(<span style=color:#f92672>-</span>texOffset.s, <span style=color:#f92672>+</span>texOffset.t);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>vec2</span> tc7 <span style=color:#f92672>=</span> texcoords2 <span style=color:#f92672>+</span> <span style=color:#66d9ef>vec2</span>(         <span style=color:#ae81ff>0.0</span>, <span style=color:#f92672>+</span>texOffset.t);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>vec2</span> tc8 <span style=color:#f92672>=</span> texcoords2 <span style=color:#f92672>+</span> <span style=color:#66d9ef>vec2</span>(<span style=color:#f92672>+</span>texOffset.s, <span style=color:#f92672>+</span>texOffset.t);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// 2. Sample texel neighbours within the rgba array</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>vec4</span> rgba[<span style=color:#ae81ff>9</span>];
+</span></span><span style=display:flex><span>    rgba[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>=</span> magnifiedTexture(texture, tc0);
+</span></span><span style=display:flex><span>    rgba[<span style=color:#ae81ff>1</span>] <span style=color:#f92672>=</span> magnifiedTexture(texture, tc1);
+</span></span><span style=display:flex><span>    rgba[<span style=color:#ae81ff>2</span>] <span style=color:#f92672>=</span> magnifiedTexture(texture, tc2);
+</span></span><span style=display:flex><span>    rgba[<span style=color:#ae81ff>3</span>] <span style=color:#f92672>=</span> magnifiedTexture(texture, tc3);
+</span></span><span style=display:flex><span>    rgba[<span style=color:#ae81ff>4</span>] <span style=color:#f92672>=</span> magnifiedTexture(texture, tc4);
+</span></span><span style=display:flex><span>    rgba[<span style=color:#ae81ff>5</span>] <span style=color:#f92672>=</span> magnifiedTexture(texture, tc5);
+</span></span><span style=display:flex><span>    rgba[<span style=color:#ae81ff>6</span>] <span style=color:#f92672>=</span> magnifiedTexture(texture, tc6);
+</span></span><span style=display:flex><span>    rgba[<span style=color:#ae81ff>7</span>] <span style=color:#f92672>=</span> magnifiedTexture(texture, tc7);
+</span></span><span style=display:flex><span>    rgba[<span style=color:#ae81ff>8</span>] <span style=color:#f92672>=</span> magnifiedTexture(texture, tc8);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// 3. Apply convolution kernel</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>vec4</span> convolution <span style=color:#f92672>=</span> <span style=color:#66d9ef>vec4</span>(<span style=color:#ae81ff>0.0</span>,<span style=color:#ae81ff>0.0</span>,<span style=color:#ae81ff>0.0</span>,<span style=color:#ae81ff>0.0</span>);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>int</span> i <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; i <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>9</span>; i<span style=color:#f92672>++</span>) {
+</span></span><span style=display:flex><span>      convolution <span style=color:#f92672>+=</span> rgba[i]<span style=color:#f92672>*</span>mask[i];
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    gl_FragColor <span style=color:#f92672>=</span> convolution;
+</span></span><span style=display:flex><span>  }<span style=color:#66d9ef>else</span>{
+</span></span><span style=display:flex><span>    gl_FragColor <span style=color:#f92672>=</span> magnifiedTexture(texture, texcoords2);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Apply Luma</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span>(luma){
+</span></span><span style=display:flex><span>    gl_FragColor <span style=color:#f92672>=</span> <span style=color:#66d9ef>vec4</span>((<span style=color:#66d9ef>vec3</span>(lumaFunction(gl_FragColor.rgb))), <span style=color:#ae81ff>1.0</span>);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}</span></span></code></pre></div></div></details><iframe style=width:680px;height:680px srcdoc="
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js></script>
+            <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/addons/p5.sound.min.js></script>
+            <script src=https://cdn.jsdelivr.net/gh/objetos/p5.quadrille.js/p5.quadrille.js></script>
+            <script src=https://cdn.jsdelivr.net/gh/freshfork/p5.EasyCam@1.2.1/p5.easycam.js></script>
+            <script src=https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.js></script>
+             <script src=https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.js></script> 
+            
+            
+            
+            
+            <script>
+              
+let maskShader;
+let img;
+let vid;
+let video_checkbox;
+let mask_checkbox;
+let luma_checkbox;
+let roi_checkbox;
+let magnifier_checkbox;
+let radius_slider;
+
+function preload() {
+  maskShader = readShader('../../../shaders/mask.frag',
+                        { varyings: Tree.texcoords2 });
+  // Load image and video files
+  img = loadImage('../../../media/image.jpg');
+  vid = createVideo('../../../media/videoSquare.mp4',vidLoad);
+}
+
+function setup() {
+  createCanvas(640, 640, WEBGL);
+  noStroke();
+  // Set up video and hide it HTML element
+  vid.hide();
+  vid.loop();
+  // Set up the shader
+  textureMode(NORMAL);
+  shader(maskShader);
+  // Set up the checkboxes and slider
+  video_checkbox = createCheckbox('video', false);
+  video_checkbox.position(10, 10);
+  video_checkbox.style('color', 'white');
+  video_checkbox.input(uniformUpdate);
+  mask_checkbox = createCheckbox('mask', false);
+  mask_checkbox.position(10, 30);
+  mask_checkbox.style('color', 'white');
+  mask_checkbox.input(uniformUpdate);
+  luma_checkbox = createCheckbox('luma', false);
+  luma_checkbox.position(10, 50);
+  luma_checkbox.style('color', 'white');
+  luma_checkbox.input(uniformUpdate);
+  roi_checkbox = createCheckbox('Region of interest', false);
+  roi_checkbox.position(10, 70);
+  roi_checkbox.style('color', 'white');
+  roi_checkbox.input(uniformUpdate);
+  magnifier_checkbox = createCheckbox('Magnifier', false);
+  magnifier_checkbox.position(10, 90);
+  magnifier_checkbox.style('color', 'white');
+  magnifier_checkbox.input(uniformUpdate);
+  radius_slider = createSlider(0, 100, 20);
+  radius_slider.position(10, 110);
+  radius_slider.style('width', '80px');
+  // Masl selector
+  sel = createSelect();
+  sel.position(500,10);
+  sel.option('Gaussian blur');
+  sel.option('Sharpening');
+  sel.option('Edges');
+  sel.option('Emboss');
+  sel.input(uniformUpdate);
+  // Initialize mask
+  uniformUpdate();
+  
+}
+
+function draw() {
+  background(0);
+  quad(-width / 2, -height / 2, width / 2, -height / 2,
+        width / 2, height / 2, -width / 2, height / 2);
+  // Send mouse position and radius in every frame
+  maskShader.setUniform('mouse', [mouseX/width, mouseY/height]);
+  maskShader.setUniform('actionRadius', radius_slider.value()/100.0);
+}
+
+function vidLoad() {
+  // Play the video
+  vid.loop();
+  vid.volume(0);
+}
+
+function uniformUpdate(){
+  // Media source
+  if(video_checkbox.checked()){
+    maskShader.setUniform('texture', vid);
+    maskShader.setUniform('texOffset', [1 / vid.width, 1 / vid.height])
+  }else{
+    maskShader.setUniform('texture', img);
+    maskShader.setUniform('texOffset', [1 / img.width, 1 / img.height])
+  }
+  // Mask application
+  maskShader.setUniform('apply_mask',mask_checkbox.checked());
+  // Luma application
+  maskShader.setUniform('luma',luma_checkbox.checked());
+  // Mask selection
+  if( sel.value() == 'Gaussian blur' ){
+    maskShader.setUniform('mask', [1.0/16.0,2.0/16.0,1.0/16.0, 2.0/16.0,4.0/16.0,2.0/16.0, 1.0/16.0,2.0/16.0,1.0/16.0]);
+  }else if( sel.value() == 'Sharpening' ){
+    maskShader.setUniform('mask', [0.0,-1.0,0.0, -1.0,5.0,-1.0, 0.0,-1.0,0.0]);
+  }else if( sel.value() == 'Edges' ){
+    maskShader.setUniform('mask', [-1.0,-1.0,-1.0, -1.0,8.0,-1.0, -1.0,-1.0,-1.0,]);
+  }else if( sel.value() == 'Emboss' ){
+    maskShader.setUniform('mask', [-2.0,-1.0,0.0, -1.0,1.0,1.0, 0.0,1.0,2.0]);
+  }
+  // Region of interest
+  maskShader.setUniform('roi',roi_checkbox.checked());
+  // Magnifier
+  maskShader.setUniform('magnifier',magnifier_checkbox.checked());
+}
+
+            </script>
+          </head>
+          <body>
+          </body>
+        </html>
+      "></iframe><h2 id=conclusions>Conclusions
+<a class=anchor href=#conclusions>#</a></h2><p>Shaders provide a lot of flexibility to work with image convolutions, specially when managing several textures at the same time. By giving access to our complete texture in the fragment shader, we can create powerful tools to be used from p5 and other processing languages. Convolutions are an efficient way to create impactful visual effects, and by implementing them via shaders, they are very flexible and can be applied to different objects and areas independently.</p><p>In terms of future work, creating methods that allow and easier way to pass kernels as uniforms to the fragment shader, and to use them in a more simple manner in glsl would allow for more efficient development of features that use them in p5. Addtionally, these notable kernels could be pre-implemented in a library so that their use in both p5 and the fragment shader would be more direct.</p><h2 id=references>References
+<a class=anchor href=#references>#</a></h2><ul><li><a href=https://www.songho.ca/dsp/convolution/convolution.html>Convolution</a> by Song Ho Ahn</li><li><a href=https://web.pdx.edu/~jduh/courses/Archive/geog481w07/Students/Ludwig_ImageConvolution.pdf>Image Convolution</a> by Jamie Ludwig, Portland State University</li><li><a href=https://en.wikipedia.org/wiki/Gaussian_blur>Gaussian blur</a></li><li><a href="https://setosa.io/ev/image-kernels/#:~:text=The%20sharpen%20kernel%20emphasizes%20differences,differences%20in%20adjacent%20pixel%20values.">Image Kernels Explained Visually</a> by Victor Powell</li><li><a href=https://www.shadertoy.com/view/mdfXzX>Sample Magnifier</a> by valdis, Shadertoy</li><li><a href=https://www.videezy.com/travel/50554-female-hiker-walking-with-backpack-through-tropical-rain-forest>Female Hiker Walking With Backpack Through Tropical Rain Forest.</a>, Videezy</li></ul></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div><a class="flex align-center" href=https://github.com/AndresRPerez12/VisualComputing2022-2/commit/a11b87b5e7a2c8038af6178ffe62b69b5ef2d8af title='Last modified by Andres Ricardo Perez Rojas | November 28, 2022' target=_blank rel=noopener><img src=/VisualComputing2022-2/svg/calendar.svg class=book-icon alt=Calendar>
+<span>November 28, 2022</span></a></div></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#excercise---image-processing>Excercise - Image Processing</a><ul><li><a href=#problem-statement>Problem statement</a></li><li><a href=#background>Background</a><ul><li><a href=#addtional-features>Addtional features</a></li></ul></li><li><a href=#code-solution--results>Code (solution) & results</a></li><li><a href=#conclusions>Conclusions</a></li><li><a href=#references>References</a></li></ul></li></ul></nav></div></aside></main></body></html>
