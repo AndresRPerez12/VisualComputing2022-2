@@ -591,7 +591,7 @@ function updatePointLight() {
 
 
 ## Conclusions
-
+In local or direct lighting methods such as ambient light that does not have a specific location and which we can color, colored ambient light, it gives us a very uniform result on the elements, another method would be the toon shading that starts from a diffuse reflection but modifying it so that from the appearance of a cartoon, so that instead of looking 3d they look flat and finally you have the specular reflection with which you want to give a metallic look.
 
 ## References
 
