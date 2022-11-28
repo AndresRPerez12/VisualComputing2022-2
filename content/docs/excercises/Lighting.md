@@ -1,8 +1,27 @@
 # Excercises: Lighting 
 
 ## Background
-Lighting aims at modelling light interactions on different material types to simulate both, photorealistic and non-photorealistic scenes.
+Lighting aims at modelling light interactions on different material types to simulate both, photorealistic and non-photorealistic scenes. What the virtual camera sees in a scene is the result of light from a lightsource bouncing off an object and then going to the eye. To understand and emulate the interaction of light with the rendered objects, we must understand the diffenet kinds of illumination models.
 
+### No Lighting (Emissive Lighting)
+
+In this scenario, there are no light in the scene, and each object is self-luminous, since truly no lighting would be just a black scene. In this model, an object's color is not affected by anything else in the scene.
+
+### Ambient Light
+
+In this model, there is a non-directional light source such that light has been refleceted so many times from so many different surfaces that it appers to come equally from all directions. Therefore, its intensity is constant over all polygons and is not affected by anything in the world. It can be colored, such that the color of each object interacts with the color of the ambient light.
+
+### Point Light
+
+In this model, the lightsource is a point in space that gives off equal amounts of light in all directions. Polygons which are closer to the light appear brighter than those that are further away. The angle at which light from a point light source hits an object depends on the positions of both the object and the light source.
+
+### Difuse Reflection
+
+In a diffuse reflection model, light from a point source is reflected with equal intensity in all directions, and its intensity depends on the anglw between the normal vector of the surface and the light ray from the point light. Light reflect of dull surfaces.
+
+### Specular Reflection
+
+In a specular reflection model, light reflects of shiny surfaces in such a way that a highlight can be seen. The position of the eye or virtual camera is relevant since light bounces in a mirror-like fashion, in the same angle as it entered from the point light. If we take the angle in a discrete manner we can create a toon-like effect with discrete jumps in intensity.
 
 
 {{< hint info >}}
@@ -93,8 +112,22 @@ function draw() {
 }
 ```
 {{< /details >}}
+{{< details title="Ambient light fragment shader" open=false >}}
+```glsl
+precision mediump float;
+
+uniform float ambient;
+uniform vec4 ambient4;
+uniform vec4 uMaterialColor;
+
+void main() {
+  gl_FragColor = ambient * ambient4 * uMaterialColor;
+}
+```
+{{< /details >}}
+
 #### Execution
-{{< p5-global-iframe id="breath" width="600" height="600" >}}
+{{< p5-global-iframe id="breath" width="530" height="530" >}}
 let easycam;
 let models;
 let modelsDisplayed;
@@ -266,8 +299,29 @@ function draw() {
 }
 ```
 {{< /details >}}
+
+{{< details title="Toon shading fragment shader" open=false >}}
+```glsl
+precision mediump float;
+
+//uniform float ambient;
+uniform vec4 ambient4;
+uniform vec4 uMaterialColor;
+uniform vec3 lightNormal;
+
+varying vec3 normal3;
+
+void main() {
+  float intensity = max(0.0, dot(normalize(-lightNormal), normalize(normal3)));
+  //float intensity = max(0.0, dot(direction3, normal3));
+  float k = intensity > 0.95 ? 1.0 : intensity > 0.5 ? 0.6 : intensity > 0.25 ? 0.4 : 0.2;
+  gl_FragColor = k * ambient4 * uMaterialColor;
+  //gl_FragColor = (ambient + k) * ambient4 * uMaterialColor;
+}
+```
+{{< /details >}}
 #### Execution
-{{< p5-global-iframe id="breath" width="600" height="600" >}}
+{{< p5-global-iframe id="breath" width="530" height="530" >}}
 'use strict';
 
 let easycam;
@@ -475,8 +529,28 @@ function updatePointLight() {
 }
 ```
 {{< /details >}}
+{{< details title="Specular reflection fragment shader" open=false >}}
+```glsl
+precision mediump float;
+
+uniform float ambient;
+uniform vec4 uMaterialColor;
+uniform vec3 uLightPosition;
+
+varying vec3 normal3;
+varying vec4 position4;
+
+void main() {
+  vec3 direction3 = uLightPosition - position4.xyz;
+  vec3 reflected3 = reflect(-direction3, normalize(normal3));
+  vec3 camera3 = -position4.xyz;
+  float specular = max(0.0, dot(normalize(reflected3), normalize(camera3)));
+  gl_FragColor = (ambient + specular) * uMaterialColor;
+}
+```
+{{< /details >}}
 #### Execution
-{{< p5-global-iframe id="breath" width="600" height="600" >}}
+{{< p5-global-iframe id="breath" width="530" height="530" >}}
 'use strict';
 
 let easycam;
@@ -588,12 +662,15 @@ function updatePointLight() {
 }
 {{< /p5-global-iframe >}}
 
-
-
 ## Conclusions
 
+The correct inclusion of light is one of the most important factors to make a scene, both photorealistic and non-photorealistic, seem more vivid, alive, and interactive. The inclusion of light in computer graphics isn't a one-size-fits-all approach. Different situations require the use of different lighting models to more adequately convey the environment we want to present. Understanding these models is key to presenting vivid and interesting scene to our users.
+
+In terms of future work, analyzing and implementing different behaviors for light when it bounces on different materials would be a great step in creating immersive experiences. Creating a repository with all of their reflective characteristics under different lighting models would help build these kinds of applications faster and with a more consistent behavior all around. Furthermore, translucid materials present another challenge in our implementation of light, given that they modify the light as it goes through them. Modeling their behavior in such a way that it is reasonably simple to implemnent it for different lighting models would allow for mo complex worlds and scenarios to be developed.
 
 ## References
 
 * [Visual Computing - Lighting](https://visualcomputing.github.io/docs/shaders/lighting/)
 * [p5.EasyCam - Random Boxes Examples](https://github.com/freshfork/p5.EasyCam/blob/master/examples/RandomBoxes/RandomBoxes.js)
+* [Lighting and Shading](https://www.cs.uic.edu/~jbell/CourseNotes/ComputerGraphics/LightingAndShading.html), University of Illinois, Chicago
+* [Understanding Different Light Types](https://www.pluralsight.com/blog/film-games/understanding-different-light-types), Pluralsight
